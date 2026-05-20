@@ -76,3 +76,7 @@ Visit `/admin/index.html` to open the Tina editor. Inline visual editing works o
 After any content-structure change, **restart the dev server** so Tina regenerates `tina/__generated__/{client,types}.ts`. Without a restart, the GraphQL client and TypeScript types lag behind the schema.
 
 When verifying inline editing, open `/admin/` and confirm: (a) the new fields appear in the sidebar, (b) edits propagate live to the page preview, (c) saving writes the expected JSON/MDX on disk.
+
+## Gotchas
+
+- **Every page must include `<ClientRouter />`** in the `<head>`. The Tina bridge listens on `astro:page-load` to re-sync forms; without it, the initial prime succeeds but live edits in the sidebar never reach the iframe. `Base.astro` already includes it via `BaseHead.astro` — pages that bypass Base (like a custom shell) must add `import { ClientRouter } from 'astro:transitions'` and render `<ClientRouter />` themselves.
