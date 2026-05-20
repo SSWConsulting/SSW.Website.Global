@@ -8,9 +8,10 @@ import type { IslandRegistry } from '@tinacms/astro/experimental';
 
 import PageBody from '../components/islands/PageBody.astro';
 import BlogBody from '../components/islands/BlogBody.astro';
+import LandingBody from '../components/islands/LandingBody.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getBlog, getConfig, getPage } from './data';
+import { getBlog, getConfig, getLanding, getPage } from './data';
 
 export const islands: IslandRegistry = {
 	page: {
@@ -19,6 +20,14 @@ export const islands: IslandRegistry = {
 		wrapper: { tag: 'main' },
 		propsFromData: (data) => ({
 			data: (data as { data?: { page?: unknown } }).data?.page,
+		}),
+	},
+	landing: {
+		fetch: (_request, params) => getLanding(params.get('slug') ?? 'home'),
+		component: LandingBody,
+		wrapper: { tag: 'div' },
+		propsFromData: (data) => ({
+			data: (data as { data?: { landing?: unknown } }).data?.landing,
 		}),
 	},
 	blog: {

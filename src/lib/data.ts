@@ -22,6 +22,12 @@ export const getBlog = (slug: string) =>
 		{ priority: 'primary' },
 	);
 
+export const getLanding = (slug: string) =>
+	requestWithMetadata(
+		client.queries.landing({ relativePath: `${slug}.json` }),
+		{ priority: 'primary' },
+	);
+
 export async function listPages() {
 	const result = await client.queries.pageConnection();
 	return (result?.data?.pageConnection?.edges ?? [])
