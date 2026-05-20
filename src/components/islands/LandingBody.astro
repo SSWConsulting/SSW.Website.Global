@@ -115,51 +115,11 @@ const footer = data.footer;
           )}
         </div>
 
-        <div class="hero-visual" aria-hidden="true">
-          {hero.board?.columns && (
-            <div class="panel panel-back">
-              <div class="grid-lines">
-                {hero.board.columns.map((col) => col && (
-                  <div class="col">
-                    <h6 data-tina-field={tinaField(col, 'title')}>{col.title}</h6>
-                    {col.tickets?.map((t) => t && (
-                      <div class="ticket">
-                        <span class={`tag ${t.tagColor ?? 'amber'}`} data-tina-field={tinaField(t, 'tag')}>{t.tag}</span>
-                        <span data-tina-field={tinaField(t, 'text')}>{t.text}</span>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {hero.codePanel && (
-            <div class="panel panel-front">
-              <div class="head">
-                <span class="dots"><span></span><span></span><span></span></span>
-                <h4 data-tina-field={tinaField(hero.codePanel, 'filename')}>{hero.codePanel.filename}</h4>
-              </div>
-              <div class="code-line"><span class="cm">// Generate orders endpoint</span></div>
-              <div class="code-line"><span class="kw">export async function</span> <span class="fn">createOrder</span>(req, res) {'{'}</div>
-              <div class="code-line">  <span class="kw">const</span> order = <span class="kw">await</span> <span class="fn">orders.insert</span>({'{'}</div>
-              <div class="code-line">    tenant: req.<span class="fn">user</span>.tenantId,</div>
-              <div class="code-line">    items: req.body.items,</div>
-              <div class="code-line">    status: <span class="str">'pending'</span>,</div>
-              <div class="code-line">  {'}'});</div>
-              <div class="code-line">  <span class="kw">return</span> res.<span class="fn">json</span>(order);</div>
-              <div class="code-line">{'}'}</div>
-              <div class="ai-suggest">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <div>
-                  <strong data-tina-field={tinaField(hero.codePanel, 'aiSuggestionStrong')}>{hero.codePanel.aiSuggestionStrong}</strong>
-                  {' '}
-                  <span data-tina-field={tinaField(hero.codePanel, 'aiSuggestionText')}>{hero.codePanel.aiSuggestionText}</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+        {hero.image && (
+          <div class="hero-visual">
+            <img class="hero-image" src={hero.image} alt={hero.imageAlt ?? ''} data-tina-field={tinaField(hero, 'image')} />
+          </div>
+        )}
       </div>
     </section>
   )}

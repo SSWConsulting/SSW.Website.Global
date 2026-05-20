@@ -1,12 +1,5 @@
 import type { Collection } from "tinacms";
 
-const tagColorOptions = [
-  { value: "red", label: "Red" },
-  { value: "blue", label: "Blue" },
-  { value: "green", label: "Green" },
-  { value: "amber", label: "Amber" },
-];
-
 export const LandingCollection: Collection = {
   name: "landing",
   label: "Landing page",
@@ -106,45 +99,8 @@ export const LandingCollection: Collection = {
           ui: { itemProps: (item) => ({ label: item?.text }) },
           fields: [{ type: "string", name: "text", label: "Text" }],
         },
-        {
-          type: "object",
-          name: "board",
-          label: "Hero kanban board",
-          fields: [
-            {
-              type: "object",
-              name: "columns",
-              label: "Columns",
-              list: true,
-              ui: { itemProps: (item) => ({ label: item?.title }) },
-              fields: [
-                { type: "string", name: "title", label: "Column title" },
-                {
-                  type: "object",
-                  name: "tickets",
-                  label: "Tickets",
-                  list: true,
-                  ui: { itemProps: (item) => ({ label: item?.text }) },
-                  fields: [
-                    { type: "string", name: "tag", label: "Tag label" },
-                    { type: "string", name: "tagColor", label: "Tag color", options: tagColorOptions },
-                    { type: "string", name: "text", label: "Ticket text" },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: "object",
-          name: "codePanel",
-          label: "Hero code panel",
-          fields: [
-            { type: "string", name: "filename", label: "Filename" },
-            { type: "string", name: "aiSuggestionStrong", label: "AI suggestion (strong part)" },
-            { type: "string", name: "aiSuggestionText", label: "AI suggestion (rest)" },
-          ],
-        },
+        { type: "image", name: "image", label: "Hero image" },
+        { type: "string", name: "imageAlt", label: "Hero image alt text" },
       ],
     },
 

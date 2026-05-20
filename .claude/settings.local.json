@@ -14,7 +14,13 @@
       "Bash(curl -s \"http://localhost:4321/?tina-edit=1\" -o /tmp/home-edit.html)",
       "Read(//tmp/**)",
       "Bash(curl -s \"http://localhost:4321/about?tina-edit=1\" -o /tmp/about-edit.html)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Bash(git add *)",
+      "Bash(git -c user.email=\"tiagov8@users.noreply.github.com\" -c user.name=\"tiagov8\" commit -m \"Document the ClientRouter requirement in AGENTS.md\")",
+      "Bash(git push *)",
+      "Bash(curl -s \"http://localhost:4321/\" -o /tmp/home-img.html)",
+      "Bash(curl -s -o /dev/null -w \"Home: HTTP %{http_code}\\\\n\" http://localhost:4321/)",
+      "Bash(git -c user.email=tiagov8@users.noreply.github.com -c user.name=tiagov8 commit -m 'Replace hero kanban + code panel with a single image field *)"
     ]
   }
 }

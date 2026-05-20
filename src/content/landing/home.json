@@ -79,80 +79,8 @@
         "text": "Two-week sprints with live demos"
       }
     ],
-    "board": {
-      "columns": [
-        {
-          "title": "Backlog",
-          "tickets": [
-            {
-              "tag": "Spec",
-              "tagColor": "amber",
-              "text": "Define API contract for orders"
-            },
-            {
-              "tag": "Spec",
-              "tagColor": "amber",
-              "text": "Auth provider migration"
-            }
-          ]
-        },
-        {
-          "title": "In progress",
-          "tickets": [
-            {
-              "tag": "AI-assist",
-              "tagColor": "blue",
-              "text": "Generate CRUD endpoints"
-            },
-            {
-              "tag": "AI-assist",
-              "tagColor": "blue",
-              "text": "Refactor legacy module"
-            },
-            {
-              "tag": "Review",
-              "tagColor": "amber",
-              "text": "Update billing schema"
-            }
-          ]
-        },
-        {
-          "title": "Review",
-          "tickets": [
-            {
-              "tag": "PR #482",
-              "tagColor": "red",
-              "text": "Add tenant isolation"
-            }
-          ]
-        },
-        {
-          "title": "Done",
-          "tickets": [
-            {
-              "tag": "Shipped",
-              "tagColor": "green",
-              "text": "SSO and RBAC"
-            },
-            {
-              "tag": "Shipped",
-              "tagColor": "green",
-              "text": "Audit logging"
-            },
-            {
-              "tag": "Shipped",
-              "tagColor": "green",
-              "text": "Stripe integration"
-            }
-          ]
-        }
-      ]
-    },
-    "codePanel": {
-      "filename": "order-service / routes.ts",
-      "aiSuggestionStrong": "AI suggestion:",
-      "aiSuggestionText": "add tenant-scoped validation and idempotency key. Apply."
-    }
+    "image": "",
+    "imageAlt": "AI-assisted enterprise software delivery"
   },
   "stats": [
     {
