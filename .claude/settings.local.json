@@ -10,7 +10,11 @@
       "Bash(pnpm rebuild *)",
       "Bash(gh auth *)",
       "Bash(pnpm run *)",
-      "Bash(curl -s http://localhost:4321/)"
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(curl -s \"http://localhost:4321/?tina-edit=1\" -o /tmp/home-edit.html)",
+      "Read(//tmp/**)",
+      "Bash(curl -s \"http://localhost:4321/about?tina-edit=1\" -o /tmp/about-edit.html)",
+      "Read(//private/tmp/**)"
     ]
   }
 }
