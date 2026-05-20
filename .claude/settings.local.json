@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --version)",
+      "Bash(npm --version)",
+      "WebFetch(domain:tina.io)",
+      "Bash(npx create-tina-app@latest --help)",
+      "Bash(npx create-tina-app@latest . --template tina-astro-starter --pkg-manager pnpm --noTelemetry)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm rebuild *)",
+      "Bash(gh auth *)"
+    ]
+  }
+}

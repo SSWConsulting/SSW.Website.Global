@@ -1,0 +1,26 @@
+{
+  "name": "astro-starter",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev\"",
+    "build": "tinacms build --content=local && astro build",
+    "build:local": "tinacms build --local --skip-cloud-checks -c \"astro build\"",
+    "build:search": "tinacms search-index",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/vercel": "^9.0.5",
+    "@tinacms/astro": "0.0.0-c724883-20260514062230",
+    "astro": "^5.16.0"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "0.0.0-c724883-20260514062230",
+    "@types/node": "^25.1.0",
+    "tinacms": "0.0.0-c724883-20260514062230"
+  }
+}
