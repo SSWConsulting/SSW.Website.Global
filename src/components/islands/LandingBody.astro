@@ -1,0 +1,481 @@
+---
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { LandingQuery } from '../../../tina/__generated__/types';
+
+interface Props {
+  data?: LandingQuery['landing'] | null;
+}
+
+const { data } = Astro.props;
+if (!data) return null;
+
+const nav = data.nav;
+const hero = data.hero;
+
+// Split a title on **accent** markers into alternating plain/accent segments.
+const parseAccentTitle = (s: string | null | undefined) => {
+  if (!s) return [] as Array<{ text: string; accent: boolean }>;
+  return s.split(/\*\*([^*]+)\*\*/g).map((part, i) => ({ text: part, accent: i % 2 === 1 }));
+};
+const heroTitleParts = parseAccentTitle(hero?.title);
+const stats = data.stats ?? [];
+const benefits = data.benefitsSection;
+const services = data.servicesSection;
+const how = data.howSection;
+const why = data.whySection;
+const faq = data.faqSection;
+const contact = data.contactSection;
+const ctaBanner = data.ctaBanner;
+const footer = data.footer;
+---
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-logo" aria-label="SSW home">
+      {nav?.logo && <img src={nav.logo} alt="SSW" data-tina-field={tinaField(nav, 'logo')} />}
+      {nav?.region && <span class="region" data-tina-field={tinaField(nav, 'region')}>{nav.region}</span>}
+    </a>
+    {nav && (
+      <nav class="nav-links" aria-label="Primary">
+        <div class="nav-item">
+          <a href="#services" data-tina-field={tinaField(nav, 'capabilitiesLabel')}>
+            {nav.capabilitiesLabel} <i class="fa-solid fa-chevron-down caret"></i>
+          </a>
+          {nav.capabilities && nav.capabilities.length > 0 && (
+            <div class="nav-dropdown" role="menu">
+              <ul>
+                {nav.capabilities.map((cap) => cap && (
+                  <li>
+                    <a href={cap.href ?? '#services'}>
+                      <span class="ico"><i class={`fa-solid ${cap.icon ?? ''}`}></i></span>
+                      <span>
+                        <strong data-tina-field={tinaField(cap, 'title')}>{cap.title}</strong>
+                        <span data-tina-field={tinaField(cap, 'description')}>{cap.description}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        {nav.links?.map((link) => link && (
+          <div class="nav-item">
+            <a href={link.href ?? '#'} data-tina-field={tinaField(link, 'label')}>{link.label}</a>
+          </div>
+        ))}
+      </nav>
+    )}
+    {nav?.ctaLabel && (
+      <div class="nav-cta">
+        <a href={nav.ctaHref ?? '#contact'} class="btn btn-primary" data-tina-field={tinaField(nav, 'ctaLabel')}>
+          <i class="fa-regular fa-calendar"></i> {nav.ctaLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</header>
+
+<main id="top">
+
+  {hero && (
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          {hero.eyebrow && (
+            <span class="eyebrow" data-tina-field={tinaField(hero, 'eyebrow')}>
+              <span class="dot"></span>{hero.eyebrow}
+            </span>
+          )}
+          <h1 class="display" data-tina-field={tinaField(hero, 'title')}>
+            {heroTitleParts.map((part) => (part.accent ? <em>{part.text}</em> : <Fragment>{part.text}</Fragment>))}
+          </h1>
+          {hero.lead && <p class="lead" data-tina-field={tinaField(hero, 'lead')}>{hero.lead}</p>}
+          <div class="hero-ctas">
+            {hero.primaryCta && (
+              <a href={hero.primaryCta.href ?? '#contact'} class="btn btn-primary btn-lg" data-tina-field={tinaField(hero.primaryCta, 'label')}>
+                {hero.primaryCta.icon && <i class={hero.primaryCta.icon}></i>} {hero.primaryCta.label}
+              </a>
+            )}
+            {hero.secondaryCta && (
+              <a href={hero.secondaryCta.href ?? '#how'} class="btn btn-secondary btn-lg" data-tina-field={tinaField(hero.secondaryCta, 'label')}>
+                {hero.secondaryCta.label} {hero.secondaryCta.icon && <i class={hero.secondaryCta.icon}></i>}
+              </a>
+            )}
+          </div>
+          {hero.checks && hero.checks.length > 0 && (
+            <div class="hero-meta">
+              {hero.checks.map((c) => c && (
+                <span class="item">
+                  <span class="check-pill"><i class="fa-solid fa-check"></i></span>
+                  <span data-tina-field={tinaField(c, 'text')}>{c.text}</span>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {hero.image && (
+          <div class="hero-visual">
+            <img class="hero-image" src={hero.image} alt={hero.imageAlt ?? ''} data-tina-field={tinaField(hero, 'image')} />
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {stats.length > 0 && (
+    <div class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          {stats.map((s) => s && (
+            <div class="stat">
+              <div class="num">
+                <span data-tina-field={tinaField(s, 'number')}>{s.number}</span><em data-tina-field={tinaField(s, 'suffix')}>{s.suffix}</em>
+              </div>
+              <div class="label" data-tina-field={tinaField(s, 'label')}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+
+  {benefits && (
+    <section class="block">
+      <div class="container">
+        <div class="block-head">
+          {benefits.kicker && <div class="section-kicker" data-tina-field={tinaField(benefits, 'kicker')}>{benefits.kicker}</div>}
+          {benefits.title && <h2 class="section-title" data-tina-field={tinaField(benefits, 'title')}>{benefits.title}</h2>}
+          {benefits.lead && <p class="lead" data-tina-field={tinaField(benefits, 'lead')}>{benefits.lead}</p>}
+        </div>
+        {benefits.items && benefits.items.length > 0 && (
+          <div class="benefits-grid">
+            {benefits.items.map((b) => b && (
+              <article class="benefit">
+                <div class="icon"><i class={`fa-solid ${b.icon ?? ''}`}></i></div>
+                <h3 data-tina-field={tinaField(b, 'title')}>{b.title}</h3>
+                <p data-tina-field={tinaField(b, 'description')}>{b.description}</p>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {services && (
+    <section class="block sunken" id="services">
+      <div class="container">
+        <div class="block-head">
+          {services.kicker && <div class="section-kicker" data-tina-field={tinaField(services, 'kicker')}>{services.kicker}</div>}
+          {services.title && <h2 class="section-title" data-tina-field={tinaField(services, 'title')}>{services.title}</h2>}
+          {services.lead && <p class="lead" data-tina-field={tinaField(services, 'lead')}>{services.lead}</p>}
+        </div>
+        {services.items && services.items.length > 0 && (
+          <div class="services-grid">
+            {services.items.map((s) => s && (
+              <article class="service">
+                <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
+                <div class="body">
+                  <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
+                  <p data-tina-field={tinaField(s, 'description')}>{s.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {how && (
+    <section class="block" id="how">
+      <div class="container">
+        <div class="block-head">
+          {how.kicker && <div class="section-kicker" data-tina-field={tinaField(how, 'kicker')}>{how.kicker}</div>}
+          {how.title && <h2 class="section-title" data-tina-field={tinaField(how, 'title')}>{how.title}</h2>}
+          {how.lead && <p class="lead" data-tina-field={tinaField(how, 'lead')}>{how.lead}</p>}
+        </div>
+        {how.steps && how.steps.length > 0 && (
+          <div class="steps">
+            {how.steps.map((s) => s && (
+              <article class="step">
+                <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
+                <div class="step-num" data-tina-field={tinaField(s, 'stepLabel')}>{s.stepLabel}</div>
+                <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
+                <p data-tina-field={tinaField(s, 'description')}>{s.description}</p>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {why && (
+    <section class="block sunken" id="why">
+      <div class="container">
+        <div class="block-head">
+          {why.kicker && <div class="section-kicker" data-tina-field={tinaField(why, 'kicker')}>{why.kicker}</div>}
+          {why.title && <h2 class="section-title" data-tina-field={tinaField(why, 'title')}>{why.title}</h2>}
+          {why.lead && <p class="lead" data-tina-field={tinaField(why, 'lead')}>{why.lead}</p>}
+        </div>
+        <div class="why-grid">
+          {why.rows && why.rows.length > 0 && (
+            <div class="why-list">
+              {why.rows.map((r) => r && (
+                <div class="why-row">
+                  <div class="badge-ico"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
+                  <div>
+                    <h4 data-tina-field={tinaField(r, 'title')}>{r.title}</h4>
+                    <p data-tina-field={tinaField(r, 'description')}>{r.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {why.testimonial && (
+            <aside class="why-card">
+              <div>
+                <div class="quote-mark">“</div>
+                <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>{why.testimonial.quote}</blockquote>
+              </div>
+              <div class="attr">
+                <div class="avatar" data-tina-field={tinaField(why.testimonial, 'avatarInitials')}>{why.testimonial.avatarInitials}</div>
+                <div>
+                  <div class="name" data-tina-field={tinaField(why.testimonial, 'name')}>{why.testimonial.name}</div>
+                  <div class="role" data-tina-field={tinaField(why.testimonial, 'role')}>{why.testimonial.role}</div>
+                </div>
+              </div>
+            </aside>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {faq && (
+    <section class="block" id="faq">
+      <div class="container">
+        <div class="faq-grid">
+          <div class="faq-head">
+            {faq.kicker && <div class="section-kicker" data-tina-field={tinaField(faq, 'kicker')}>{faq.kicker}</div>}
+            {faq.title && <h2 class="section-title" data-tina-field={tinaField(faq, 'title')}>{faq.title}</h2>}
+            {faq.lead && <p class="lead" data-tina-field={tinaField(faq, 'lead')}>{faq.lead}</p>}
+            {faq.helper && (
+              <div class="faq-helper">
+                {faq.helper.kicker && <div class="helper-kicker" data-tina-field={tinaField(faq.helper, 'kicker')}>{faq.helper.kicker}</div>}
+                {faq.helper.title && <h3 data-tina-field={tinaField(faq.helper, 'title')}>{faq.helper.title}</h3>}
+                {faq.helper.description && <p data-tina-field={tinaField(faq.helper, 'description')}>{faq.helper.description}</p>}
+                {faq.helper.ctaLabel && (
+                  <div class="helper-actions">
+                    <a href={faq.helper.ctaHref ?? '#contact'} class="btn btn-primary" data-tina-field={tinaField(faq.helper, 'ctaLabel')}>
+                      {faq.helper.ctaIcon && <i class={faq.helper.ctaIcon}></i>} {faq.helper.ctaLabel}
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {faq.items && faq.items.length > 0 && (
+            <div class="faq-list">
+              {faq.items.map((item) => item && (
+                <details class="faq-item" open={item.openByDefault ?? false}>
+                  <summary>
+                    <span data-tina-field={tinaField(item, 'question')}>{item.question}</span>
+                    <span class="toggle"><i class="fa-solid fa-plus"></i></span>
+                  </summary>
+                  <div class="answer">
+                    {item.paragraphs?.map((p) => p && (
+                      <p data-tina-field={tinaField(p, 'text')}>{p.text}</p>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {contact && (
+    <section class="block" id="contact">
+      <div class="container">
+        <div class="block-head">
+          {contact.kicker && <div class="section-kicker" data-tina-field={tinaField(contact, 'kicker')}>{contact.kicker}</div>}
+          {contact.title && <h2 class="section-title" data-tina-field={tinaField(contact, 'title')}>{contact.title}</h2>}
+          {contact.lead && <p class="lead" data-tina-field={tinaField(contact, 'lead')}>{contact.lead}</p>}
+        </div>
+
+        <div class="contact-grid">
+          <form class="form-card" id="contact-form" novalidate>
+            {contact.form && (
+              <div class="form-header">
+                {contact.form.title && <h3 data-tina-field={tinaField(contact.form, 'title')}>{contact.form.title}</h3>}
+                {contact.form.description && <p data-tina-field={tinaField(contact.form, 'description')}>{contact.form.description}</p>}
+              </div>
+            )}
+            <div class="form-row">
+              <div class="field">
+                <label for="f-name">Name <span class="req">*</span></label>
+                <input id="f-name" name="name" type="text" required placeholder="Jane Smith" />
+              </div>
+              <div class="field">
+                <label for="f-company">Company <span class="req">*</span></label>
+                <input id="f-company" name="company" type="text" required placeholder="Acme Inc." />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field" style="grid-column: 1 / -1;">
+                <label for="f-email">Work email <span class="req">*</span></label>
+                <input id="f-email" name="email" type="email" required placeholder="jane@acme.com" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="f-country">Country <span class="req">*</span></label>
+                <select id="f-country" name="country" required>
+                  <option value="">Select a country</option>
+                  <option>United States</option>
+                  <option>Canada</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-project">Project type <span class="req">*</span></label>
+                <select id="f-project" name="project_type" required>
+                  <option value="">Select project type</option>
+                  {services?.items?.map((s) => s && <option>{s.title}</option>)}
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-budget">Estimated budget</label>
+              <select id="f-budget" name="budget">
+                <option value="">Select a range</option>
+                <option>Under $50K</option>
+                <option>$50K to $150K</option>
+                <option>$150K to $500K</option>
+                <option>$500K to $1M</option>
+                <option>$1M and above</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-message">Tell us about your project <span class="req">*</span></label>
+              <textarea id="f-message" name="message" required placeholder="What are you trying to build, modernize, or accelerate? Timelines and constraints are helpful."></textarea>
+            </div>
+            <div class="form-actions">
+              {contact.form?.privacy && (
+                <div class="privacy" data-tina-field={tinaField(contact.form, 'privacy')}>
+                  {(() => {
+                    const text = contact.form.privacy ?? '';
+                    const linkLabel = contact.form.privacyLinkLabel ?? 'privacy policy';
+                    const linkHref = contact.form.privacyLinkHref ?? '#';
+                    const parts = text.split('{link}');
+                    return (
+                      <>
+                        {parts[0]}
+                        <a href={linkHref}>{linkLabel}</a>
+                        {parts[1] ?? ''}
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+              {contact.form?.submitLabel && (
+                <button type="submit" class="btn btn-primary btn-lg" data-tina-field={tinaField(contact.form, 'submitLabel')}>
+                  {contact.form.submitIcon && <i class={contact.form.submitIcon}></i>} {contact.form.submitLabel}
+                </button>
+              )}
+            </div>
+            {contact.form?.successText && (
+              <div class="form-success" id="form-success">
+                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
+                <div data-tina-field={tinaField(contact.form, 'successText')}>{contact.form.successText}</div>
+              </div>
+            )}
+          </form>
+
+          {contact.asideItems && contact.asideItems.length > 0 && (
+            <aside class="contact-aside">
+              {contact.asideItems.map((item) => item && (
+                <div class="item">
+                  <div class="icon"><i class={`fa-solid ${item.icon ?? ''}`}></i></div>
+                  <div>
+                    <h4 data-tina-field={tinaField(item, 'title')}>{item.title}</h4>
+                    <p data-tina-field={tinaField(item, 'description')}>{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </aside>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {ctaBanner && (
+    <section class="cta-banner">
+      <div class="container">
+        {ctaBanner.title && <h2 data-tina-field={tinaField(ctaBanner, 'title')}>{ctaBanner.title}</h2>}
+        {ctaBanner.description && <p data-tina-field={tinaField(ctaBanner, 'description')}>{ctaBanner.description}</p>}
+        {ctaBanner.ctaLabel && (
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <a href={ctaBanner.ctaHref ?? '#contact'} class="btn btn-primary btn-lg" data-tina-field={tinaField(ctaBanner, 'ctaLabel')}>
+              {ctaBanner.ctaIcon && <i class={ctaBanner.ctaIcon}></i>} {ctaBanner.ctaLabel}
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+</main>
+
+{footer && (
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          {footer.logo && <img src={footer.logo} alt="SSW" data-tina-field={tinaField(footer, 'logo')} />}
+          {footer.tagline && <p data-tina-field={tinaField(footer, 'tagline')}>{footer.tagline}</p>}
+        </div>
+        <div class="footer-col">
+          {footer.columnTitle && <h5 data-tina-field={tinaField(footer, 'columnTitle')}>{footer.columnTitle}</h5>}
+          {footer.links && (
+            <ul>
+              {footer.links.map((link) => link && (
+                <li>
+                  <a href={link.href ?? '#'} data-tina-field={tinaField(link, 'label')}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="legal">
+          <span data-tina-field={tinaField(footer, 'copyright')}>{footer.copyright}</span>
+          {footer.termsLabel && (
+            <>
+              <span class="sep">·</span>
+              <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
+            </>
+          )}
+        </div>
+        {footer.builtWithName && (
+          <a class="built" href={footer.builtWithHref ?? '#'} target="_blank" rel="noopener">
+            <span data-tina-field={tinaField(footer, 'builtWithText')}>{footer.builtWithText}</span>
+            {footer.builtWithLogo && <img src={footer.builtWithLogo} alt={footer.builtWithName} />}
+            <strong data-tina-field={tinaField(footer, 'builtWithName')}>{footer.builtWithName}</strong>
+          </a>
+        )}
+      </div>
+    </div>
+  </footer>
+)}

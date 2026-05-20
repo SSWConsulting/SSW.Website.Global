@@ -1,22 +1,56 @@
 ---
-import Base from '../layouts/Base.astro';
+import '../styles/landing.css';
+import { ClientRouter } from 'astro:transitions';
 import TinaIsland from '@tinacms/astro/TinaIsland.astro';
-import PageBody from '../components/islands/PageBody.astro';
-import { getConfig, getPage } from '../lib/data';
+import LandingBody from '../components/islands/LandingBody.astro';
+import { getLanding } from '../lib/data';
 import { islands } from '../lib/islands';
 
 const slug = 'home';
-const page = await getPage(slug);
-const data = page.data?.page;
+const result = await getLanding(slug);
+const data = result.data?.landing;
 if (!data) return new Response('Not Found', { status: 404 });
-const config = (await getConfig()).data?.config ?? null;
+const meta = data.meta;
 ---
 
-<Base
-	title={data.seoTitle || config?.seo?.title || 'TinaCMS + Astro'}
-	description={config?.seo?.description ?? 'Welcome to my website!'}
->
-	<TinaIsland name="page" wrapper={islands.page.wrapper} params={{ slug }} primary>
-		<PageBody data={data} />
-	</TinaIsland>
-</Base>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{meta?.title ?? 'SSW'}</title>
+  <meta name="description" content={meta?.description ?? ''} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/assets/colors_and_type.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <ClientRouter />
+</head>
+<body>
+  <TinaIsland name="landing" wrapper={islands.landing.wrapper} params={{ slug }} primary>
+    <LandingBody data={data} />
+  </TinaIsland>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const onScroll = () => { if (nav) (nav as HTMLElement).dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const success = document.getElementById('form-success');
+    if (form && success) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        success.classList.add('visible');
+        form.querySelectorAll('input, select, textarea').forEach((el) => {
+          (el as HTMLInputElement).value = '';
+        });
+      });
+    }
+  </script>
+</body>
+</html>
