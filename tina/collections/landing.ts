@@ -71,9 +71,12 @@ export const LandingCollection: Collection = {
       label: "Hero",
       fields: [
         { type: "string", name: "eyebrow", label: "Eyebrow" },
-        { type: "string", name: "titleStart", label: "Title (plain part)" },
-        { type: "string", name: "titleAccent", label: "Title (accent / red part)" },
-        { type: "string", name: "titleEnd", label: "Title (after accent, e.g. period)" },
+        {
+          type: "string",
+          name: "title",
+          label: "Title",
+          description: "Wrap the red accent part in **double asterisks**. Example: Enterprise software, shipped at **AI speed**.",
+        },
         { type: "string", name: "lead", label: "Lead paragraph", ui: { component: "textarea" } },
         {
           type: "object",

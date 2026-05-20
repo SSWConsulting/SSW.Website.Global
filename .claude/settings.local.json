@@ -8,7 +8,9 @@
       "Bash(npx create-tina-app@latest . --template tina-astro-starter --pkg-manager pnpm --noTelemetry)",
       "Bash(pnpm install *)",
       "Bash(pnpm rebuild *)",
-      "Bash(gh auth *)"
+      "Bash(gh auth *)",
+      "Bash(pnpm run *)",
+      "Bash(curl -s http://localhost:4321/)"
     ]
   }
 }

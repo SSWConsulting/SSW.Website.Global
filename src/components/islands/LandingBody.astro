@@ -11,6 +11,13 @@ if (!data) return null;
 
 const nav = data.nav;
 const hero = data.hero;
+
+// Split a title on **accent** markers into alternating plain/accent segments.
+const parseAccentTitle = (s: string | null | undefined) => {
+  if (!s) return [] as Array<{ text: string; accent: boolean }>;
+  return s.split(/\*\*([^*]+)\*\*/g).map((part, i) => ({ text: part, accent: i % 2 === 1 }));
+};
+const heroTitleParts = parseAccentTitle(hero?.title);
 const stats = data.stats ?? [];
 const benefits = data.benefitsSection;
 const services = data.servicesSection;
@@ -80,10 +87,8 @@ const footer = data.footer;
               <span class="dot"></span>{hero.eyebrow}
             </span>
           )}
-          <h1 class="display">
-            <span data-tina-field={tinaField(hero, 'titleStart')}>{hero.titleStart}</span>
-            <em data-tina-field={tinaField(hero, 'titleAccent')}>{hero.titleAccent}</em>
-            <span data-tina-field={tinaField(hero, 'titleEnd')}>{hero.titleEnd}</span>
+          <h1 class="display" data-tina-field={tinaField(hero, 'title')}>
+            {heroTitleParts.map((part) => (part.accent ? <em>{part.text}</em> : <Fragment>{part.text}</Fragment>))}
           </h1>
           {hero.lead && <p class="lead" data-tina-field={tinaField(hero, 'lead')}>{hero.lead}</p>}
           <div class="hero-ctas">

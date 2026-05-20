@@ -24,9 +24,7 @@
   },
   "hero": {
     "eyebrow": "Now serving the Americas",
-    "titleStart": "Enterprise software, shipped at ",
-    "titleAccent": "AI speed",
-    "titleEnd": ".",
+    "title": "Enterprise software, shipped at **AI speed**.",
     "lead": "SSW builds production-grade applications for North American enterprises. Faster, with AI-assisted development, Scrum discipline, and senior engineering oversight.",
     "primaryCta": { "label": "Book a call", "href": "#contact", "icon": "fa-regular fa-calendar" },
     "secondaryCta": { "label": "See how we work", "href": "#how", "icon": "fa-solid fa-arrow-right" },
