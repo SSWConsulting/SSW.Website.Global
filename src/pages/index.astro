@@ -1,22 +1,1402 @@
 ---
-import Base from '../layouts/Base.astro';
-import TinaIsland from '@tinacms/astro/TinaIsland.astro';
-import PageBody from '../components/islands/PageBody.astro';
-import { getConfig, getPage } from '../lib/data';
-import { islands } from '../lib/islands';
-
-const slug = 'home';
-const page = await getPage(slug);
-const data = page.data?.page;
-if (!data) return new Response('Not Found', { status: 404 });
-const config = (await getConfig()).data?.config ?? null;
+const title = 'SSW · Enterprise AI-assisted software delivery for the Americas';
+const description = 'Ship enterprise-grade software faster with AI-assisted development, Scrum discipline, and a North America-based Scrum Master.';
 ---
 
-<Base
-	title={data.seoTitle || config?.seo?.title || 'TinaCMS + Astro'}
-	description={config?.seo?.description ?? 'Welcome to my website!'}
->
-	<TinaIsland name="page" wrapper={islands.page.wrapper} params={{ slug }} primary>
-		<PageBody data={data} />
-	</TinaIsland>
-</Base>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/assets/colors_and_type.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style is:global>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-neutral);
+      background: var(--bg-base);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; cursor: pointer; }
+    ::selection { background: var(--red-100); color: var(--red-900); }
+
+    :root {
+      --page-max: 1240px;
+      --gutter: clamp(20px, 4vw, 48px);
+      --section-pad: clamp(72px, 9vw, 128px);
+      --hairline: 1px solid var(--stroke-neutral);
+    }
+
+    .container {
+      max-width: var(--page-max);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+
+    body, p { font-size: 16px; line-height: 1.6; }
+    .eyebrow {
+      display: inline-flex;
+      align-self: flex-start;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-brand);
+      padding: 6px 12px;
+      border: 1px solid var(--red-200);
+      background: var(--bg-brand-soft);
+      border-radius: var(--radius-full);
+    }
+    .eyebrow .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red-500);
+      box-shadow: 0 0 0 4px rgba(204,65,65,0.18);
+    }
+    .display {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--text-neutral-strong);
+      margin: 0;
+    }
+    .display em {
+      font-style: normal;
+      color: var(--red-500);
+    }
+    h2.section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 4.2vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-neutral-strong);
+      margin: 0 0 16px;
+      text-wrap: balance;
+    }
+    h3 { margin: 0; }
+    .lead {
+      font-size: clamp(18px, 1.6vw, 20px);
+      line-height: 1.55;
+      color: var(--text-neutral-weak);
+      margin: 0;
+      max-width: 60ch;
+      text-wrap: pretty;
+    }
+    .section-kicker {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red-500);
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out),
+                  border-color var(--duration-fast) var(--ease-out),
+                  transform var(--duration-fast) var(--ease-out);
+      white-space: nowrap;
+    }
+    .btn i { font-size: 14px; }
+    .btn-primary { background: var(--red-500); color: #fff; }
+    .btn-primary:hover { background: var(--red-600); }
+    .btn-primary:active { background: var(--red-700); }
+    .btn-secondary {
+      background: #fff;
+      color: var(--text-neutral-strong);
+      border-color: var(--stroke-neutral-strong);
+    }
+    .btn-secondary:hover { background: var(--grey-50); }
+    .btn-ghost { color: var(--text-neutral-strong); padding: 10px 14px; }
+    .btn-ghost:hover { background: var(--grey-100); }
+    .btn-lg { padding: 14px 22px; font-size: 17px; }
+    .btn-lg i { font-size: 16px; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--duration-normal) var(--ease-out),
+                  background var(--duration-normal) var(--ease-out);
+    }
+    .nav[data-scrolled="true"] {
+      border-bottom-color: var(--stroke-neutral-weak);
+      background: rgba(255,255,255,0.92);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 88px;
+      gap: 24px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .nav-logo img { height: 42px; width: auto; }
+    .nav-logo .region {
+      white-space: nowrap;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-neutral-weak);
+    }
+    .nav-links { display: flex; align-items: center; gap: 0; }
+    .nav-item { position: relative; }
+    .nav-item > a {
+      position: relative;
+      padding: 10px 18px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-neutral);
+      letter-spacing: -0.005em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+    .nav-item > a::after {
+      content: "";
+      position: absolute;
+      left: 18px; right: 18px;
+      bottom: 4px;
+      height: 1px;
+      background: var(--red-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--duration-normal) var(--ease-out);
+    }
+    .nav-item:hover > a { color: var(--text-neutral-strong); }
+    .nav-item:hover > a::after { transform: scaleX(1); }
+    .nav-item .caret { font-size: 9px; opacity: 0.5; transition: transform var(--duration-fast) var(--ease-out); }
+    .nav-item:hover .caret { transform: rotate(180deg); opacity: 0.9; }
+
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      width: 620px;
+      background: #fff;
+      border: 1px solid var(--stroke-neutral);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-overlay);
+      padding: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-normal) var(--ease-out),
+                  transform var(--duration-normal) var(--ease-out);
+      z-index: 60;
+    }
+    .nav-item:hover .nav-dropdown,
+    .nav-item:focus-within .nav-dropdown {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown ul {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .nav-dropdown li a {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius);
+      align-items: flex-start;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+    .nav-dropdown li a:hover { background: var(--grey-50); }
+    .nav-dropdown li a .ico {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-brand-soft);
+      color: var(--red-600);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .nav-dropdown li a .ico i { font-size: 13px; }
+    .nav-dropdown li a strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-neutral-strong);
+      margin-bottom: 4px;
+    }
+    .nav-dropdown li a span {
+      font-size: 14px;
+      color: var(--text-neutral-weak);
+      line-height: 1.4;
+    }
+    .nav-cta { display: flex; align-items: center; gap: 8px; }
+    @media (max-width: 980px) {
+      .nav-links { display: none; }
+      .nav-inner { height: 76px; }
+      .nav-logo img { height: 36px; }
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(72px, 10vw, 128px) 0 clamp(64px, 8vw, 96px);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -200px -200px auto auto;
+      width: 900px; height: 900px;
+      background: radial-gradient(closest-side, rgba(204,65,65,0.07), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(40px, 6vw, 80px);
+      align-items: center;
+    }
+    @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } }
+    .hero-copy { display: flex; flex-direction: column; gap: 28px; }
+    .hero-copy p.lead { font-size: clamp(18px, 1.7vw, 21px); }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 16px; }
+    .hero-meta .item { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: var(--text-neutral); }
+    .hero-meta .check-pill {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--red-50);
+      color: var(--red-600);
+      display: grid; place-items: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .hero-visual { position: relative; aspect-ratio: 5 / 4; min-height: 380px; }
+    .panel {
+      background: #fff;
+      border: 1px solid var(--stroke-neutral);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-raised);
+      padding: 20px;
+    }
+    .panel-back {
+      position: absolute;
+      inset: 8% 0 28% 16%;
+      background: var(--grey-50);
+      border-color: var(--stroke-neutral-weak);
+      box-shadow: var(--shadow-xs);
+    }
+    .panel-back .grid-lines {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      height: 100%;
+    }
+    .panel-back .col {
+      background: #fff;
+      border: 1px solid var(--stroke-neutral-weak);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .panel-back .col h6 {
+      margin: 0;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-neutral-weak);
+    }
+    .ticket {
+      background: var(--grey-50);
+      border: 1px solid var(--stroke-neutral-weak);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--text-neutral);
+    }
+    .ticket .tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+    }
+    .tag.red { background: var(--red-50); color: var(--red-700); }
+    .tag.blue { background: var(--blue-100); color: var(--blue-700); }
+    .tag.green { background: var(--green-100); color: var(--green-700); }
+    .tag.amber { background: var(--amber-100); color: var(--amber-600); }
+
+    .panel-front { position: absolute; inset: auto 8% 4% 4%; width: 70%; padding: 18px; }
+    .panel-front .head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .panel-front .head .dots { display: flex; gap: 6px; }
+    .panel-front .head .dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--grey-200); }
+    .panel-front .head h4 {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-neutral-weak);
+      margin: 0;
+      letter-spacing: 0.04em;
+    }
+    .code-line {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-neutral);
+      white-space: pre;
+      overflow: hidden;
+    }
+    .code-line .kw { color: var(--red-600); }
+    .code-line .fn { color: var(--blue-600); }
+    .code-line .str { color: var(--green-700); }
+    .code-line .cm { color: var(--text-neutral-weaker); }
+
+    .ai-suggest {
+      margin-top: 14px;
+      padding: 10px 12px;
+      background: var(--bg-brand-soft);
+      border: 1px solid var(--red-100);
+      border-radius: var(--radius-md);
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 12px; color: var(--red-800);
+    }
+    .ai-suggest i { color: var(--red-500); flex-shrink: 0; margin-top: 2px; }
+    .ai-suggest strong { color: var(--red-900); }
+
+    .stats {
+      background: #fff;
+      border-top: 1px solid var(--stroke-neutral-weak);
+      border-bottom: 1px solid var(--stroke-neutral-weak);
+    }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 760px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat { padding: 32px 24px; border-right: 1px solid var(--stroke-neutral-weak); }
+    .stat:last-child { border-right: none; }
+    @media (max-width: 760px) {
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--stroke-neutral-weak); }
+    }
+    .stat .num {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 3.6vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1;
+      color: var(--text-neutral-strong);
+    }
+    .stat .num em { font-style: normal; color: var(--red-500); }
+    .stat .label { margin-top: 8px; font-size: 16px; color: var(--text-neutral-weak); line-height: 1.45; }
+
+    section.block { padding: var(--section-pad) 0; }
+    section.block.sunken { background: var(--grey-50); }
+    .block-head { max-width: 720px; margin-bottom: clamp(48px, 6vw, 72px); }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--stroke-neutral-weak);
+      border: 1px solid var(--stroke-neutral-weak);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    @media (max-width: 920px) { .benefits-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .benefits-grid { grid-template-columns: 1fr; } }
+    .benefit { background: #fff; padding: 32px 28px; display: flex; flex-direction: column; gap: 12px; }
+    .benefit .icon {
+      width: 40px; height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--bg-brand-soft);
+      color: var(--red-600);
+      display: grid; place-items: center;
+      margin-bottom: 8px;
+    }
+    .benefit .icon i { font-size: 18px; }
+    .benefit h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
+    .benefit p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .services-grid { grid-template-columns: 1fr; } }
+    .service {
+      background: #fff;
+      border: 1px solid var(--stroke-neutral);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: border-color var(--duration-normal) var(--ease-out),
+                  box-shadow var(--duration-normal) var(--ease-out),
+                  transform var(--duration-normal) var(--ease-out);
+    }
+    .service:hover { border-color: var(--red-200); box-shadow: var(--shadow-raised); }
+    .service .icon {
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      border-radius: var(--radius-md);
+      background: var(--bg-brand-soft);
+      color: var(--red-600);
+      display: grid; place-items: center;
+    }
+    .service .icon i { font-size: 18px; }
+    .service .body { display: flex; flex-direction: column; gap: 6px; }
+    .service h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
+    .service p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+    .steps::before {
+      content: "";
+      position: absolute;
+      top: 32px; left: 32px; right: 32px;
+      height: 1px;
+      border-top: 1px dashed var(--stroke-neutral);
+      z-index: 0;
+    }
+    @media (max-width: 920px) {
+      .steps { grid-template-columns: repeat(2, 1fr); gap: 48px 32px; }
+      .steps::before { display: none; }
+    }
+    @media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+    .step { position: relative; z-index: 1; background: transparent; border: 0; padding: 0; }
+    .step .icon {
+      position: relative;
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--bg-brand-soft);
+      color: var(--red-600);
+      display: grid; place-items: center;
+      margin-bottom: 24px;
+      box-shadow: 0 0 0 8px var(--bg-base);
+    }
+    .step .icon i { font-size: 22px; }
+    .step .step-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red-500);
+      margin-bottom: 8px;
+    }
+    .step h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--text-neutral-strong);
+      margin: 0 0 12px;
+    }
+    .step p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; max-width: 32ch; }
+
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px, 6vw, 88px); align-items: center; }
+    @media (max-width: 880px) { .why-grid { grid-template-columns: 1fr; } }
+    .why-list { display: flex; flex-direction: column; border-top: 1px solid var(--stroke-neutral-weak); }
+    .why-row {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 18px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--stroke-neutral-weak);
+      align-items: flex-start;
+    }
+    .why-row .badge-ico {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--bg-brand-soft);
+      color: var(--red-600);
+      display: grid; place-items: center;
+      margin-top: 2px;
+    }
+    .why-row .badge-ico i { font-size: 15px; }
+    .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
+    .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+    .why-card {
+      background: var(--grey-900);
+      color: #fff;
+      border-radius: var(--radius-2xl);
+      padding: 40px;
+      display: flex; flex-direction: column;
+      gap: 24px;
+      min-height: 440px;
+      justify-content: space-between;
+    }
+    .why-card .quote-mark { font-family: var(--font-display); font-size: 64px; line-height: 0.5; color: var(--red-500); height: 32px; }
+    .why-card blockquote {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -0.015em;
+      color: rgba(255,255,255,0.95);
+      text-wrap: pretty;
+    }
+    .why-card .attr { display: flex; align-items: center; gap: 14px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .why-card .avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red-400), var(--red-700));
+      display: grid; place-items: center;
+      font-weight: 600;
+      font-size: 15px;
+      color: #fff;
+    }
+    .why-card .name { font-weight: 600; color: #fff; font-size: 16px; }
+    .why-card .role { font-size: 14px; color: rgba(255,255,255,0.55); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: clamp(40px, 5vw, 64px);
+      align-items: start;
+    }
+    @media (max-width: 920px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    .form-card {
+      background: #fff;
+      border: 1px solid var(--stroke-neutral);
+      border-top: 4px solid var(--red-500);
+      border-radius: var(--radius-2xl);
+      padding: clamp(32px, 4vw, 48px);
+      box-shadow: var(--shadow-overlay);
+      position: relative;
+    }
+    .form-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: var(--radius-2xl);
+      background: linear-gradient(180deg, rgba(204,65,65,0.18), transparent 30%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .form-card .form-header { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--stroke-neutral-weak); }
+    .form-card .form-header h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-neutral-strong);
+      margin: 0 0 6px;
+    }
+    .form-card .form-header p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-neutral-weak);
+    }
+    .field label .req { color: var(--red-500); margin-left: 2px; }
+    .field input, .field select, .field textarea {
+      font: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 12px 14px;
+      border: 1px solid var(--stroke-neutral);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text-neutral-strong);
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+    }
+    .field select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding-right: 42px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23737373' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 6 8 10 12 6'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px 16px;
+    }
+    .field select:focus {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23cc4141' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 6 8 10 12 6'/></svg>");
+    }
+    .field textarea { resize: vertical; min-height: 110px; line-height: 1.55; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--red-400);
+      box-shadow: var(--shadow-ring);
+    }
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .form-actions .privacy {
+      font-size: 16px;
+      color: var(--text-neutral-weaker);
+      line-height: 1.5;
+      flex: 1;
+      min-width: 240px;
+    }
+    .form-actions .privacy a { color: var(--text-neutral); text-decoration: underline; text-underline-offset: 2px; }
+
+    .form-success {
+      display: none;
+      padding: 20px;
+      background: var(--green-100);
+      border: 1px solid var(--green-500);
+      border-radius: var(--radius-md);
+      color: var(--green-700);
+      font-size: 16px;
+      margin-top: 16px;
+    }
+    .form-success.visible { display: flex; gap: 10px; align-items: center; }
+
+    .contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
+    .contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
+    .contact-aside .item:last-child { border-bottom: none; }
+    .contact-aside .item .icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--bg-brand-soft);
+      color: var(--red-600);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .contact-aside .item .icon i { font-size: 14px; }
+    .contact-aside h4 { font-size: 17px; font-weight: 600; color: var(--text-neutral-strong); margin: 0 0 4px; }
+    .contact-aside p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; line-height: 1.5; }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: clamp(40px, 6vw, 80px);
+      align-items: start;
+    }
+    @media (max-width: 880px) { .faq-grid { grid-template-columns: 1fr; } }
+    .faq-head .lead { margin-top: 8px; }
+    .faq-head .faq-helper {
+      margin-top: 36px;
+      padding: 28px;
+      background: #fff;
+      border: 1px solid var(--stroke-neutral);
+      border-top: 4px solid var(--red-500);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-raised);
+      position: relative;
+    }
+    .faq-helper .helper-kicker {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red-500);
+      margin-bottom: 8px;
+    }
+    .faq-helper h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--text-neutral-strong);
+      margin: 0 0 10px;
+    }
+    .faq-helper p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0 0 20px; }
+    .faq-helper .helper-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .faq-list { display: flex; flex-direction: column; border-top: 1px solid var(--stroke-neutral); }
+    details.faq-item { border-bottom: 1px solid var(--stroke-neutral); }
+    details.faq-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 24px 0;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(18px, 1.6vw, 22px);
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      color: var(--text-neutral-strong);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+    details.faq-item summary::-webkit-details-marker { display: none; }
+    details.faq-item summary:hover { color: var(--red-600); }
+    details.faq-item .toggle {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--grey-50);
+      border: 1px solid var(--stroke-neutral);
+      display: grid; place-items: center;
+      color: var(--text-neutral);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out),
+                  transform var(--duration-normal) var(--ease-out);
+    }
+    details.faq-item .toggle i { font-size: 12px; }
+    details[open].faq-item .toggle {
+      background: var(--red-500);
+      border-color: var(--red-500);
+      color: #fff;
+      transform: rotate(45deg);
+    }
+    details.faq-item .answer { padding: 0 0 24px; max-width: 64ch; }
+    details.faq-item .answer p { font-size: 16px; line-height: 1.6; color: var(--text-neutral-weak); margin: 0 0 12px; }
+    details.faq-item .answer p:last-child { margin-bottom: 0; }
+
+    .cta-banner {
+      background: var(--grey-900);
+      color: #fff;
+      padding: clamp(56px, 8vw, 96px) 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 1100px; height: 1100px;
+      background: radial-gradient(closest-side, rgba(204,65,65,0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-banner .container { position: relative; z-index: 1; }
+    .cta-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4.4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin: 0 0 16px;
+      color: #fff;
+      text-wrap: balance;
+    }
+    .cta-banner p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 32px; }
+
+    footer { background: #fff; padding: 64px 0 32px; border-top: 1px solid var(--stroke-neutral-weak); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; margin-bottom: 48px; }
+    @media (max-width: 880px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > div:first-child { grid-column: 1 / -1; }
+    }
+    .footer-brand img { height: 36px; }
+    .footer-brand p { margin-top: 18px; font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; max-width: 36ch; }
+    .footer-region {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-neutral-weak);
+      padding: 6px 10px;
+      border: 1px solid var(--stroke-neutral);
+      border-radius: var(--radius-full);
+    }
+    .footer-region i { color: var(--red-500); font-size: 11px; }
+    .footer-col h5 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-neutral-strong);
+      margin: 0 0 16px;
+    }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 16px; color: var(--text-neutral-weak); transition: color var(--duration-fast) var(--ease-out); }
+    .footer-col a:hover { color: var(--red-500); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--stroke-neutral-weak);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom .legal { font-size: 16px; color: var(--text-neutral-weaker); }
+    .footer-bottom .legal a {
+      color: var(--text-neutral-weak);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+    .footer-bottom .legal a:hover { color: var(--red-500); }
+    .footer-bottom .legal .sep { margin: 0 10px; color: var(--stroke-neutral); }
+    .footer-bottom .built { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-neutral-weaker); }
+    .footer-bottom .built img { height: 22px; width: auto; }
+    .footer-bottom .built strong { color: var(--text-neutral); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-logo" aria-label="SSW home">
+      <img src="/assets/ssw-logo.png" alt="SSW" />
+      <span class="region">Americas</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <div class="nav-item">
+        <a href="#services">Capabilities <i class="fa-solid fa-chevron-down caret"></i></a>
+        <div class="nav-dropdown" role="menu">
+          <ul>
+            <li><a href="#services"><span class="ico"><i class="fa-solid fa-robot"></i></span><span><strong>AI-assisted development</strong><span>AI throughout the SDLC</span></span></a></li>
+            <li><a href="#services"><span class="ico"><i class="fa-solid fa-arrows-rotate"></i></span><span><strong>Legacy modernization</strong><span>Cloud-native migrations</span></span></a></li>
+            <li><a href="#services"><span class="ico"><i class="fa-solid fa-table-cells-large"></i></span><span><strong>Custom applications</strong><span>Line-of-business tools</span></span></a></li>
+            <li><a href="#services"><span class="ico"><i class="fa-solid fa-compass"></i></span><span><strong>Technical consulting</strong><span>Senior architecture advice</span></span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav-item"><a href="#how">Approach</a></div>
+      <div class="nav-item"><a href="#why">Why SSW</a></div>
+      <div class="nav-item"><a href="#faq">FAQ</a></div>
+      <div class="nav-item"><a href="#contact">Contact</a></div>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary"><i class="fa-regular fa-calendar"></i> Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot"></span>Now serving the Americas</span>
+        <h1 class="display">Enterprise software, shipped at <em>AI speed</em>.</h1>
+        <p class="lead">
+          SSW builds production-grade applications for North American enterprises. Faster, with AI-assisted development, Scrum discipline, and senior engineering oversight.
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary btn-lg"><i class="fa-regular fa-calendar"></i> Book a call</a>
+          <a href="#how" class="btn btn-secondary btn-lg">See how we work <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="hero-meta">
+          <span class="item"><span class="check-pill"><i class="fa-solid fa-check"></i></span>Three decades of enterprise software</span>
+          <span class="item"><span class="check-pill"><i class="fa-solid fa-check"></i></span>North America-based Scrum Master</span>
+          <span class="item"><span class="check-pill"><i class="fa-solid fa-check"></i></span>Two-week sprints with live demos</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="panel panel-back">
+          <div class="grid-lines">
+            <div class="col">
+              <h6>Backlog</h6>
+              <div class="ticket"><span class="tag amber">Spec</span>Define API contract for orders</div>
+              <div class="ticket"><span class="tag amber">Spec</span>Auth provider migration</div>
+            </div>
+            <div class="col">
+              <h6>In progress</h6>
+              <div class="ticket"><span class="tag blue">AI-assist</span>Generate CRUD endpoints</div>
+              <div class="ticket"><span class="tag blue">AI-assist</span>Refactor legacy module</div>
+              <div class="ticket"><span class="tag amber">Review</span>Update billing schema</div>
+            </div>
+            <div class="col">
+              <h6>Review</h6>
+              <div class="ticket"><span class="tag red">PR #482</span>Add tenant isolation</div>
+            </div>
+            <div class="col">
+              <h6>Done</h6>
+              <div class="ticket"><span class="tag green">Shipped</span>SSO and RBAC</div>
+              <div class="ticket"><span class="tag green">Shipped</span>Audit logging</div>
+              <div class="ticket"><span class="tag green">Shipped</span>Stripe integration</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-front">
+          <div class="head">
+            <span class="dots"><span></span><span></span><span></span></span>
+            <h4>order-service / routes.ts</h4>
+          </div>
+          <div class="code-line"><span class="cm">// Generate orders endpoint</span></div>
+          <div class="code-line"><span class="kw">export async function</span> <span class="fn">createOrder</span>(req, res) &#123;</div>
+          <div class="code-line">  <span class="kw">const</span> order = <span class="kw">await</span> <span class="fn">orders.insert</span>(&#123;</div>
+          <div class="code-line">    tenant: req.<span class="fn">user</span>.tenantId,</div>
+          <div class="code-line">    items: req.body.items,</div>
+          <div class="code-line">    status: <span class="str">'pending'</span>,</div>
+          <div class="code-line">  &#125;);</div>
+          <div class="code-line">  <span class="kw">return</span> res.<span class="fn">json</span>(order);</div>
+          <div class="code-line">&#125;</div>
+          <div class="ai-suggest">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <div><strong>AI suggestion:</strong> add tenant-scoped validation and idempotency key. Apply.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">30<em>+</em></div>
+          <div class="label">Years building software for enterprise</div>
+        </div>
+        <div class="stat">
+          <div class="num">3<em>×</em></div>
+          <div class="label">Typical delivery acceleration with AI-assisted workflows</div>
+        </div>
+        <div class="stat">
+          <div class="num">200<em>+</em></div>
+          <div class="label">Senior consultants and engineers across our delivery network</div>
+        </div>
+        <div class="stat">
+          <div class="num">99.4<em>%</em></div>
+          <div class="label">Sprint commitments delivered on time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block">
+    <div class="container">
+      <div class="block-head">
+        <div class="section-kicker">Benefits</div>
+        <h2 class="section-title">Move fast without breaking the things that matter.</h2>
+        <p class="lead">AI is a productivity multiplier, not a substitute for engineering judgment. We combine modern AI workflows with the governance and Scrum discipline enterprise teams expect.</p>
+      </div>
+
+      <div class="benefits-grid">
+        <article class="benefit">
+          <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Faster delivery</h3>
+          <p>AI-assisted development compresses weeks of work into days. Spec, scaffold, and ship features in tighter loops without cutting corners.</p>
+        </article>
+        <article class="benefit">
+          <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>Enterprise-grade quality</h3>
+          <p>Code reviews, automated tests, security baselines, and architectural oversight from senior consultants on every change.</p>
+        </article>
+        <article class="benefit">
+          <div class="icon"><i class="fa-solid fa-comments"></i></div>
+          <h3>North American communication</h3>
+          <p>A dedicated North America-based Scrum Master runs your standups, reviews, and stakeholder updates in your time zone.</p>
+        </article>
+        <article class="benefit">
+          <div class="icon"><i class="fa-solid fa-code-pull-request"></i></div>
+          <h3>Scrum-led delivery</h3>
+          <p>Two-week sprints, demoable increments, transparent burndowns. You always know what you are getting and when.</p>
+        </article>
+        <article class="benefit">
+          <div class="icon"><i class="fa-solid fa-users"></i></div>
+          <h3>Flexible team structure</h3>
+          <p>Scale up or down with senior architects, hands-on engineers, and cost-effective delivery resources as the work demands.</p>
+        </article>
+        <article class="benefit">
+          <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+          <h3>Cost-effective scaling</h3>
+          <p>Blended delivery models give you senior oversight where it matters and efficient throughput where it does not.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block sunken" id="services">
+    <div class="container">
+      <div class="block-head">
+        <div class="section-kicker">Capabilities</div>
+        <h2 class="section-title">From a rapid prototype to a critical system of record.</h2>
+        <p class="lead">We work across the full lifecycle, from a Friday afternoon idea to a multi-year enterprise platform, with the same discipline and the same senior team.</p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service">
+          <div class="icon"><i class="fa-solid fa-robot"></i></div>
+          <div class="body">
+            <h3>AI-assisted software development</h3>
+            <p>Production-grade applications built with AI woven through every step — specs, code generation, QA, and review. Senior engineers steer the tooling so what you ship is fast to deliver, clean to maintain, and ready to scale.</p>
+          </div>
+        </article>
+        <article class="service">
+          <div class="icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <div class="body">
+            <h3>Legacy app modernization</h3>
+            <p>Migrate aging .NET, WinForms, and on-prem systems to modern cloud architectures without disrupting the business.</p>
+          </div>
+        </article>
+        <article class="service">
+          <div class="icon"><i class="fa-solid fa-table-cells-large"></i></div>
+          <div class="body">
+            <h3>Custom business applications</h3>
+            <p>Line-of-business tools that fit your operations, not the other way around. Integrated with your existing stack.</p>
+          </div>
+        </article>
+        <article class="service">
+          <div class="icon"><i class="fa-solid fa-compass"></i></div>
+          <div class="body">
+            <h3>Technical consulting and architecture</h3>
+            <p>Senior architects help you make the high-leverage technical decisions, before they become expensive to change.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="container">
+      <div class="block-head">
+        <div class="section-kicker">Approach</div>
+        <h2 class="section-title">A predictable path from first call to live software.</h2>
+        <p class="lead">No discovery theatre. No vague proposals. You will see a working increment within the first sprint.</p>
+      </div>
+
+      <div class="steps">
+        <article class="step">
+          <div class="icon"><i class="fa-solid fa-phone"></i></div>
+          <div class="step-num">Step 01</div>
+          <h3>Discovery call</h3>
+          <p>A 30-minute conversation with a senior consultant. We discuss your goals, constraints, and what success looks like.</p>
+        </article>
+        <article class="step">
+          <div class="icon"><i class="fa-solid fa-pencil-ruler"></i></div>
+          <div class="step-num">Step 02</div>
+          <h3>Solution design</h3>
+          <p>We scope an architecture, timeline, and team shape. You get a fixed proposal, not a moving target.</p>
+        </article>
+        <article class="step">
+          <div class="icon"><i class="fa-solid fa-microchip"></i></div>
+          <div class="step-num">Step 03</div>
+          <h3>Rapid AI-assisted build</h3>
+          <p>Engineers ship features using AI-augmented workflows. Code is reviewed, tested, and deployed continuously.</p>
+        </article>
+        <article class="step">
+          <div class="icon"><i class="fa-solid fa-rotate"></i></div>
+          <div class="step-num">Step 04</div>
+          <h3>Scrum-led iteration</h3>
+          <p>Two-week sprints. Live demos. Transparent backlog. We iterate with you until the software is in production.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block sunken" id="why">
+    <div class="container">
+      <div class="block-head">
+        <div class="section-kicker">Why SSW</div>
+        <h2 class="section-title">A consulting partner built for the next decade of software.</h2>
+        <p class="lead">SSW has spent three decades shipping enterprise software for some of the world's most demanding teams. We are now bringing that engineering discipline to AI-native delivery for North American clients.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-list">
+          <div class="why-row">
+            <div class="badge-ico"><i class="fa-solid fa-user-tie"></i></div>
+            <div>
+              <h4>Experienced, right-sized teams</h4>
+              <p>Senior architects, hands-on engineers, and dedicated Scrum Masters who have shipped complex software for banks, healthcare, government, and Fortune 500 clients. Right-sized for your phase and your budget.</p>
+            </div>
+          </div>
+          <div class="why-row">
+            <div class="badge-ico"><i class="fa-solid fa-arrows-spin"></i></div>
+            <div>
+              <h4>Proven Scrum process</h4>
+              <p>Two-week sprints, working demos, transparent commitments. Predictability is a feature, not an accident.</p>
+            </div>
+          </div>
+          <div class="why-row">
+            <div class="badge-ico"><i class="fa-solid fa-robot"></i></div>
+            <div>
+              <h4>Practical AI adoption</h4>
+              <p>We use the AI tooling that actually works in production, and skip the parts that do not. No hype, just throughput.</p>
+            </div>
+          </div>
+          <div class="why-row">
+            <div class="badge-ico"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+              <h4>Strong engineering standards</h4>
+              <p>Public coding rules, automated checks, mandatory code review, and a culture of continuous improvement.</p>
+            </div>
+          </div>
+          <div class="why-row">
+            <div class="badge-ico"><i class="fa-solid fa-scale-balanced"></i></div>
+            <div>
+              <h4>Balance of quality, speed, and cost</h4>
+              <p>Three priorities tuned in concert. Most consultancies give you one. We deliver against all three.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="why-card">
+          <div>
+            <div class="quote-mark">“</div>
+            <blockquote>
+              SSW helped us streamline our development process by reducing complexity in our environment and increase our development throughput. Their expertise, innovative approach and access to SMEs in all areas enabled the project to exceed goals. The work done during the project and the knowledge transferred to the BizCover team has set us on the right path to achieve our objectives.
+            </blockquote>
+          </div>
+          <div class="attr">
+            <div class="avatar">DT</div>
+            <div>
+              <div class="name">Dino T</div>
+              <div class="role">BizCover</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="container">
+      <div class="faq-grid">
+        <div class="faq-head">
+          <div class="section-kicker">FAQs</div>
+          <h2 class="section-title">Common questions about working with SSW.</h2>
+          <p class="lead">Short, direct answers to the questions we hear most often during a first call.</p>
+          <div class="faq-helper">
+            <div class="helper-kicker">Still have a question?</div>
+            <h3>Talk to a senior consultant.</h3>
+            <p>Most calls take 30 minutes. You will leave with a clear next step, whether you work with us or not.</p>
+            <div class="helper-actions">
+              <a href="#contact" class="btn btn-primary"><i class="fa-regular fa-calendar"></i> Book a call</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>How should I choose an AI-assisted software development partner?
+              <span class="toggle"><i class="fa-solid fa-plus"></i></span>
+            </summary>
+            <div class="answer">
+              <p>Choose a partner that has shipped production software, not just demos. Look for strong engineering practices, transparent delivery, and senior people who stay engaged through the entire build.</p>
+              <p>AI tooling matters less than the discipline behind it. SSW pairs AI-assisted workflows with three decades of enterprise consulting practice, so you get throughput and accountability together.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What are the benefits of working with SSW versus building in-house?
+              <span class="toggle"><i class="fa-solid fa-plus"></i></span>
+            </summary>
+            <div class="answer">
+              <p>Hiring senior engineers takes months. We start within two weeks with a complete team of engineers, Scrum Master, and architect. No ramp time, no recruiting overhead, no risk of a bad hire on a critical project.</p>
+              <p>You keep the code, the IP, and the practices. We hand off cleanly when you are ready to run it yourselves.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How does SSW combine AI speed with enterprise quality?
+              <span class="toggle"><i class="fa-solid fa-plus"></i></span>
+            </summary>
+            <div class="answer">
+              <p>Through process. AI accelerates coding, not judgment. Every change runs through the same pipeline: spec, code review, automated test, staged deploy. Senior engineers stay on the loop end to end.</p>
+              <p>The result is software that ships fast and stays shipped.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="container">
+      <div class="block-head">
+        <div class="section-kicker">Contact</div>
+        <h2 class="section-title">Book a call.</h2>
+        <p class="lead">Tell us a bit about your project. A senior consultant will get back to you within one business day.</p>
+      </div>
+
+      <div class="contact-grid">
+        <form class="form-card" id="contact-form" novalidate>
+          <div class="form-header">
+            <h3>Tell us about your project</h3>
+            <p>Required fields are marked with a red asterisk.</p>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-name">Name <span class="req">*</span></label>
+              <input id="f-name" name="name" type="text" required placeholder="Jane Smith" />
+            </div>
+            <div class="field">
+              <label for="f-company">Company <span class="req">*</span></label>
+              <input id="f-company" name="company" type="text" required placeholder="Acme Inc." />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field" style="grid-column: 1 / -1;">
+              <label for="f-email">Work email <span class="req">*</span></label>
+              <input id="f-email" name="email" type="email" required placeholder="jane@acme.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-country">Country <span class="req">*</span></label>
+              <select id="f-country" name="country" required>
+                <option value="">Select a country</option>
+                <option>United States</option>
+                <option>Canada</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-project">Project type <span class="req">*</span></label>
+              <select id="f-project" name="project_type" required>
+                <option value="">Select project type</option>
+                <option>AI-assisted software development</option>
+                <option>Legacy modernization</option>
+                <option>Custom business application</option>
+                <option>Technical consulting and architecture</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-budget">Estimated budget</label>
+            <select id="f-budget" name="budget">
+              <option value="">Select a range</option>
+              <option>Under $50K</option>
+              <option>$50K to $150K</option>
+              <option>$150K to $500K</option>
+              <option>$500K to $1M</option>
+              <option>$1M and above</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-message">Tell us about your project <span class="req">*</span></label>
+            <textarea id="f-message" name="message" required placeholder="What are you trying to build, modernize, or accelerate? Timelines and constraints are helpful."></textarea>
+          </div>
+          <div class="form-actions">
+            <div class="privacy">
+              By submitting, you agree to our <a href="#">privacy policy</a>. We never share your information.
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg"><i class="fa-regular fa-calendar"></i> Book a call</button>
+          </div>
+          <div class="form-success" id="form-success">
+            <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
+            <div>Thanks. We will be in touch within one business day.</div>
+          </div>
+        </form>
+
+        <aside class="contact-aside">
+          <div class="item">
+            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <h4>Americas</h4>
+              <p>Local Scrum Master, business hours coverage from Eastern to Pacific time.</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <h4>info@ssw.com</h4>
+              <p>We reply to every inquiry within one business day.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Ship the next version of your software, faster.</h2>
+      <p>Talk to a senior consultant about your enterprise AI-assisted delivery plan. We will tell you what is realistic, and what is not.</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="#contact" class="btn btn-primary btn-lg"><i class="fa-regular fa-calendar"></i> Book a call</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="/assets/ssw-logo.png" alt="SSW" />
+        <p>SSW builds enterprise software with AI-assisted development and Scrum discipline for clients across the Americas.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#why">Why SSW</a></li>
+          <li><a href="#how">Approach</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="legal">© 1990–2026 SSW. All rights reserved.<span class="sep">·</span><a href="https://www.ssw.com.au/terms-and-conditions" target="_blank" rel="noopener">Terms &amp; conditions</a></div>
+      <a class="built" href="https://tina.io" target="_blank" rel="noopener">
+        Built with <img src="/assets/tina-logo.png" alt="Tina" /> <strong>TinaCMS</strong>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const onScroll = () => { if (nav) nav.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('form-success');
+  if (form && success) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      success.classList.add('visible');
+      form.querySelectorAll('input, select, textarea').forEach((el) => {
+        (el as HTMLInputElement).value = '';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
