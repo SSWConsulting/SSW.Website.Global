@@ -1,93 +1,35 @@
-This is a [Tina CMS](https://tina.io/) starter project.
+# SSW.Website.Global
 
-# Astro + TinaCMS Starter Kit: Blog
+Marketing site for **SSW Global** — SSW's offering for the United States market, built around vibe-coded software delivery.
+
+## What we do
+
+SSW Global ships enterprise software for North American clients, with delivery led by a **US-based Scrum Master** and engineering capacity drawn from one of two pools:
+
+- **Australian consultants** — senior SSW engineers and architects with three decades of enterprise consulting practice
+- **China-based team** — a cost-effective alternative for projects where budget is the primary constraint
+
+Both routes run on the same Scrum cadence, the same engineering standards, and the same US-aligned communication layer, so clients pick the team shape that fits the project.
+
+## Stack
+
+- [Astro 5](https://astro.build) for the site, static output with the Vercel adapter
+- [TinaCMS](https://tina.io) (visual-editing canary) for content — every section is editable via `/admin/`
+- pnpm for package management; Font Awesome 6 + Inter for the design system
+
+## Local development
 
 ```sh
-npx create-tina-app@latest --template tina-astro-starter
+pnpm install
+pnpm run dev      # Tina dev server on :4001, Astro on :4321
 ```
 
-And start editing with TinaCMS at `/admin`!
+Open the site at [http://localhost:4321/](http://localhost:4321/) and the CMS at [http://localhost:4321/admin/](http://localhost:4321/admin/).
 
+## Editing content
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The homepage, nav, hero, capabilities, testimonial, FAQ, contact form copy, and footer all live in `src/content/landing/home.json` and are editable through the **Landing page** collection in Tina. Save in `/admin/` and the JSON file updates on disk; live preview reflects changes as you type.
 
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
+## Contributing
 
-Features:
-
-- ✅ Markdown & MDX support + TinaCMS `<TinaMarkdown>` rich-text rendering
-- ✅ TinaCMS Collections (Pages, Blogs, Config)
-- ✅ Visual editing via [`@tinacms/astro`](https://www.npmjs.com/package/@tinacms/astro) — vanilla-JS bridge, **no React in the page tree**
-- ✅ 100/100 Lighthouse performance
-- ✅ View transitions are enabled
-- ✅ Minimal styling (make it your own!)
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-
-
-## 🚀 Project Structure
-
-```text
-├── README.md
-├── astro.config.mjs        # adds the `tina()` integration
-├── package.json
-├── pnpm-lock.yaml
-├── public/
-├── src
-│   ├── components
-│   │   ├── BaseHead.astro   # <head> meta (no Tina plumbing — the integration injects it)
-│   │   └── islands/         # components rendered inside `<TinaIsland>` (PageBody, BlogBody)
-│   ├── content              # Markdown/MDX content + config.json (the `config` collection)
-│   ├── layouts              # Base.astro (header/footer global islands), BlogPost.astro
-│   ├── lib
-│   │   ├── data.ts          # `requestWithMetadata()`-wrapped query loaders
-│   │   └── islands.ts        # the island registry (one entry per editable region)
-│   ├── pages
-│   │   └── tina-island/[name].ts  # generic island-refresh endpoint
-│   └── styles
-├── tina
-│   ├── collections          # TinaCMS schema definitions
-│   ├── config.ts
-│   ├── __generated__        # generated GraphQL client + types (git-ignored)
-│   └── tina-lock.json
-└── tsconfig.json
-```
-
-### How visual editing works
-
-- `astro.config.mjs` adds the `tina()` integration (`@tinacms/astro/integration`). Its
-  middleware injects the bridge script (`/_tina/bridge.js`) and the `<div data-tina-form hidden>`
-  payloads **only on edit-mode responses** — production HTML is byte-identical to a Tina-free app.
-- Data loaders in `src/lib/data.ts` wrap each `client.queries.X(...)` call with
-  `requestWithMetadata()`, which stamps the `_content_source` metadata `tinaField()` needs and
-  swaps in the editor's unsaved overlay when rendering inside the admin iframe.
-- Each editable region is registered in `src/lib/islands.ts` (`IslandRegistry`) and wrapped on the
-  page with `<TinaIsland name="..." wrapper={...} params={...}>`. When you edit a field, the bridge
-  re-fetches just that island via `/tina-island/[name]` and swaps it into the DOM — no full reload.
-- `src/pages/index.astro` is the "Home" page — it loads `src/content/page/home.mdx`.
-
-Each page is exposed as a route based on its file name, generated from the content under
-`src/content/` (excluding the `config` folder). Any static assets, like images, go in `public/`.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321` (site) and `localhost:4321/admin/` (TinaCMS) |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run build:local`     | Build with content indexed locally (no TinaCloud) |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out the [TinaCMS documentation](https://tina.io/docs) and the [Astro documentation](https://docs.astro.build) or jump into our [TinaCMS Discord server](https://discord.gg/cG2UNREu).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+See [AGENTS.md](./AGENTS.md). The short version: **never hardcode user-visible copy into `.astro` files** — model it as a Tina field first, then render from data.
