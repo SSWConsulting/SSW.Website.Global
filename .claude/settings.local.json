@@ -20,7 +20,15 @@
       "Bash(git push *)",
       "Bash(curl -s \"http://localhost:4321/\" -o /tmp/home-img.html)",
       "Bash(curl -s -o /dev/null -w \"Home: HTTP %{http_code}\\\\n\" http://localhost:4321/)",
-      "Bash(git -c user.email=tiagov8@users.noreply.github.com -c user.name=tiagov8 commit -m 'Replace hero kanban + code panel with a single image field *)"
+      "Bash(git -c user.email=tiagov8@users.noreply.github.com -c user.name=tiagov8 commit -m 'Replace hero kanban + code panel with a single image field *)",
+      "Bash(npx --yes playwright@1.60.0 install chromium)",
+      "Bash(node /tmp/snap-hero.mjs)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm exec *)",
+      "Bash(kill 84237)",
+      "Bash(curl -s -o /dev/null -w \"Hero img: HTTP %{http_code}\\\\n\" http://localhost:4321/assets/hero-visual.png)",
+      "Bash(git -c user.email=tiagov8@users.noreply.github.com -c user.name=tiagov8 commit -m 'Render original hero kanban+code composition as a PNG asset *)",
+      "Bash(git -c http.postBuffer=524288000 push)"
     ]
   }
 }
