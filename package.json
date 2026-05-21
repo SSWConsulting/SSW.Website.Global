@@ -9,6 +9,7 @@
     "build:local": "tinacms build --local --skip-cloud-checks -c \"astro build\"",
     "build:search": "tinacms search-index",
     "preview": "astro preview",
+    "preview:cf": "wrangler dev",
     "astro": "astro"
   },
   "dependencies": {

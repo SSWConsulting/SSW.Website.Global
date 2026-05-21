@@ -56,9 +56,18 @@ public/
 ## Dev workflow
 
 ```bash
-pnpm install        # native builds run automatically (allowBuilds is set)
-pnpm run dev        # Tina dev server (port 4001 GraphQL) + Astro (port 4321)
-pnpm run build      # Tina build + Astro build
+pnpm install          # native builds run automatically (pnpm.onlyBuiltDependencies)
+pnpm run dev          # Tina dev server (port 4001 GraphQL) + Astro (port 4321)
+pnpm run build        # production build (Tina + Astro); needs Tina cloud creds
+pnpm run build:local  # fully local build, no cloud creds
+```
+
+### Test the Cloudflare Workers runtime locally
+
+```bash
+# Serve the built site in the real Workers runtime (workerd) via wrangler dev —
+# exercises asset serving, the Tina SSR edit endpoint and bindings like CF does.
+pnpm run build:local && pnpm run preview:cf     # http://localhost:8787
 ```
 
 Visit `/admin/index.html` to open the Tina editor. Inline visual editing works on any element with a `data-tina-field` attribute.
