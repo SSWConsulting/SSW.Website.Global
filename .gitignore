@@ -45,16 +45,16 @@ node_modules/
 # Astro
 .astro
 
-# Don't allow lock files to be committed (This is for templates only)
-
-# Package Manager Lock Files
+# Package Manager Lock Files — commit pnpm-lock.yaml for reproducible CI/CD builds.
+# Ignore other PMs' lockfiles so only pnpm is the source of truth.
 package-lock.json
-pnpm-lock.yaml
 yarn.lock
-.yarn/cache
 bun.lockb
 deno.lock
 
 # builds
 .vercel
 dist
+
+# Claude Code — per-user local settings (keep personal perms/identities out of the repo)
+.claude/settings.local.json
