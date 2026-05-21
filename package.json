@@ -11,10 +11,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.13",
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
-    "@astrojs/vercel": "^9.0.5",
     "@tinacms/astro": "0.0.0-c724883-20260514062230",
     "astro": "^5.16.0"
   },

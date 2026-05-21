@@ -2,14 +2,14 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel';
+import cloudflare from '@astrojs/cloudflare';
 import tina from '@tinacms/astro/integration';
 
 // https://astro.build/config
 export default defineConfig({
-	site: process.env.SITE_URL || `https://${process.env.VERCEL_URL}`,
+	site: process.env.SITE_URL,
 	output: 'static',
-	adapter: vercel(),
+	adapter: cloudflare(),
 	redirects: { '/home': '/' },
 	integrations: [mdx(), sitemap(), tina()],
 	vite: {
