@@ -5,7 +5,7 @@
   "packageManager": "pnpm@10.28.2",
   "scripts": {
     "dev": "tinacms dev -c \"astro dev\"",
-    "build": "tinacms build --content=local --skip-cloud-checks && astro build",
+    "build": "NODE_OPTIONS=--max-old-space-size=4096 tinacms build --content=local --skip-cloud-checks && astro build",
     "build:local": "tinacms build --local --skip-cloud-checks -c \"astro build\"",
     "build:search": "tinacms search-index",
     "preview": "astro preview",
