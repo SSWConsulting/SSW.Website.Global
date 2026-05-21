@@ -40,6 +40,9 @@ importers:
       tinacms:
         specifier: 0.0.0-c724883-20260514062230
         version: 0.0.0-c724883-20260514062230(@types/node@25.9.1)(abstract-level@1.0.4)(immer@10.2.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.27.0)(slate-dom@0.114.0(slate@0.114.0))(slate@0.114.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@18.3.1))
+      wrangler:
+        specifier: 4.59.2
+        version: 4.59.2(@cloudflare/workers-types@4.20260520.1)
 
 packages:
 

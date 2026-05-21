@@ -22,7 +22,8 @@
   "devDependencies": {
     "@tinacms/cli": "0.0.0-c724883-20260514062230",
     "@types/node": "^25.1.0",
-    "tinacms": "0.0.0-c724883-20260514062230"
+    "tinacms": "0.0.0-c724883-20260514062230",
+    "wrangler": "4.59.2"
   },
   "pnpm": {
     "overrides": {
