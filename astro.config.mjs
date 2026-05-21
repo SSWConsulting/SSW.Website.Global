@@ -7,7 +7,9 @@ import tina from '@tinacms/astro/integration';
 
 // https://astro.build/config
 export default defineConfig({
-	site: process.env.SITE_URL,
+	// No custom domain yet — fall back to the Cloudflare Workers default host.
+	// Set SITE_URL (the real *.workers.dev URL or a custom domain) to override.
+	site: process.env.SITE_URL ?? 'https://ssw-website-global.workers.dev',
 	output: 'static',
 	adapter: cloudflare(),
 	redirects: { '/home': '/' },
