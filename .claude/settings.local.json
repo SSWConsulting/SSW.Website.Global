@@ -28,7 +28,10 @@
       "Bash(kill 84237)",
       "Bash(curl -s -o /dev/null -w \"Hero img: HTTP %{http_code}\\\\n\" http://localhost:4321/assets/hero-visual.png)",
       "Bash(git -c user.email=tiagov8@users.noreply.github.com -c user.name=tiagov8 commit -m 'Render original hero kanban+code composition as a PNG asset *)",
-      "Bash(git -c http.postBuffer=524288000 push)"
+      "Bash(git -c http.postBuffer=524288000 push)",
+      "Bash(git -c user.email=\"tiagov8@users.noreply.github.com\" -c user.name=\"tiagov8\" commit -m \"Replace starter README with SSW Global project README\")",
+      "Bash(npx @tinacms/cli init backend)",
+      "Bash(npx @tinacms/cli init backend --help)"
     ]
   }
 }

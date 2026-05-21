@@ -1,0 +1,9 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "ssw-website-global"
+compatibility_date = "2025-05-20"
+compatibility_flags = ["nodejs_compat"]
+main = "./dist/_worker.js/index.js"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"

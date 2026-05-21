@@ -4,6 +4,7 @@ allowBuilds:
   esbuild: true
   protobufjs: true
   sharp: true
+  workerd: true
 
 overrides:
   react: 18.3.1
