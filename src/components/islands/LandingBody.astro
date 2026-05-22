@@ -18,6 +18,23 @@ const parseAccentTitle = (s: string | null | undefined) => {
   return s.split(/\*\*([^*]+)\*\*/g).map((part, i) => ({ text: part, accent: i % 2 === 1 }));
 };
 const heroTitleParts = parseAccentTitle(hero?.title);
+
+// Parse [label](url) inline markdown links into render-ready segments.
+type InlinePart = { type: 'text'; value: string } | { type: 'link'; label: string; href: string };
+const parseInlineLinks = (s: string | null | undefined): InlinePart[] => {
+  if (!s) return [];
+  const out: InlinePart[] = [];
+  const re = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(s)) !== null) {
+    if (m.index > last) out.push({ type: 'text', value: s.slice(last, m.index) });
+    out.push({ type: 'link', label: m[1], href: m[2] });
+    last = m.index + m[0].length;
+  }
+  if (last < s.length) out.push({ type: 'text', value: s.slice(last) });
+  return out;
+};
 const stats = data.stats ?? [];
 const benefits = data.benefitsSection;
 const services = data.servicesSection;
@@ -147,7 +164,15 @@ const footer = data.footer;
         <div class="block-head">
           {benefits.kicker && <div class="section-kicker" data-tina-field={tinaField(benefits, 'kicker')}>{benefits.kicker}</div>}
           {benefits.title && <h2 class="section-title" data-tina-field={tinaField(benefits, 'title')}>{benefits.title}</h2>}
-          {benefits.lead && <p class="lead" data-tina-field={tinaField(benefits, 'lead')}>{benefits.lead}</p>}
+          {benefits.lead && (
+            <p class="lead" data-tina-field={tinaField(benefits, 'lead')}>
+              {parseInlineLinks(benefits.lead).map((part) =>
+                part.type === 'link'
+                  ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                  : <Fragment>{part.value}</Fragment>,
+              )}
+            </p>
+          )}
         </div>
         {benefits.items && benefits.items.length > 0 && (
           <div class="benefits-grid">
@@ -155,7 +180,13 @@ const footer = data.footer;
               <article class="benefit">
                 <div class="icon"><i class={`fa-solid ${b.icon ?? ''}`}></i></div>
                 <h3 data-tina-field={tinaField(b, 'title')}>{b.title}</h3>
-                <p data-tina-field={tinaField(b, 'description')}>{b.description}</p>
+                <p data-tina-field={tinaField(b, 'description')}>
+                  {parseInlineLinks(b.description).map((part) =>
+                    part.type === 'link'
+                      ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                      : <Fragment>{part.value}</Fragment>,
+                  )}
+                </p>
               </article>
             ))}
           </div>
@@ -179,7 +210,13 @@ const footer = data.footer;
                 <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
                 <div class="body">
                   <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
-                  <p data-tina-field={tinaField(s, 'description')}>{s.description}</p>
+                  <p data-tina-field={tinaField(s, 'description')}>
+                    {parseInlineLinks(s.description).map((part) =>
+                      part.type === 'link'
+                        ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                        : <Fragment>{part.value}</Fragment>,
+                    )}
+                  </p>
                 </div>
               </article>
             ))}
@@ -204,7 +241,13 @@ const footer = data.footer;
                 <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
                 <div class="step-num" data-tina-field={tinaField(s, 'stepLabel')}>{s.stepLabel}</div>
                 <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
-                <p data-tina-field={tinaField(s, 'description')}>{s.description}</p>
+                <p data-tina-field={tinaField(s, 'description')}>
+                  {parseInlineLinks(s.description).map((part) =>
+                    part.type === 'link'
+                      ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                      : <Fragment>{part.value}</Fragment>,
+                  )}
+                </p>
               </article>
             ))}
           </div>
@@ -229,7 +272,13 @@ const footer = data.footer;
                   <div class="badge-ico"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
                   <div>
                     <h4 data-tina-field={tinaField(r, 'title')}>{r.title}</h4>
-                    <p data-tina-field={tinaField(r, 'description')}>{r.description}</p>
+                    <p data-tina-field={tinaField(r, 'description')}>
+                      {parseInlineLinks(r.description).map((part) =>
+                        part.type === 'link'
+                          ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                          : <Fragment>{part.value}</Fragment>,
+                      )}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -368,7 +417,12 @@ const footer = data.footer;
             </div>
             <div class="field">
               <label for="f-message">Tell us about your project <span class="req">*</span></label>
-              <textarea id="f-message" name="message" required placeholder="What are you trying to build, modernize, or accelerate? Timelines and constraints are helpful."></textarea>
+              <textarea
+                id="f-message"
+                name="message"
+                required
+                placeholder={contact.form?.messagePlaceholder ?? 'What are you trying to build, modernize, or accelerate? Timelines, constraints, and current systems are helpful.'}
+              ></textarea>
             </div>
             <div class="form-actions">
               {contact.form?.privacy && (

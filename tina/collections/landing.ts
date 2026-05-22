@@ -285,6 +285,12 @@ export const LandingCollection: Collection = {
             { type: "string", name: "privacyLinkLabel", label: "Privacy link label" },
             { type: "string", name: "privacyLinkHref", label: "Privacy link URL" },
             { type: "string", name: "successText", label: "Success message" },
+            {
+              type: "string",
+              name: "messagePlaceholder",
+              label: "Message textarea placeholder",
+              ui: { component: "textarea" },
+            },
           ],
         },
         {
