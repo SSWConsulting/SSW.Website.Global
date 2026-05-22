@@ -62,8 +62,19 @@ const meta = data.meta;
       form.target = 'jotform-receiver';
       form.noValidate = true;
 
+      const SUBMIT_TIMEOUT_MS = 15000;
       let pendingSubmission = false;
+      let submitTimeoutId: ReturnType<typeof setTimeout> | null = null;
       const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+      const finishSubmission = () => {
+        pendingSubmission = false;
+        if (submitTimeoutId !== null) {
+          clearTimeout(submitTimeoutId);
+          submitTimeoutId = null;
+        }
+        if (submitBtn) submitBtn.disabled = false;
+      };
 
       form.addEventListener('submit', (e) => {
         if (!form.checkValidity()) {
@@ -81,14 +92,25 @@ const meta = data.meta;
         if (errorBox) errorBox.hidden = true;
         if (submitBtn) submitBtn.disabled = true;
         pendingSubmission = true;
+
+        // If the iframe never loads (ad blocker on submit.jotform.com, network
+        // drop, CSP refuses the navigation, etc.) the user would be stuck on a
+        // disabled button. Time out, re-enable, and surface the error UI so
+        // they can retry or fall back to email.
+        if (submitTimeoutId !== null) clearTimeout(submitTimeoutId);
+        submitTimeoutId = setTimeout(() => {
+          if (!pendingSubmission) return;
+          console.error('Contact form: Jotform iframe did not load within', SUBMIT_TIMEOUT_MS, 'ms');
+          if (errorBox) errorBox.hidden = false;
+          finishSubmission();
+        }, SUBMIT_TIMEOUT_MS);
       });
 
       receiver.addEventListener('load', () => {
         if (!pendingSubmission) return; // ignore the initial blank load
-        pendingSubmission = false;
         if (success) success.classList.add('visible');
         form.reset();
-        if (submitBtn) submitBtn.disabled = false;
+        finishSubmission();
       });
     }
   </script>
