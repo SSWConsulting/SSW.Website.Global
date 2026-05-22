@@ -34,9 +34,9 @@ The only things that are OK to hardcode are decorative chrome (icons, dots, divi
 
 - **Astro 5** — file-based routing under `src/pages/`, components in `src/components/`
 - **TinaCMS 3** (visual-editing canary) — `@tinacms/astro` integration, schema in `tina/`, content in `src/content/`
-- **pnpm 11** — package manager, native build approvals in `pnpm-workspace.yaml`
+- **pnpm 10** (pinned via `packageManager`) — package manager; native build approvals in `pnpm.onlyBuiltDependencies` (`package.json`)
 - **Font Awesome 6** for icons, **Inter** variable font, design tokens in `public/assets/colors_and_type.css`
-- Tina's local backend uses `better-sqlite3` (native); `sharp` powers Astro images. Both pre-approved in `pnpm-workspace.yaml`.
+- Tina's local backend uses `better-sqlite3` (native); `sharp` powers Astro images. Both pre-approved in `pnpm.onlyBuiltDependencies` (`package.json`).
 
 ## Where things live
 
@@ -72,9 +72,18 @@ public/
 ## Dev workflow
 
 ```bash
-pnpm install        # native builds run automatically (allowBuilds is set)
-pnpm run dev        # Tina dev server (port 4001 GraphQL) + Astro (port 4321)
-pnpm run build      # Tina build + Astro build
+pnpm install          # native builds run automatically (pnpm.onlyBuiltDependencies)
+pnpm run dev          # Tina dev server (port 4001 GraphQL) + Astro (port 4321)
+pnpm run build        # production build (Tina + Astro); needs Tina cloud creds
+pnpm run build:local  # fully local build, no cloud creds
+```
+
+### Test the Cloudflare Workers runtime locally
+
+```bash
+# Serve the built site in the real Workers runtime (workerd) via wrangler dev —
+# exercises asset serving, the Tina SSR edit endpoint and bindings like CF does.
+pnpm run build:local && pnpm run preview:cf     # http://localhost:8787
 ```
 
 Visit `/admin/index.html` to open the Tina editor. Inline visual editing works on any element with a `data-tina-field` attribute.
