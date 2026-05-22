@@ -287,6 +287,12 @@ export const LandingCollection: Collection = {
             { type: "string", name: "successText", label: "Success message" },
             {
               type: "string",
+              name: "messagePlaceholder",
+              label: "Message textarea placeholder",
+              ui: { component: "textarea" },
+            },
+            {
+              type: "string",
               name: "jotformId",
               label: "Jotform form ID",
               description:

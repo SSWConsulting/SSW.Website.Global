@@ -2,6 +2,22 @@
 
 Astro + TinaCMS site, pnpm. Visual editing branch of `tina-astro-starter`.
 
+## Every change goes through a PR — never push to `main`
+
+Work flows through GitHub, not direct local commits to `main`. For each task:
+
+1. Start from latest `main` (`git checkout main && git pull --ff-only`)
+2. Create a branch with a typed prefix: `feature/...`, `fix/...`, `chore/...`, `docs/...`
+3. Make the change, commit, push the branch
+4. Open a PR against `main` with `gh pr create --base main --head <branch> --title "…" --body-file <path>`
+5. Wait for automated reviews (Copilot, CodeRabbit) and address their feedback in follow-up commits on the same branch
+6. Treat the task as done only when the user merges the PR in GitHub
+7. After merge, `git checkout main && git pull && git branch -d <branch>` before starting the next task
+
+Don't bundle unrelated changes into one PR. If you spot something worth fixing while doing task A, open a separate branch + PR for it (or note it as a follow-up).
+
+The only exception is hotfixes the user explicitly authorises.
+
 ## The one rule that matters
 
 **Every piece of content on every page must be editable via the Tina editor (`/admin/`).** Never hardcode user-visible text, images, links, or list items into `.astro` files. If you're about to type a sentence the user might want to change later, stop and model it as a Tina field first.
