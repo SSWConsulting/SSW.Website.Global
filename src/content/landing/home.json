@@ -149,7 +149,7 @@
       {
         "icon": "fa-robot",
         "title": "AI-assisted software development",
-        "description": "Production-grade applications built with AI woven into the right parts of the workflow, including specs, code generation, QA, and review. Senior engineers guide the tooling so what you ship is fast to deliver, clean to maintain, and ready to scale. See SSW's rule on the [best workflow for AI-assisted development](https://www.ssw.com.au/rules/ai-assisted-development-workflow)."
+        "description": "Production-grade applications built with the [best AI-assisted development workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow), including specs, code generation, QA, and review. Senior engineers guide the tooling so what you ship is fast to deliver, clean to maintain, and ready to scale."
       },
       {
         "icon": "fa-arrows-rotate",
