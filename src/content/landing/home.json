@@ -328,12 +328,20 @@
     "columnTitle": "Company",
     "links": [
       {
-        "label": "Why SSW",
-        "href": "#why"
+        "label": "Capabilities",
+        "href": "#services"
       },
       {
         "label": "Approach",
         "href": "#how"
+      },
+      {
+        "label": "Why SSW",
+        "href": "#why"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
       },
       {
         "label": "Contact",
