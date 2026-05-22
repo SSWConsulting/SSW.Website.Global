@@ -105,3 +105,21 @@ When verifying inline editing, open `/admin/` and confirm: (a) the new fields ap
 ## Gotchas
 
 - **Every page must include `<ClientRouter />`** in the `<head>`. The Tina bridge listens on `astro:page-load` to re-sync forms; without it, the initial prime succeeds but live edits in the sidebar never reach the iframe. `Base.astro` already includes it via `BaseHead.astro` — pages that bypass Base (like a custom shell) must add `import { ClientRouter } from 'astro:transitions'` and render `<ClientRouter />` themselves.
+
+- **Tina Cloud's schema lags the repo.** Adding a new field to `tina/collections/*.ts` only takes effect locally with `pnpm run build:local` (uses `--local`, in-process datalayer against the repo). Cloudflare's `pnpm run build` script uses `--content=local --skip-cloud-checks`, but the generated GraphQL client still issues queries against Tina Cloud's schema at prerender time. If Tina Cloud doesn't know about the field, the query fails:
+
+  ```
+  [@tinacms/astro] client query failed
+    Cannot query field "<newField>" on type "<...>".
+  ```
+
+  `getLanding(...)` returns null, the route's `if (!data) return new Response('Not Found', { status: 404 })` fires, and the 9-byte "Not Found" body gets prerendered as `dist/<route>/index.html`. The deploy "succeeds" but the URL serves "Not Found".
+
+  **Symptoms to recognise:** the page returns HTTP 200 with `content-type: text/html` and a body that's literally `Not Found`. Other routes that don't query the new field still work, so it looks like a routing bug — but it's actually a Tina-side schema mismatch.
+
+  **Before pushing a PR that adds a new schema field:**
+  1. Reproduce the prod build locally — `rm -rf dist && SITE_URL=https://... pnpm run build` — and check `dist/<affected-route>/index.html` is real HTML, not the 9-byte body
+  2. If it errors with "Cannot query field", trigger a Tina Cloud schema sync (Settings → Rebuild on app.tina.io) *before* the Cloudflare deploy goes out
+  3. Or split it into two PRs: schema-only first (so Tina Cloud rebuilds), then a follow-up that reads the field
+
+  This bit us in PR #14 → #15 on 2026-05-22. See PR #15's description for the full incident.
