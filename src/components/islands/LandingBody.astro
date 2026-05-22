@@ -312,7 +312,29 @@ const footer = data.footer;
         </div>
 
         <div class="contact-grid">
-          <form class="form-card" id="contact-form" novalidate>
+          {/*
+            Submits directly to Jotform via a hidden iframe target. Native form
+            submission means no CORS preflight; the iframe's `load` event tells
+            the inline script that Jotform's thank-you page has rendered, which
+            we treat as success. Falls back to a Jotform-hosted thank-you page
+            if JS is disabled.
+          */}
+          <iframe
+            name="jotform-receiver"
+            id="jotform-receiver"
+            title="Form submission"
+            aria-hidden="true"
+            tabindex="-1"
+            style="position:absolute;width:0;height:0;border:0;visibility:hidden"
+          ></iframe>
+          <form
+            class="form-card"
+            id="contact-form"
+            novalidate
+            method="POST"
+            target="jotform-receiver"
+            action={contact.form?.jotformId ? `https://submit.jotform.com/submit/${contact.form.jotformId}/` : undefined}
+          >
             {contact.form && (
               <div class="form-header">
                 {contact.form.title && <h3 data-tina-field={tinaField(contact.form, 'title')}>{contact.form.title}</h3>}
@@ -370,6 +392,14 @@ const footer = data.footer;
               <label for="f-message">Tell us about your project <span class="req">*</span></label>
               <textarea id="f-message" name="message" required placeholder="What are you trying to build, modernize, or accelerate? Timelines and constraints are helpful."></textarea>
             </div>
+            <input
+              type="text"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+              style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"
+            />
             <div class="form-actions">
               {contact.form?.privacy && (
                 <div class="privacy" data-tina-field={tinaField(contact.form, 'privacy')}>
@@ -400,6 +430,10 @@ const footer = data.footer;
                 <div data-tina-field={tinaField(contact.form, 'successText')}>{contact.form.successText}</div>
               </div>
             )}
+            <div class="form-error" id="form-error" role="alert" hidden>
+              <i class="fa-solid fa-circle-exclamation" style="font-size:18px;"></i>
+              <div>Something went wrong. Please try again or email <a href="mailto:info@ssw.com">info@ssw.com</a>.</div>
+            </div>
           </form>
 
           {contact.asideItems && contact.asideItems.length > 0 && (

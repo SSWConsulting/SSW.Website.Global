@@ -36,19 +36,40 @@ const meta = data.meta;
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
+    // Submits to Jotform via a hidden iframe target. Native form submit avoids
+    // CORS preflight; we treat the iframe's load (post-submit) as success.
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const success = document.getElementById('form-success');
-    if (form && success) {
+    const errorBox = document.getElementById('form-error');
+    const receiver = document.getElementById('jotform-receiver') as HTMLIFrameElement | null;
+    if (form && success && receiver) {
+      let pendingSubmission = false;
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
       form.addEventListener('submit', (e) => {
-        e.preventDefault();
         if (!form.checkValidity()) {
+          e.preventDefault();
           form.reportValidity();
           return;
         }
+        if (!form.getAttribute('action')) {
+          e.preventDefault();
+          console.error('Contact form: no action set (missing jotformId)');
+          if (errorBox) errorBox.hidden = false;
+          return;
+        }
+        success.classList.remove('visible');
+        if (errorBox) errorBox.hidden = true;
+        if (submitBtn) submitBtn.disabled = true;
+        pendingSubmission = true;
+      });
+
+      receiver.addEventListener('load', () => {
+        if (!pendingSubmission) return; // ignore the initial blank load
+        pendingSubmission = false;
         success.classList.add('visible');
-        form.querySelectorAll('input, select, textarea').forEach((el) => {
-          (el as HTMLInputElement).value = '';
-        });
+        form.reset();
+        if (submitBtn) submitBtn.disabled = false;
       });
     }
   </script>
