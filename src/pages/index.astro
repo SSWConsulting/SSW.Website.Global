@@ -52,10 +52,13 @@ const meta = data.meta;
     // The iframe's `load` event after a submit means Jotform has rendered its
     // thank-you page inside it -- we treat that as success.
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const receiver = document.getElementById('jotform-receiver') as HTMLIFrameElement | null;
+    // Both `success` and `errorBox` are optional — they're only rendered when
+    // Tina content supplies the matching copy. Don't gate the form upgrade on
+    // them, or an editor blanking successText would break the iframe handoff.
     const success = document.getElementById('form-success');
     const errorBox = document.getElementById('form-error');
-    const receiver = document.getElementById('jotform-receiver') as HTMLIFrameElement | null;
-    if (form && success && receiver) {
+    if (form && receiver) {
       form.target = 'jotform-receiver';
       form.noValidate = true;
 
@@ -74,7 +77,7 @@ const meta = data.meta;
           if (errorBox) errorBox.hidden = false;
           return;
         }
-        success.classList.remove('visible');
+        if (success) success.classList.remove('visible');
         if (errorBox) errorBox.hidden = true;
         if (submitBtn) submitBtn.disabled = true;
         pendingSubmission = true;
@@ -83,7 +86,7 @@ const meta = data.meta;
       receiver.addEventListener('load', () => {
         if (!pendingSubmission) return; // ignore the initial blank load
         pendingSubmission = false;
-        success.classList.add('visible');
+        if (success) success.classList.add('visible');
         form.reset();
         if (submitBtn) submitBtn.disabled = false;
       });
