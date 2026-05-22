@@ -168,7 +168,7 @@ const footer = data.footer;
             <p class="lead" data-tina-field={tinaField(benefits, 'lead')}>
               {parseInlineLinks(benefits.lead).map((part) =>
                 part.type === 'link'
-                  ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                  ? <a href={part.href} target="_blank" rel="noopener noreferrer" class="content-link">{part.label}</a>
                   : <Fragment>{part.value}</Fragment>,
               )}
             </p>
@@ -183,7 +183,7 @@ const footer = data.footer;
                 <p data-tina-field={tinaField(b, 'description')}>
                   {parseInlineLinks(b.description).map((part) =>
                     part.type === 'link'
-                      ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                      ? <a href={part.href} target="_blank" rel="noopener noreferrer" class="content-link">{part.label}</a>
                       : <Fragment>{part.value}</Fragment>,
                   )}
                 </p>
@@ -213,7 +213,7 @@ const footer = data.footer;
                   <p data-tina-field={tinaField(s, 'description')}>
                     {parseInlineLinks(s.description).map((part) =>
                       part.type === 'link'
-                        ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                        ? <a href={part.href} target="_blank" rel="noopener noreferrer" class="content-link">{part.label}</a>
                         : <Fragment>{part.value}</Fragment>,
                     )}
                   </p>
@@ -244,7 +244,7 @@ const footer = data.footer;
                 <p data-tina-field={tinaField(s, 'description')}>
                   {parseInlineLinks(s.description).map((part) =>
                     part.type === 'link'
-                      ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                      ? <a href={part.href} target="_blank" rel="noopener noreferrer" class="content-link">{part.label}</a>
                       : <Fragment>{part.value}</Fragment>,
                   )}
                 </p>
@@ -275,7 +275,7 @@ const footer = data.footer;
                     <p data-tina-field={tinaField(r, 'description')}>
                       {parseInlineLinks(r.description).map((part) =>
                         part.type === 'link'
-                          ? <a href={part.href} target="_blank" rel="noopener noreferrer">{part.label}</a>
+                          ? <a href={part.href} target="_blank" rel="noopener noreferrer" class="content-link">{part.label}</a>
                           : <Fragment>{part.value}</Fragment>,
                       )}
                     </p>
@@ -435,7 +435,7 @@ const footer = data.footer;
                     return (
                       <>
                         {parts[0]}
-                        <a href={linkHref}>{linkLabel}</a>
+                        <a href={linkHref} class="content-link">{linkLabel}</a>
                         {parts[1] ?? ''}
                       </>
                     );
@@ -518,7 +518,7 @@ const footer = data.footer;
           {footer.termsLabel && (
             <>
               <span class="sep">·</span>
-              <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
+              <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" class="content-link" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
             </>
           )}
         </div>
