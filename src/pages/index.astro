@@ -40,13 +40,25 @@ const meta = data.meta;
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Submits to Jotform via a hidden iframe target. Native form submit avoids
-    // CORS preflight; we treat the iframe's load (post-submit) as success.
+    // Progressive enhancement for the Jotform contact form.
+    //
+    // Default (no JS): the <form> in the HTML is a plain action+method=POST,
+    // so the browser handles native validation, posts directly to Jotform,
+    // and the user lands on Jotform's hosted thank-you page. Functional but
+    // visually inconsistent.
+    //
+    // With JS: retarget submissions into the hidden iframe (so the user stays
+    // on our page) and add novalidate (so our handler owns error display).
+    // The iframe's `load` event after a submit means Jotform has rendered its
+    // thank-you page inside it -- we treat that as success.
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const success = document.getElementById('form-success');
     const errorBox = document.getElementById('form-error');
     const receiver = document.getElementById('jotform-receiver') as HTMLIFrameElement | null;
     if (form && success && receiver) {
+      form.target = 'jotform-receiver';
+      form.noValidate = true;
+
       let pendingSubmission = false;
       const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 

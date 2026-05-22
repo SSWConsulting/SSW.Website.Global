@@ -362,11 +362,14 @@ const footer = data.footer;
 
         <div class="contact-grid">
           {/*
-            Submits directly to Jotform via a hidden iframe target. Native form
-            submission means no CORS preflight; the iframe's `load` event tells
-            the inline script that Jotform's thank-you page has rendered, which
-            we treat as success. Falls back to a Jotform-hosted thank-you page
-            if JS is disabled.
+            Submits directly to Jotform. As shipped in HTML, this is a plain
+            <form action method=POST>: with JS off the browser does its own
+            required-field validation, posts straight to Jotform, and the user
+            ends up on Jotform's hosted thank-you page. The inline script in
+            src/pages/index.astro progressively enhances it by retargeting the
+            submission into the hidden iframe (so the user stays on our page
+            and sees our success UI) and adding novalidate so our JS owns
+            error display.
           */}
           <iframe
             name="jotform-receiver"
@@ -379,9 +382,7 @@ const footer = data.footer;
           <form
             class="form-card"
             id="contact-form"
-            novalidate
             method="POST"
-            target="jotform-receiver"
             action={contact.form?.jotformId ? `https://submit.jotform.com/submit/${contact.form.jotformId}/` : undefined}
           >
             {contact.form && (
