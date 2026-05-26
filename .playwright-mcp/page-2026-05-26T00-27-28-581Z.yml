@@ -1,0 +1,397 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "SSW home" [ref=e5] [cursor=pointer]:
+        - /url: "#top"
+        - img "SSW" [ref=e6]
+        - generic [ref=e7]: Americas
+      - navigation "Primary" [ref=e8]:
+        - generic [ref=e9]:
+          - link "Capabilities " [ref=e10] [cursor=pointer]:
+            - /url: "#services"
+            - text: Capabilities
+            - generic [ref=e11]: 
+          - menu:
+            - list:
+              - listitem:
+                - link " AI-assisted development AI throughout the SDLC":
+                  - /url: "#services"
+                  - generic:
+                    - generic: 
+                  - generic:
+                    - strong: AI-assisted development
+                    - text: AI throughout the SDLC
+              - listitem:
+                - link " Legacy modernization Cloud-native migrations":
+                  - /url: "#services"
+                  - generic:
+                    - generic: 
+                  - generic:
+                    - strong: Legacy modernization
+                    - text: Cloud-native migrations
+              - listitem:
+                - link " Custom applications Line-of-business tools":
+                  - /url: "#services"
+                  - generic:
+                    - generic: 
+                  - generic:
+                    - strong: Custom applications
+                    - text: Line-of-business tools
+              - listitem:
+                - link " Technical consulting Senior architecture advice":
+                  - /url: "#services"
+                  - generic:
+                    - generic: 
+                  - generic:
+                    - strong: Technical consulting
+                    - text: Senior architecture advice
+        - link "Approach" [ref=e13] [cursor=pointer]:
+          - /url: "#how"
+        - link "Why SSW" [ref=e15] [cursor=pointer]:
+          - /url: "#why"
+        - link "FAQ" [ref=e17] [cursor=pointer]:
+          - /url: "#faq"
+        - link "Contact" [ref=e19] [cursor=pointer]:
+          - /url: "#contact"
+      - link " Book a call" [ref=e21] [cursor=pointer]:
+        - /url: "#contact"
+        - generic [ref=e22]: 
+        - text: Book a call
+  - main [ref=e23]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]: Now serving the U.S. and Canada
+        - heading "Enterprise software, shipped at AI speed." [level=1] [ref=e29]:
+          - text: Enterprise software, shipped at
+          - emphasis [ref=e30]: AI speed
+          - text: .
+        - paragraph [ref=e31]: SSW builds production-grade applications for organizations across North America. Faster delivery, guided by AI-assisted development, Scrum discipline, and senior engineering oversight.
+        - generic [ref=e32]:
+          - link " Book a call" [ref=e33] [cursor=pointer]:
+            - /url: "#contact"
+            - generic [ref=e34]: 
+            - text: Book a call
+          - link "See how we work " [ref=e35] [cursor=pointer]:
+            - /url: "#how"
+            - text: See how we work
+            - generic [ref=e36]: 
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e40]: 
+            - generic [ref=e41]: 30+ years of enterprise software experience
+          - generic [ref=e42]:
+            - generic [ref=e44]: 
+            - generic [ref=e45]: North America-based Scrum Master
+          - generic [ref=e46]:
+            - generic [ref=e48]: 
+            - generic [ref=e49]: Two-week sprints with live demos
+      - img "Kanban board with AI-assisted code suggestions showing SSW's enterprise delivery workflow" [ref=e51]
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - text: "30"
+          - emphasis [ref=e57]: +
+        - generic [ref=e58]: Years building software for enterprises
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - text: "3"
+          - emphasis [ref=e61]: ×
+        - generic [ref=e62]: Typical delivery acceleration with AI-assisted workflows
+      - generic [ref=e63]:
+        - generic [ref=e64]:
+          - text: "200"
+          - emphasis [ref=e65]: +
+        - generic [ref=e66]: Senior consultants and engineers across our delivery network
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - text: "99.4"
+          - emphasis [ref=e69]: "%"
+        - generic [ref=e70]: Sprint commitments delivered on time
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]: Benefits
+        - heading "Move fast without breaking the things that matter." [level=2] [ref=e75]
+        - paragraph [ref=e76]:
+          - text: AI is a productivity multiplier, not a replacement for engineering judgment. We combine proven
+          - link "AI-assisted development practices" [ref=e77] [cursor=pointer]:
+            - /url: https://www.ssw.com.au/rules/rules-to-better-ai-development
+          - text: with the governance, quality standards, and Scrum discipline that enterprise teams expect.
+      - generic [ref=e78]:
+        - article [ref=e79]:
+          - generic [ref=e81]: 
+          - heading "Faster delivery" [level=3] [ref=e82]
+          - paragraph [ref=e83]: AI-assisted development helps compress weeks of work into days. We can spec, scaffold, and ship features in tighter loops without cutting corners.
+        - article [ref=e84]:
+          - generic [ref=e86]: 
+          - heading "Enterprise-grade quality" [level=3] [ref=e87]
+          - paragraph [ref=e88]: Every change is backed by code reviews, automated tests, security baselines, and architectural oversight from senior consultants.
+        - article [ref=e89]:
+          - generic [ref=e91]: 
+          - heading "North American communication" [level=3] [ref=e92]
+          - paragraph [ref=e93]: A dedicated North America-based Scrum Master runs your standups, sprint reviews, and stakeholder updates in your time zone.
+        - article [ref=e94]:
+          - generic [ref=e96]: 
+          - heading "Scrum-led delivery" [level=3] [ref=e97]
+          - paragraph [ref=e98]: Two-week sprints, demoable increments, and transparent burndowns. You always know what is being built, what is next, and when it will be ready.
+        - article [ref=e99]:
+          - generic [ref=e101]: 
+          - heading "Flexible team structure" [level=3] [ref=e102]
+          - paragraph [ref=e103]: Scale up or down with senior architects, hands-on engineers, and cost-effective delivery resources as the work demands.
+        - article [ref=e104]:
+          - generic [ref=e106]: 
+          - heading "Cost-effective scaling" [level=3] [ref=e107]
+          - paragraph [ref=e108]: Blended delivery models give you senior oversight where it matters most and efficient throughput where it makes sense.
+    - generic [ref=e110]:
+      - generic [ref=e111]:
+        - generic [ref=e112]: Capabilities
+        - heading "From a rapid prototype to a critical system of record." [level=2] [ref=e113]
+        - paragraph [ref=e114]: We work across the full lifecycle, from a Friday afternoon idea to a multi-year enterprise platform, with the same discipline and senior technical leadership.
+      - generic [ref=e115]:
+        - article [ref=e116]:
+          - generic [ref=e118]: 
+          - generic [ref=e119]:
+            - heading "AI-assisted software development" [level=3] [ref=e120]
+            - paragraph [ref=e121]:
+              - text: Production-grade applications built with the
+              - link "best AI-assisted development workflow" [ref=e122] [cursor=pointer]:
+                - /url: https://www.ssw.com.au/rules/ai-assisted-development-workflow
+              - text: ", including specs, code generation, QA, and review. Senior engineers guide the tooling so what you ship is fast to deliver, clean to maintain, and ready to scale."
+        - article [ref=e123]:
+          - generic [ref=e125]: 
+          - generic [ref=e126]:
+            - heading "Legacy app modernization" [level=3] [ref=e127]
+            - paragraph [ref=e128]: Modernize aging .NET, WinForms, and on-prem systems into secure, scalable cloud architectures without disrupting the business.
+        - article [ref=e129]:
+          - generic [ref=e131]: 
+          - generic [ref=e132]:
+            - heading "Custom business applications" [level=3] [ref=e133]
+            - paragraph [ref=e134]: Line-of-business tools that fit your operations, not the other way around. Built to integrate with your existing systems and workflows.
+        - article [ref=e135]:
+          - generic [ref=e137]: 
+          - generic [ref=e138]:
+            - heading "Technical consulting and architecture" [level=3] [ref=e139]
+            - paragraph [ref=e140]: Senior architects help you make high-leverage technical decisions before they become expensive to change.
+    - generic [ref=e142]:
+      - generic [ref=e143]:
+        - generic [ref=e144]: Approach
+        - heading "A predictable path from first call to live software." [level=2] [ref=e145]
+        - paragraph [ref=e146]: No discovery theater. No vague proposals. You will see a working increment in the first sprint.
+      - generic [ref=e147]:
+        - article [ref=e148]:
+          - generic [ref=e150]: 
+          - generic [ref=e151]: Step 01
+          - heading "Discovery call" [level=3] [ref=e152]
+          - paragraph [ref=e153]: A 30-minute conversation with a senior consultant. We discuss your goals, constraints, risks, and what success looks like.
+        - article [ref=e154]:
+          - generic [ref=e156]: 
+          - generic [ref=e157]: Step 02
+          - heading "Solution design" [level=3] [ref=e158]
+          - paragraph [ref=e159]: We scope the architecture, timeline, and team structure. You get a clear proposal, not a moving target.
+        - article [ref=e160]:
+          - generic [ref=e162]: 
+          - generic [ref=e163]: Step 03
+          - heading "Rapid AI-assisted build" [level=3] [ref=e164]
+          - paragraph [ref=e165]:
+            - text: Engineers ship features using AI-augmented workflows. Code is reviewed, tested, and deployed continuously. For early validation, see SSW's rule on using
+            - link "AI tools in prototype development" [ref=e166] [cursor=pointer]:
+              - /url: https://www.ssw.com.au/rules/ai-for-prototype-development
+            - text: .
+        - article [ref=e167]:
+          - generic [ref=e169]: 
+          - generic [ref=e170]: Step 04
+          - heading "Scrum-led iteration" [level=3] [ref=e171]
+          - paragraph [ref=e172]: Two-week sprints. Live demos. Transparent backlog. We iterate with you until the software is in production.
+    - generic [ref=e174]:
+      - generic [ref=e175]:
+        - generic [ref=e176]: Why SSW
+        - heading "A consulting partner built for the next decade of software." [level=2] [ref=e177]
+        - paragraph [ref=e178]: SSW has spent more than three decades shipping enterprise software for demanding teams. Now we are bringing that engineering discipline to AI-native delivery for clients across the U.S. and Canada.
+      - generic [ref=e179]:
+        - generic [ref=e180]:
+          - generic [ref=e181]:
+            - generic [ref=e183]: 
+            - generic [ref=e184]:
+              - heading "Experienced, right-sized teams" [level=4] [ref=e185]
+              - paragraph [ref=e186]: Senior architects, hands-on engineers, and dedicated Scrum Masters who have shipped complex software for banking, healthcare, government, and Fortune 500 clients. Right-sized for your phase and your budget.
+          - generic [ref=e187]:
+            - generic [ref=e189]: 
+            - generic [ref=e190]:
+              - heading "Proven Scrum process" [level=4] [ref=e191]
+              - paragraph [ref=e192]: Two-week sprints, working demos, and transparent commitments. Predictability is built into the process.
+          - generic [ref=e193]:
+            - generic [ref=e195]: 
+            - generic [ref=e196]:
+              - heading "Practical AI adoption" [level=4] [ref=e197]
+              - paragraph [ref=e198]:
+                - text: We use AI tooling that works in real production environments and skip the parts that do not. No hype, just measurable throughput. We also follow practical guidance such as avoiding
+                - link "automation bias" [ref=e199] [cursor=pointer]:
+                  - /url: https://www.ssw.com.au/rules/avoid-automation-bias
+                - text: ", so AI outputs are reviewed, challenged, and owned by the team."
+          - generic [ref=e200]:
+            - generic [ref=e202]: 
+            - generic [ref=e203]:
+              - heading "Strong engineering standards" [level=4] [ref=e204]
+              - paragraph [ref=e205]:
+                - text: Public coding rules, automated checks, mandatory code review, and a culture of continuous improvement. We also use AI where it helps quality, including
+                - link "automated code reviews on GitHub" [ref=e206] [cursor=pointer]:
+                  - /url: https://www.ssw.com.au/rules/automatic-code-reviews-github
+                - text: .
+          - generic [ref=e207]:
+            - generic [ref=e209]: 
+            - generic [ref=e210]:
+              - heading "Balance of quality, speed, and cost" [level=4] [ref=e211]
+              - paragraph [ref=e212]: Quality, speed, and cost need to work together. Most consultancies optimize for one. We help you move faster while keeping engineering standards high.
+        - complementary [ref=e213]:
+          - generic [ref=e214]:
+            - generic [ref=e215]: “
+            - blockquote [ref=e216]: SSW helped us streamline our development process by reducing complexity in our environment and increasing our development throughput. Their expertise, innovative approach, and access to SMEs across multiple disciplines enabled the project to exceed its goals. The work completed during the project, and the knowledge transferred to the BizCover team, set us on the right path to achieve our objectives.
+          - generic [ref=e217]:
+            - generic [ref=e218]: DT
+            - generic [ref=e219]:
+              - generic [ref=e220]: Dino T
+              - generic [ref=e221]: BizCover
+    - generic [ref=e224]:
+      - generic [ref=e225]:
+        - generic [ref=e226]: FAQs
+        - heading "Common questions about working with SSW." [level=2] [ref=e227]
+        - paragraph [ref=e228]: Short, direct answers to the questions we hear most often during a first call.
+        - generic [ref=e229]:
+          - generic [ref=e230]: Still have a question?
+          - heading "Talk to a senior consultant." [level=3] [ref=e231]
+          - paragraph [ref=e232]: Most calls take 30 minutes. You will leave with a clear next step, whether you work with us or not.
+          - link " Book a call" [ref=e234] [cursor=pointer]:
+            - /url: "#contact"
+            - generic [ref=e235]: 
+            - text: Book a call
+      - generic [ref=e236]:
+        - group [ref=e237]:
+          - generic "How should I choose an AI-assisted software development partner? +" [ref=e238] [cursor=pointer]:
+            - generic [ref=e239]: How should I choose an AI-assisted software development partner?
+            - generic [ref=e241]: +
+          - generic [ref=e242]:
+            - paragraph [ref=e243]: Choose a partner that has shipped production software, not just demos. Look for strong engineering practices, transparent delivery, and senior people who stay engaged through the entire build.
+            - paragraph [ref=e244]: AI tooling matters less than the discipline behind it. SSW combines AI-assisted workflows with more than three decades of enterprise consulting experience, so you get speed and accountability together.
+        - group [ref=e245]:
+          - generic "What are the benefits of working with SSW versus building in-house? +" [ref=e246] [cursor=pointer]:
+            - generic [ref=e247]: What are the benefits of working with SSW versus building in-house?
+            - generic [ref=e249]: +
+        - group [ref=e250]:
+          - generic "How does SSW combine AI speed with enterprise quality? +" [ref=e251] [cursor=pointer]:
+            - generic [ref=e252]: How does SSW combine AI speed with enterprise quality?
+            - generic [ref=e254]: +
+    - generic [ref=e256]:
+      - generic [ref=e257]:
+        - generic [ref=e258]: Contact
+        - heading "Book a call." [level=2] [ref=e259]
+        - paragraph [ref=e260]: Tell us a bit about your project. A senior consultant will get back to you within one business day.
+      - generic [ref=e261]:
+        - generic [ref=e262]:
+          - generic [ref=e263]:
+            - heading "Tell us about your project" [level=3] [ref=e264]
+            - paragraph [ref=e265]: Required fields are marked with a red asterisk.
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - generic [ref=e268]: Name *
+              - textbox "Name *" [ref=e269]:
+                - /placeholder: Jane Smith
+            - generic [ref=e270]:
+              - generic [ref=e271]: Company *
+              - textbox "Company *" [ref=e272]:
+                - /placeholder: Acme Inc.
+          - generic [ref=e274]:
+            - generic [ref=e275]: Work email *
+            - textbox "Work email *" [ref=e276]:
+              - /placeholder: jane@acme.com
+          - generic [ref=e277]:
+            - generic [ref=e278]:
+              - generic [ref=e279]: Country *
+              - combobox "Country *" [ref=e280]:
+                - option "Select a country" [selected]
+                - option "United States"
+                - option "Canada"
+                - option "Other"
+            - generic [ref=e281]:
+              - generic [ref=e282]: Project type *
+              - combobox "Project type *" [ref=e283]:
+                - option "Select project type" [selected]
+                - option "AI-assisted software development"
+                - option "Legacy app modernization"
+                - option "Custom business applications"
+                - option "Technical consulting and architecture"
+                - option "Not sure yet"
+          - generic [ref=e284]:
+            - generic [ref=e285]: Estimated budget
+            - combobox "Estimated budget" [ref=e286]:
+              - option "Select a range" [selected]
+              - option "Under $50K"
+              - option "$50K to $150K"
+              - option "$150K to $500K"
+              - option "$500K to $1M"
+              - option "$1M and above"
+              - option "Not sure yet"
+          - generic [ref=e287]:
+            - generic [ref=e288]: Tell us about your project *
+            - textbox "Tell us about your project *" [ref=e289]:
+              - /placeholder: What are you trying to build, modernize, or accelerate? Timelines, constraints, and current systems are helpful.
+          - generic [ref=e290]:
+            - generic [ref=e291]:
+              - text: By submitting, you agree to our
+              - link "privacy policy" [ref=e292] [cursor=pointer]:
+                - /url: "#"
+              - text: . We never share your information.
+            - button " Book a call" [ref=e293] [cursor=pointer]:
+              - generic [ref=e294]: 
+              - text: Book a call
+          - text: 
+        - complementary [ref=e295]:
+          - generic [ref=e296]:
+            - generic [ref=e298]: 
+            - generic [ref=e299]:
+              - heading "Americas" [level=4] [ref=e300]
+              - paragraph [ref=e301]: Local Scrum Master, with business hours coverage from Eastern to Pacific time.
+          - generic [ref=e302]:
+            - generic [ref=e304]: 
+            - generic [ref=e305]:
+              - heading "info@ssw.com" [level=4] [ref=e306]
+              - paragraph [ref=e307]: We reply to every inquiry within one business day.
+    - generic [ref=e309]:
+      - heading "Ship the next version of your software, faster." [level=2] [ref=e310]
+      - paragraph [ref=e311]: Talk to a senior consultant about your enterprise AI-assisted delivery plan. We will tell you what is realistic, what is risky, and what to do next.
+      - link " Book a call" [ref=e313] [cursor=pointer]:
+        - /url: "#contact"
+        - generic [ref=e314]: 
+        - text: Book a call
+  - contentinfo [ref=e315]:
+    - generic [ref=e316]:
+      - generic [ref=e317]:
+        - generic [ref=e318]:
+          - img "SSW" [ref=e319]
+          - paragraph [ref=e320]: SSW builds enterprise software with AI-assisted development and Scrum discipline for clients across the Americas.
+        - generic [ref=e321]:
+          - heading "Company" [level=5] [ref=e322]
+          - list [ref=e323]:
+            - listitem [ref=e324]:
+              - link "Capabilities" [ref=e325] [cursor=pointer]:
+                - /url: "#services"
+            - listitem [ref=e326]:
+              - link "Approach" [ref=e327] [cursor=pointer]:
+                - /url: "#how"
+            - listitem [ref=e328]:
+              - link "Why SSW" [ref=e329] [cursor=pointer]:
+                - /url: "#why"
+            - listitem [ref=e330]:
+              - link "FAQ" [ref=e331] [cursor=pointer]:
+                - /url: "#faq"
+            - listitem [ref=e332]:
+              - link "Contact" [ref=e333] [cursor=pointer]:
+                - /url: "#contact"
+      - generic [ref=e334]:
+        - generic [ref=e335]:
+          - text: © 1990–2026 SSW. All rights reserved. ·
+          - link "Terms & conditions" [ref=e336] [cursor=pointer]:
+            - /url: https://www.ssw.com.au/terms-and-conditions
+        - link "Built with TinaCMS TinaCMS" [ref=e337] [cursor=pointer]:
+          - /url: https://tina.io
+          - generic [ref=e338]: Built with
+          - img "TinaCMS" [ref=e339]
+          - strong [ref=e340]: TinaCMS
