@@ -97,6 +97,15 @@ const footer = data.footer;
 
   {hero && (
     <section class="hero">
+      {hero.image && (
+        <div
+          class="hero-bg"
+          role="img"
+          aria-label={hero.imageAlt ?? ''}
+          style={`--hero-image: url("${hero.image.replace(/"/g, '%22')}")`}
+          data-tina-field={tinaField(hero, 'image')}
+        ></div>
+      )}
       <div class="container hero-grid">
         <div class="hero-copy">
           {hero.eyebrow && (
@@ -131,12 +140,6 @@ const footer = data.footer;
             </div>
           )}
         </div>
-
-        {hero.image && (
-          <div class="hero-visual">
-            <img class="hero-image" src={hero.image} alt={hero.imageAlt ?? ''} data-tina-field={tinaField(hero, 'image')} />
-          </div>
-        )}
       </div>
     </section>
   )}
