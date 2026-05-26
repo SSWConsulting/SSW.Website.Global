@@ -99,8 +99,18 @@ export const LandingCollection: Collection = {
           ui: { itemProps: (item) => ({ label: item?.text }) },
           fields: [{ type: "string", name: "text", label: "Text" }],
         },
-        { type: "image", name: "image", label: "Hero image" },
-        { type: "string", name: "imageAlt", label: "Hero image alt text" },
+        {
+          type: "image",
+          name: "image",
+          label: "Hero background image",
+          description: "Rendered full-bleed behind the hero copy with a dark gradient + Ken Burns motion. Use a high-resolution (≥1920×1280) landscape photo with depth and dark/moody tones; the left third sits behind the headline and gets heavy overlay treatment.",
+        },
+        {
+          type: "string",
+          name: "imageAlt",
+          label: "Hero background alt text",
+          description: "Describe the photo for screen readers; the section uses role=\"img\" with this label.",
+        },
       ],
     },
 

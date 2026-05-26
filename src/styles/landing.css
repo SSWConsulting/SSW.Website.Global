@@ -287,54 +287,114 @@ h3 { margin: 0; }
   .nav-logo img { height: 36px; }
 }
 
+/* ───────────────────────── Hero
+   Full-bleed background image (set via --hero-image inline style from
+   the Tina-edited hero.image field). Three stacked layers stay under the
+   copy via isolation + z-index:
+     1. .hero-bg    — the photograph, slow Ken Burns scale+pan
+     2. ::before    — left-anchored dark gradient for text readability
+     3. ::after     — soft brand-red radial accent on the right edge
+   Light-on-dark copy lives in .hero-copy.
+   ──────────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  padding: clamp(72px, 10vw, 128px) 0 clamp(64px, 8vw, 96px);
+  padding: clamp(96px, 12vw, 160px) 0 clamp(96px, 12vw, 160px);
+  min-height: 78vh;
   overflow: hidden;
+  isolation: isolate;
+  background: var(--grey-900); /* fallback so it's never blinding white if the image fails to load */
+  color: #fff;
 }
+.hero-bg {
+  position: absolute;
+  inset: -4%;
+  background-image: var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  transform-origin: 60% 40%;
+  animation: hero-kenburns 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes hero-kenburns {
+  0%   { transform: scale(1)    translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg { animation: none; }
+}
+/* Dark gradient anchors strongest contrast on the left where the copy sits;
+   tapers toward the right so the photograph is still visible behind. */
 .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(15,15,18,0.92) 0%, rgba(15,15,18,0.78) 45%, rgba(15,15,18,0.40) 100%),
+    linear-gradient(180deg, rgba(15,15,18,0.45) 0%, rgba(15,15,18,0.65) 100%);
+  pointer-events: none;
+}
+/* Brand red radial accent — kept from the previous hero, repositioned. */
+.hero::after {
   content: "";
   position: absolute;
   inset: -200px -200px auto auto;
   width: 900px; height: 900px;
-  background: radial-gradient(closest-side, rgba(204,65,65,0.07), transparent 70%);
+  background: radial-gradient(closest-side, rgba(204,65,65,0.22), transparent 70%);
+  z-index: -1;
   pointer-events: none;
-  z-index: 0;
+  mix-blend-mode: screen;
 }
+
 .hero-grid {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(40px, 6vw, 80px);
   align-items: center;
 }
-@media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } }
-.hero-copy { display: flex; flex-direction: column; gap: 28px; }
-.hero-copy p.lead { font-size: clamp(18px, 1.7vw, 21px); }
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 720px;
+}
+.hero-copy p.lead { font-size: clamp(18px, 1.7vw, 21px); color: rgba(255,255,255,0.82); }
+.hero-copy .display { color: #fff; }
+.hero-copy .display em { color: var(--red-400); }
+.hero-copy .eyebrow {
+  color: #fff;
+  background: rgba(204,65,65,0.18);
+  border-color: rgba(204,65,65,0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.hero-copy .eyebrow .dot { background: var(--red-400); box-shadow: 0 0 0 4px rgba(224,97,97,0.22); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+/* On the dark hero, the secondary CTA needs an outline treatment so it
+   doesn't look like a missing-background bug. */
+.hero-copy .btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border-color: rgba(255,255,255,0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.hero-copy .btn-secondary:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.55); }
+
 .hero-meta { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 16px; }
-.hero-meta .item { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: var(--text-neutral); }
+.hero-meta .item { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: rgba(255,255,255,0.9); }
 .hero-meta .check-pill {
   width: 22px; height: 22px;
   border-radius: 50%;
-  background: var(--red-50);
-  color: var(--red-600);
+  background: rgba(204,65,65,0.22);
+  color: var(--red-300);
   display: grid; place-items: center;
   font-size: 11px;
   flex-shrink: 0;
-}
-
-.hero-visual {
-  position: relative;
-  aspect-ratio: 5 / 4;
-  min-height: 380px;
-}
-.hero-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: var(--radius-xl);
 }
 
 .stats {
