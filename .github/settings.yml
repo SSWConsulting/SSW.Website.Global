@@ -1,0 +1,75 @@
+# Synced to GitHub by https://probot.github.io/apps/settings/ via update-settings.yml
+
+repository:
+  name: SSW.Website.Global
+  description: SSW Global Website built with Astro + TinaCMS
+  homepage: https://ssw-website-global.workers.dev
+  topics: astro, tinacms, cloudflare-workers, ssw
+  private: false
+  has_issues: true
+  has_projects: true
+  has_wiki: false
+  has_downloads: false
+  default_branch: main
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: false
+  delete_branch_on_merge: true
+  enable_automated_security_fixes: true
+  enable_vulnerability_alerts: true
+
+labels:
+  - name: Good First Issue
+    color: '7057FF'
+
+  - name: 'Type: Bug'
+    color: 'FF2222'
+    description: A problem with existing functionality
+
+  - name: 'Type: DevOps'
+    color: '1D76DB'
+    description: Setting up of DevOps processes, e.g. GitHub Actions
+
+  - name: 'Type: Documentation'
+    color: 'BABABA'
+    description: Updating documentation (e.g. README, Wiki, Guides)
+
+  - name: 'Type: Feature'
+    color: '6DFF6D'
+    description: A suggested idea for this project
+
+  - name: 'Type: Refactor'
+    color: '0E8A16'
+    description: A code-quality improvement, e.g. tech debt
+
+  - name: 'Type: Dependencies'
+    color: 'FF2222'
+    description: Dependabot found dependencies to upgrade
+
+teams:
+  - name: sswdevelopers
+    permission: push
+  - name: ssw-website-maintainers
+    permission: maintain
+
+branches:
+  - name: main
+    protection:
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: false
+        require_code_owner_reviews: true
+        dismissal_restrictions:
+          users: []
+          teams: []
+      required_status_checks:
+        strict: false
+        contexts:
+          - 'Check linked issues'
+          - 'dependency-review'
+          - 'lint-code'
+          - 'build'
+          - 'CodeQL'
+      enforce_admins: false
+      required_linear_history: true
+      restrictions: null

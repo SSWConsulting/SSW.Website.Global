@@ -1,0 +1,67 @@
+name: PR - Deploy preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+concurrency:
+  group: deploy-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: write
+
+jobs:
+  deploy-preview:
+    name: Deploy preview
+    # Skip fork PRs — they cannot read repository secrets
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: pr-${{ github.event.number }}
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    env:
+      PREVIEW_WORKER_NAME: ssw-website-global-pr-${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: package.json
+          standalone: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build (Tina + Astro)
+        run: pnpm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+          SITE_URL: https://${{ env.PREVIEW_WORKER_NAME }}.${{ secrets.CLOUDFLARE_WORKERS_SUBDOMAIN }}.workers.dev
+
+      - name: Deploy preview Worker
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --name ${{ env.PREVIEW_WORKER_NAME }}
+
+      - name: Comment preview URL on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: preview-url
+          message: |
+            Preview deployed: <https://${{ env.PREVIEW_WORKER_NAME }}.${{ secrets.CLOUDFLARE_WORKERS_SUBDOMAIN }}.workers.dev/>
+
+            (Worker `${{ env.PREVIEW_WORKER_NAME }}` — auto-deleted when this PR closes.)

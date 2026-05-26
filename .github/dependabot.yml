@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'Type: Dependencies'
+    commit-message:
+      prefix: 'Actions'
+    rebase-strategy: auto
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'Type: Dependencies'
+    commit-message:
+      prefix: 'NPM'
+    rebase-strategy: auto
+    ignore:
+      # Tina canary releases use a pinned date-stamped version; let Hark bump these by hand
+      - dependency-name: '@tinacms/astro'
+      - dependency-name: '@tinacms/cli'
+      - dependency-name: 'tinacms'

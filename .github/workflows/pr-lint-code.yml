@@ -1,0 +1,36 @@
+name: PR - Lint code
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.event.number }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  lint-code:
+    name: lint-code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: package.json
+          standalone: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: ESLint
+        run: pnpm lint
+
+      - name: Prettier check
+        run: pnpm format:check

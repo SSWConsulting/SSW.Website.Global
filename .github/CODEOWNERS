@@ -1,0 +1,5 @@
+# Default owners for everything
+* @harkirat-singh
+
+# .github folder is owned by repo maintainers
+/.github @wicksipedia @GordonBeeming @tiagov8

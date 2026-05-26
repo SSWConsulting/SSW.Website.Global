@@ -1,0 +1,11 @@
+tina/__generated__
+tina/tina-lock.json
+.astro
+.wrangler
+.vercel
+dist
+node_modules
+pnpm-lock.yaml
+public/admin
+# Tina writes content files in its own format — leave them alone
+src/content

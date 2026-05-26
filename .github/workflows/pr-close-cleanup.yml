@@ -1,0 +1,49 @@
+name: PR - Cleanup preview
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  delete-preview:
+    name: Delete preview Worker
+    # Skip fork PRs — they cannot read repository secrets
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      PREVIEW_WORKER_NAME: ssw-website-global-pr-${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: package.json
+          standalone: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Delete preview Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: delete --name ${{ env.PREVIEW_WORKER_NAME }} --force
+
+      - name: Comment cleanup on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: preview-url
+          message: |
+            Preview Worker `${{ env.PREVIEW_WORKER_NAME }}` deleted.
