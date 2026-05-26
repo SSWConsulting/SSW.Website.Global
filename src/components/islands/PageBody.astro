@@ -15,8 +15,11 @@ const components: CustomComponentsMap = {
 	YouTubeEmbed,
 };
 ---
-{data?.body && (
-	<div data-tina-field={tinaField(data, 'body')} class="page-body">
-		<TinaMarkdown content={data.body} components={components} />
-	</div>
-)}
+
+{
+	data?.body && (
+		<div data-tina-field={tinaField(data, 'body')} class="page-body">
+			<TinaMarkdown content={data.body} components={components} />
+		</div>
+	)
+}

@@ -14,24 +14,26 @@ const config = (await getConfig()).data?.config ?? null;
 	<main>
 		<section>
 			<ul>
-				{posts.map((post) => {
-					const slug = post._sys?.relativePath?.replace(/\.mdx?$/, "") ?? "";
-					return (
-						<li>
-							<a href={`/blog/${slug}/`}>
-								{post.heroImage && (
-									<img width={720} height={360} src={post.heroImage} alt="" />
-								)}
-								<h4 class="title">{post.title}</h4>
-								{post.pubDate && (
-									<p class="date">
-										<FormattedDate date={new Date(post.pubDate)} />
-									</p>
-								)}
-							</a>
-						</li>
-					);
-				})}
+				{
+					posts.map((post) => {
+						const slug = post._sys?.relativePath?.replace(/\.mdx?$/, '') ?? '';
+						return (
+							<li>
+								<a href={`/blog/${slug}/`}>
+									{post.heroImage && (
+										<img width={720} height={360} src={post.heroImage} alt="" />
+									)}
+									<h4 class="title">{post.title}</h4>
+									{post.pubDate && (
+										<p class="date">
+											<FormattedDate date={new Date(post.pubDate)} />
+										</p>
+									)}
+								</a>
+							</li>
+						);
+					})
+				}
 			</ul>
 		</section>
 	</main>

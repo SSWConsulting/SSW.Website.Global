@@ -26,13 +26,15 @@ export default defineConfig({
 		build: {
 			rollupOptions: {
 				onwarn(warning, warn) {
-					if (warning.code === 'UNUSED_EXTERNAL_IMPORT' &&
-						warning.exporter === 'tinacms/dist/client') {
+					if (
+						warning.code === 'UNUSED_EXTERNAL_IMPORT' &&
+						warning.exporter === 'tinacms/dist/client'
+					) {
 						return;
 					}
 					warn(warning);
-				}
-			}
-		}
-	}
+				},
+			},
+		},
+	},
 });

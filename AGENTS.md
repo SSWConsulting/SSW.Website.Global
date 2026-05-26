@@ -23,6 +23,7 @@ The only exception is hotfixes the user explicitly authorises.
 **Every piece of content on every page must be editable via the Tina editor (`/admin/`).** Never hardcode user-visible text, images, links, or list items into `.astro` files. If you're about to type a sentence the user might want to change later, stop and model it as a Tina field first.
 
 This means:
+
 - New section → new fields in a Tina collection, new data in the matching content file, then read it in the component
 - New page → new collection (or new file in an existing collection) before any markup
 - Every rendered text node should have a `data-tina-field={tinaField(parent, 'fieldName')}` so inline editing works
@@ -119,7 +120,7 @@ When verifying inline editing, open `/admin/` and confirm: (a) the new fields ap
 
   **Before pushing a PR that adds a new schema field:**
   1. Reproduce the prod build locally — `rm -rf dist && SITE_URL=https://... pnpm run build` — and check `dist/<affected-route>/index.html` is real HTML, not the 9-byte body
-  2. If it errors with "Cannot query field", trigger a Tina Cloud schema sync (Settings → Rebuild on app.tina.io) *before* the Cloudflare deploy goes out
+  2. If it errors with "Cannot query field", trigger a Tina Cloud schema sync (Settings → Rebuild on app.tina.io) _before_ the Cloudflare deploy goes out
   3. Or split it into two PRs: schema-only first (so Tina Cloud rebuilds), then a follow-up that reads the field
 
   This bit us in PR #14 → #15 on 2026-05-22. See PR #15's description for the full incident.
