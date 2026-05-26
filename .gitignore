@@ -59,3 +59,4 @@ dist
 # Claude Code — per-user local settings (keep personal perms/identities out of the repo)
 .claude/settings.local.json
 .wrangler/
+.playwright-mcp/
