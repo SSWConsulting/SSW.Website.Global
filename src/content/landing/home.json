@@ -55,7 +55,7 @@
     "ctaHref": "#contact"
   },
   "hero": {
-    "eyebrow": "Now serving the U.S. and Canada",
+    "eyebrow": "From Idea to Production",
     "title": "Enterprise software, shipped at **AI speed**.",
     "lead": "SSW builds production-grade applications for organizations across North America. Faster delivery, guided by AI-assisted development, Scrum discipline, and senior engineering oversight.",
     "primaryCta": {
@@ -76,7 +76,7 @@
         "text": "North America-based Scrum Master"
       },
       {
-        "text": "Two-week sprints with live demos"
+        "text": "1-week Sprints with live demos"
       }
     ],
     "image": "/assets/hero-visual.png",
@@ -84,17 +84,12 @@
   },
   "stats": [
     {
-      "number": "30",
-      "suffix": "+",
-      "label": "Years building software for enterprises"
-    },
-    {
       "number": "3",
       "suffix": "×",
       "label": "Typical delivery acceleration with AI-assisted workflows"
     },
     {
-      "number": "200",
+      "number": "30",
       "suffix": "+",
       "label": "Senior consultants and engineers across our delivery network"
     },
