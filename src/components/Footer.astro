@@ -1,49 +1,38 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { ConfigQuery } from '../../tina/__generated__/types';
-import IconLink from './IconLink.astro';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type { ConfigQuery } from "../../tina/__generated__/types";
+import IconLink from "./IconLink.astro";
 
 interface Props {
-	config?: ConfigQuery['config'] | null;
+	config?: ConfigQuery["config"] | null;
 }
 
 const { config } = Astro.props;
 const seo = config?.seo ?? null;
-const contactLinks = (config?.contactLinks ?? []).filter(
-	(item) => item !== null
-);
+const contactLinks = (config?.contactLinks ?? []).filter((item) => item !== null);
 const today = new Date();
 ---
-
 <div class="tina-footer">
-	<div class="tina-banner-content">
-		<img src="/llama.svg" alt="Tina CMS Llama Logo" /><a
-			href="https://tina.io"
-			target="_blank"
-			rel="noopener noreferrer">Powered by TinaCMS</a
-		>
+	<div class="tina-banner-content"><img src="/llama.svg" alt="Tina CMS Llama Logo" /><a href="https://tina.io" target="_blank" rel="noopener noreferrer">Powered by TinaCMS</a>
 	</div>
 </div>
-<footer class="copyright-footer">
-	&copy; {today.getFullYear()}
-	<span data-tina-field={seo ? tinaField(seo, 'siteOwner') : undefined}
-		>{seo?.siteOwner}</span
-	>. All rights reserved.
-	<div class="social-links">
-		{
-			contactLinks.map((link) => (
+	<footer class="copyright-footer">
+		&copy; {today.getFullYear()}
+		<span data-tina-field={seo ? tinaField(seo, "siteOwner") : undefined}>{seo?.siteOwner}</span>. All rights reserved.
+		<div class="social-links">
+			{contactLinks.map((link) => (
 				<IconLink
 					title={link.title}
 					link={link.link}
 					icon={link.icon}
-					data-tina-field={tinaField(link, 'title')}
+					data-tina-field={tinaField(link, "title")}
 				/>
-			))
-		}
-	</div>
-</footer>
+			))}
+		</div>
+	</footer>
 
 <style>
+
 	.copyright-footer {
 		padding: 2em 1em 2em 1em;
 		background: linear-gradient(var(--gray-gradient)) no-repeat;
@@ -73,12 +62,7 @@ const today = new Date();
 		position: relative;
 		width: 100%;
 		overflow: hidden;
-		background-image: linear-gradient(
-			60deg,
-			#000000 0%,
-			#ec4815 50%,
-			#000000 100%
-		);
+		background-image: linear-gradient(60deg, #000000 0%,  #EC4815 50%, #000000 100%);
 		padding: 1.5em 0;
 	}
 
@@ -98,12 +82,7 @@ const today = new Date();
 		left: -50%;
 		width: 200%;
 		height: 100%;
-		background-image: linear-gradient(
-			60deg,
-			#1f1e24 25%,
-			#ec4815 50%,
-			#1f1e24 75%
-		);
+		background-image: linear-gradient(60deg, #1F1E24 25%,   #EC4815 50%, #1F1E24 75%);
 		transition: transform 1s ease-in-out;
 		z-index: 1;
 	}

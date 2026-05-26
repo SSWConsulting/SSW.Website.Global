@@ -15,129 +15,104 @@ const meta = data.meta;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>{meta?.title ?? 'SSW'}</title>
-		<meta name="description" content={meta?.description ?? ''} />
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-		<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
-		<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
-		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#cc4141" />
-		<link rel="shortcut icon" href="/favicon.ico" />
-		<link rel="stylesheet" href="/assets/colors_and_type.css" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-			integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		/>
-		<ClientRouter />
-	</head>
-	<body>
-		<TinaIsland
-			name="landing"
-			wrapper={islands.landing.wrapper}
-			params={{ slug }}
-			primary
-		>
-			<LandingBody data={data} />
-		</TinaIsland>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{meta?.title ?? 'SSW'}</title>
+  <meta name="description" content={meta?.description ?? ''} />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#cc4141" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/assets/colors_and_type.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <ClientRouter />
+</head>
+<body>
+  <TinaIsland name="landing" wrapper={islands.landing.wrapper} params={{ slug }} primary>
+    <LandingBody data={data} />
+  </TinaIsland>
 
-		<script>
-			const nav = document.getElementById('nav');
-			const onScroll = () => {
-				if (nav)
-					(nav as HTMLElement).dataset.scrolled =
-						window.scrollY > 12 ? 'true' : 'false';
-			};
-			window.addEventListener('scroll', onScroll, { passive: true });
-			onScroll();
+  <script>
+    const nav = document.getElementById('nav');
+    const onScroll = () => { if (nav) (nav as HTMLElement).dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-			// Progressive enhancement for the Jotform contact form.
-			//
-			// Default (no JS): the <form> in the HTML is a plain action+method=POST,
-			// so the browser handles native validation, posts directly to Jotform,
-			// and the user lands on Jotform's hosted thank-you page. Functional but
-			// visually inconsistent.
-			//
-			// With JS: retarget submissions into the hidden iframe (so the user stays
-			// on our page) and add novalidate (so our handler owns error display).
-			// The iframe's `load` event after a submit means Jotform has rendered its
-			// thank-you page inside it -- we treat that as success.
-			const form = document.getElementById(
-				'contact-form'
-			) as HTMLFormElement | null;
-			const receiver = document.getElementById(
-				'jotform-receiver'
-			) as HTMLIFrameElement | null;
-			// Both `success` and `errorBox` are optional — they're only rendered when
-			// Tina content supplies the matching copy. Don't gate the form upgrade on
-			// them, or an editor blanking successText would break the iframe handoff.
-			const success = document.getElementById('form-success');
-			const errorBox = document.getElementById('form-error');
-			if (form && receiver) {
-				form.target = 'jotform-receiver';
-				form.noValidate = true;
+    // Progressive enhancement for the Jotform contact form.
+    //
+    // Default (no JS): the <form> in the HTML is a plain action+method=POST,
+    // so the browser handles native validation, posts directly to Jotform,
+    // and the user lands on Jotform's hosted thank-you page. Functional but
+    // visually inconsistent.
+    //
+    // With JS: retarget submissions into the hidden iframe (so the user stays
+    // on our page) and add novalidate (so our handler owns error display).
+    // The iframe's `load` event after a submit means Jotform has rendered its
+    // thank-you page inside it -- we treat that as success.
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const receiver = document.getElementById('jotform-receiver') as HTMLIFrameElement | null;
+    // Both `success` and `errorBox` are optional — they're only rendered when
+    // Tina content supplies the matching copy. Don't gate the form upgrade on
+    // them, or an editor blanking successText would break the iframe handoff.
+    const success = document.getElementById('form-success');
+    const errorBox = document.getElementById('form-error');
+    if (form && receiver) {
+      form.target = 'jotform-receiver';
+      form.noValidate = true;
 
-				const SUBMIT_TIMEOUT_MS = 15000;
-				let pendingSubmission = false;
-				let submitTimeoutId: ReturnType<typeof setTimeout> | null = null;
-				const submitBtn = form.querySelector(
-					'button[type="submit"]'
-				) as HTMLButtonElement | null;
+      const SUBMIT_TIMEOUT_MS = 15000;
+      let pendingSubmission = false;
+      let submitTimeoutId: ReturnType<typeof setTimeout> | null = null;
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 
-				const finishSubmission = () => {
-					pendingSubmission = false;
-					if (submitTimeoutId !== null) {
-						clearTimeout(submitTimeoutId);
-						submitTimeoutId = null;
-					}
-					if (submitBtn) submitBtn.disabled = false;
-				};
+      const finishSubmission = () => {
+        pendingSubmission = false;
+        if (submitTimeoutId !== null) {
+          clearTimeout(submitTimeoutId);
+          submitTimeoutId = null;
+        }
+        if (submitBtn) submitBtn.disabled = false;
+      };
 
-				form.addEventListener('submit', (e) => {
-					if (!form.checkValidity()) {
-						e.preventDefault();
-						form.reportValidity();
-						return;
-					}
-					if (!form.getAttribute('action')) {
-						e.preventDefault();
-						console.error('Contact form: no action set (missing jotformId)');
-						if (errorBox) errorBox.hidden = false;
-						return;
-					}
-					if (success) success.classList.remove('visible');
-					if (errorBox) errorBox.hidden = true;
-					if (submitBtn) submitBtn.disabled = true;
-					pendingSubmission = true;
+      form.addEventListener('submit', (e) => {
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.reportValidity();
+          return;
+        }
+        if (!form.getAttribute('action')) {
+          e.preventDefault();
+          console.error('Contact form: no action set (missing jotformId)');
+          if (errorBox) errorBox.hidden = false;
+          return;
+        }
+        if (success) success.classList.remove('visible');
+        if (errorBox) errorBox.hidden = true;
+        if (submitBtn) submitBtn.disabled = true;
+        pendingSubmission = true;
 
-					// If the iframe never loads (ad blocker on submit.jotform.com, network
-					// drop, CSP refuses the navigation, etc.) the user would be stuck on a
-					// disabled button. Time out, re-enable, and surface the error UI so
-					// they can retry or fall back to email.
-					if (submitTimeoutId !== null) clearTimeout(submitTimeoutId);
-					submitTimeoutId = setTimeout(() => {
-						if (!pendingSubmission) return;
-						console.error(
-							'Contact form: Jotform iframe did not load within',
-							SUBMIT_TIMEOUT_MS,
-							'ms'
-						);
-						if (errorBox) errorBox.hidden = false;
-						finishSubmission();
-					}, SUBMIT_TIMEOUT_MS);
-				});
+        // If the iframe never loads (ad blocker on submit.jotform.com, network
+        // drop, CSP refuses the navigation, etc.) the user would be stuck on a
+        // disabled button. Time out, re-enable, and surface the error UI so
+        // they can retry or fall back to email.
+        if (submitTimeoutId !== null) clearTimeout(submitTimeoutId);
+        submitTimeoutId = setTimeout(() => {
+          if (!pendingSubmission) return;
+          console.error('Contact form: Jotform iframe did not load within', SUBMIT_TIMEOUT_MS, 'ms');
+          if (errorBox) errorBox.hidden = false;
+          finishSubmission();
+        }, SUBMIT_TIMEOUT_MS);
+      });
 
-				receiver.addEventListener('load', () => {
-					if (!pendingSubmission) return; // ignore the initial blank load
-					if (success) success.classList.add('visible');
-					form.reset();
-					finishSubmission();
-				});
-			}
-		</script>
-	</body>
+      receiver.addEventListener('load', () => {
+        if (!pendingSubmission) return; // ignore the initial blank load
+        if (success) success.classList.add('visible');
+        form.reset();
+        finishSubmission();
+      });
+    }
+  </script>
+</body>
 </html>
