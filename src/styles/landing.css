@@ -359,6 +359,20 @@ h3 { margin: 0; }
   color: var(--text-neutral-strong);
 }
 .stat .num em { font-style: normal; color: var(--red-500); }
+/* Optional qualifier rendered before the big number when the editor types
+   something like "up to 3" — keeps the display number bold while making the
+   qualifier read as a hedge, not part of the headline figure. */
+.stat .num-prefix {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-neutral-weak);
+  vertical-align: middle;
+  margin-right: 6px;
+  text-transform: lowercase;
+}
 .stat .label { margin-top: 8px; font-size: 16px; color: var(--text-neutral-weak); line-height: 1.45; }
 
 section.block { padding: var(--section-pad) 0; }

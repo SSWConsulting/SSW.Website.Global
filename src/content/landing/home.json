@@ -84,7 +84,7 @@
   },
   "stats": [
     {
-      "number": "3",
+      "number": "up to 3",
       "suffix": "×",
       "label": "Typical delivery acceleration with AI-assisted workflows"
     },
@@ -94,7 +94,7 @@
       "label": "Senior consultants and engineers across our delivery network"
     },
     {
-      "number": "99.4",
+      "number": "99",
       "suffix": "%",
       "label": "Sprint commitments delivered on time"
     }
