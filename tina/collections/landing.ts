@@ -285,6 +285,14 @@ export const LandingCollection: Collection = {
             { type: "string", name: "privacyLinkLabel", label: "Privacy link label" },
             { type: "string", name: "privacyLinkHref", label: "Privacy link URL" },
             { type: "string", name: "successText", label: "Success message" },
+            {
+              type: "string",
+              name: "jotformId",
+              label: "Jotform form ID",
+              required: true,
+              description:
+                "Numeric ID from https://form.jotform.com/{id}. Submissions POST to https://submit.jotform.com/submit/{id}/ — Jotform field names must match: name, company, email, country, project_type, budget, message. Required: without it the form cannot submit anywhere useful.",
+            },
           ],
         },
         {

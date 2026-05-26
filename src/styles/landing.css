@@ -595,6 +595,22 @@ section.block.sunken { background: var(--grey-50); }
 }
 .form-success.visible { display: flex; gap: 10px; align-items: center; }
 
+.form-error[hidden] { display: none; }
+.form-error {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 20px;
+  background: var(--red-50);
+  border: 1px solid var(--red-200);
+  border-radius: var(--radius-md);
+  color: var(--red-800);
+  font-size: 16px;
+  margin-top: 16px;
+}
+.form-error i { color: var(--red-500); flex-shrink: 0; }
+.form-error a { color: var(--red-700); text-decoration: underline; text-underline-offset: 2px; }
+
 .contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
 .contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
 .contact-aside .item:last-child { border-bottom: none; }

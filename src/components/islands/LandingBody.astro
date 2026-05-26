@@ -361,7 +361,38 @@ const footer = data.footer;
         </div>
 
         <div class="contact-grid">
-          <form class="form-card" id="contact-form" novalidate>
+          {/*
+            Submits directly to Jotform. As shipped in HTML, this is a plain
+            <form action method=POST>: with JS off the browser does its own
+            required-field validation, posts straight to Jotform, and the user
+            ends up on Jotform's hosted thank-you page. The inline script in
+            src/pages/index.astro progressively enhances it by retargeting the
+            submission into the hidden iframe (so the user stays on our page
+            and sees our success UI) and adding novalidate so our JS owns
+            error display.
+
+            The form is only rendered when jotformId is present in the Tina
+            content. Tina schema marks the field required so editors can't
+            clear it, but if it ever IS missing (broken deploy, partial
+            content, etc.) we render an email fallback instead of an
+            action-less form that would silently post back to this page.
+          */}
+          {contact.form?.jotformId ? (
+            <>
+              <iframe
+                name="jotform-receiver"
+                id="jotform-receiver"
+                title="Form submission"
+                aria-hidden="true"
+                tabindex="-1"
+                style="position:absolute;width:0;height:0;border:0;visibility:hidden"
+              ></iframe>
+              <form
+                class="form-card"
+                id="contact-form"
+                method="POST"
+                action={`https://submit.jotform.com/submit/${contact.form.jotformId}/`}
+              >
             {contact.form && (
               <div class="form-header">
                 {contact.form.title && <h3 data-tina-field={tinaField(contact.form, 'title')}>{contact.form.title}</h3>}
@@ -424,6 +455,14 @@ const footer = data.footer;
                 placeholder="What are you trying to build, modernize, or accelerate? Timelines, constraints, and current systems are helpful."
               ></textarea>
             </div>
+            <input
+              type="text"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+              style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"
+            />
             <div class="form-actions">
               {contact.form?.privacy && (
                 <div class="privacy" data-tina-field={tinaField(contact.form, 'privacy')}>
@@ -454,7 +493,20 @@ const footer = data.footer;
                 <div data-tina-field={tinaField(contact.form, 'successText')}>{contact.form.successText}</div>
               </div>
             )}
+            <div class="form-error" id="form-error" role="alert" hidden>
+              <i class="fa-solid fa-circle-exclamation" style="font-size:18px;"></i>
+              <div>Something went wrong. Please try again or email <a href="mailto:info@ssw.com">info@ssw.com</a>.</div>
+            </div>
           </form>
+            </>
+          ) : (
+            <div class="form-card form-card-fallback" role="alert">
+              <div class="form-header">
+                <h3>Contact form unavailable</h3>
+                <p>The form is temporarily offline. Please email <a href="mailto:info@ssw.com">info@ssw.com</a> and a senior consultant will get back to you within one business day.</p>
+              </div>
+            </div>
+          )}
 
           {contact.asideItems && contact.asideItems.length > 0 && (
             <aside class="contact-aside">
