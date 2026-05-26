@@ -25,14 +25,17 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
-      # Fully local Tina + Astro build — no Tina Cloud creds, no Cloudflare deploy.
-      # Catches schema/type/render breakage before the deploy workflows touch CF.
-      - name: Tina + Astro build (local)
-        run: pnpm run build:local
+      # Mirrors what Cloudflare Workers Builds runs on every push, so any
+      # Tina Cloud schema-sync or Astro render breakage shows up here first.
+      # Requires repo secrets: PUBLIC_TINA_CLIENT_ID, TINA_TOKEN.
+      - name: Tina + Astro build (CF parity)
+        run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+          PUBLIC_TINA_CLIENT_ID: ${{ secrets.PUBLIC_TINA_CLIENT_ID }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
