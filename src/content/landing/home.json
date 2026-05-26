@@ -84,7 +84,7 @@
   },
   "stats": [
     {
-      "number": "3",
+      "number": "up to 3",
       "suffix": "×",
       "label": "Typical delivery acceleration with AI-assisted workflows"
     },
@@ -94,7 +94,7 @@
       "label": "Senior consultants and engineers across our delivery network"
     },
     {
-      "number": "99.4",
+      "number": "99",
       "suffix": "%",
       "label": "Sprint commitments delivered on time"
     }
@@ -190,7 +190,7 @@
         "icon": "fa-rotate",
         "stepLabel": "Step 04",
         "title": "Live in production, improving weekly",
-        "description": "Production delivery is the start, not the finish. Your product goes live and keeps getting better — we iterate in 1-week Scrum sprints with live demos and a transparent backlog, shipping refinements, new features, and fixes on a predictable weekly cadence."
+        "description": "Going live is the start, not the finish. We keep improving in 1-week Scrum sprints — features, fixes, and refinements shipped weekly."
       }
     ]
   },

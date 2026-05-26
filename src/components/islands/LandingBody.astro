@@ -35,6 +35,15 @@ const parseInlineLinks = (s: string | null | undefined): InlinePart[] => {
   if (last < s.length) out.push({ type: 'text', value: s.slice(last) });
   return out;
 };
+// Split a stat number on the last space so editors can type 'up to 3' and the
+// 'up to' renders smaller before the display-sized number. No-prefix values
+// (e.g. '30', '99.4') return prefix='' and main is the original string.
+const splitStatNumber = (s: string | null | undefined) => {
+  const trimmed = (s ?? '').trim();
+  const i = trimmed.lastIndexOf(' ');
+  if (i === -1) return { prefix: '', main: trimmed };
+  return { prefix: trimmed.slice(0, i).trim(), main: trimmed.slice(i + 1).trim() };
+};
 const stats = data.stats ?? [];
 const benefits = data.benefitsSection;
 const services = data.servicesSection;
@@ -147,8 +156,17 @@ const footer = data.footer;
         <div class="stats-grid">
           {stats.map((s) => s && (
             <div class="stat">
-              <div class="num">
-                <span data-tina-field={tinaField(s, 'number')}>{s.number}</span><em data-tina-field={tinaField(s, 'suffix')}>{s.suffix}</em>
+              <div class="num" data-tina-field={tinaField(s, 'number')}>
+                {(() => {
+                  const { prefix, main } = splitStatNumber(s.number);
+                  return (
+                    <>
+                      {prefix && <span class="num-prefix">{prefix} </span>}
+                      <span class="num-main">{main}</span>
+                    </>
+                  );
+                })()}
+                <em data-tina-field={tinaField(s, 'suffix')}>{s.suffix}</em>
               </div>
               <div class="label" data-tina-field={tinaField(s, 'label')}>{s.label}</div>
             </div>
