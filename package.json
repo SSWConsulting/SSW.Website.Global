@@ -13,18 +13,18 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.13",
+    "@astrojs/cloudflare": "^13.1.10",
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
     "@tinacms/astro": "0.0.0-c724883-20260514062230",
-    "astro": "^5.16.0"
+    "astro": "^6.1.10"
   },
   "devDependencies": {
-    "@tinacms/cli": "0.0.0-c724883-20260514062230",
+    "@tinacms/cli": "2.1.8",
     "@types/node": "^25.1.0",
     "cross-env": "^7.0.3",
-    "tinacms": "0.0.0-c724883-20260514062230",
+    "tinacms": "3.1.1",
     "wrangler": "4.59.2"
   },
   "pnpm": {
