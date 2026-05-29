@@ -16,13 +16,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Detect non-content changes
         id: check_file_changed
         shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          diff=$(git diff --name-only HEAD^ HEAD)
+          # Diff full PR range, not just last commit, so multi-commit PRs
+          # don't get misclassified as content-only when the latest commit
+          # happens to only touch content.
+          diff=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
           source_diff=$(echo "$diff" | grep -Ev '^src/content/|^public/|^\.github/ISSUE_TEMPLATE/|^package\.json$|^pnpm-lock\.yaml$' || true)
           if [ -n "$source_diff" ]; then
             echo "hasCodeChanges=true" >> "$GITHUB_OUTPUT"

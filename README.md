@@ -39,7 +39,7 @@ The `PR - Build` workflow mirrors the production Cloudflare Workers Builds comma
 | `PUBLIC_TINA_CLIENT_ID` | [app.tina.io](https://app.tina.io) → Project → Overview |
 | `TINA_TOKEN` | [app.tina.io](https://app.tina.io) → Project → Tokens |
 
-Manage them at [Settings → Secrets and variables → Actions](https://github.com/SSWConsulting/SSW.Website.Global/settings/secrets/actions). Only users with **Admin** or **Maintain** permission on the repo can view or rotate them; the values are encrypted at rest and auto-masked in workflow logs.
+Manage them at [Settings → Secrets and variables → Actions](https://github.com/SSWConsulting/SSW.Website.Global/settings/secrets/actions). Only users with **Admin** or **Maintain** permission on the repo can create, update, or rotate them — GitHub never exposes the stored values back to anyone, including admins. Values are encrypted at rest and auto-masked in workflow logs.
 
 ## Contributing
 

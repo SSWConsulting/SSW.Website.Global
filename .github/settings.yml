@@ -1,4 +1,7 @@
-# Synced to GitHub by https://probot.github.io/apps/settings/ via update-settings.yml
+# Source of truth for repo metadata, labels, and branch protection.
+# Applied to GitHub on push to main by .github/workflows/update-settings.yml
+# (via GuacamoleResearch/actions-settings, the GitHub Actions port of the
+# Probot Settings app's schema).
 
 repository:
   name: SSW.Website.Global

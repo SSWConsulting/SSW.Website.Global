@@ -11,13 +11,17 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+  administration: write
+
 jobs:
   apply_settings:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
-      # Dry-run the PR's settings, log errors but don't apply
+      # PR runs: dry-run only — log errors, never apply
       - name: Dry-run settings (PR)
         id: dryrun
         continue-on-error: true
@@ -26,14 +30,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Reset to main before applying so the prod settings reflect main
-      - name: Checkout main
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v6
-        with:
-          ref: main
-
+      # Push to main / workflow_dispatch only — actually apply settings
       - name: Apply production repo settings
+        if: github.event_name != 'pull_request'
         uses: GuacamoleResearch/actions-settings@v3-beta-updates
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
