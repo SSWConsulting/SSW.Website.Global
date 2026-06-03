@@ -51,7 +51,7 @@
         "href": "#contact"
       }
     ],
-    "ctaLabel": "Book a call",
+    "ctaLabel": "Talk to us",
     "ctaHref": "#contact"
   },
   "hero": {
@@ -59,9 +59,9 @@
     "title": "Enterprise software, shipped at **AI speed**.",
     "lead": "SSW builds production-grade applications for organizations across North America. Faster delivery, guided by AI-assisted development, Scrum discipline, and senior engineering oversight.",
     "primaryCta": {
-      "label": "Book a call",
+      "label": "Talk to us",
       "href": "#contact",
-      "icon": "fa-regular fa-calendar"
+      "icon": "fa-regular fa-message"
     },
     "secondaryCta": {
       "label": "See how we work",
@@ -240,9 +240,9 @@
       "kicker": "Still have a question?",
       "title": "Talk to a senior consultant.",
       "description": "Most calls take 30 minutes. You will leave with a clear next step, whether you work with us or not.",
-      "ctaLabel": "Book a call",
+      "ctaLabel": "Talk to us",
       "ctaHref": "#contact",
-      "ctaIcon": "fa-regular fa-calendar"
+      "ctaIcon": "fa-regular fa-message"
     },
     "items": [
       {
@@ -314,9 +314,9 @@
   "ctaBanner": {
     "title": "Ship the next version of your software, faster.",
     "description": "Talk to a senior consultant about your enterprise AI-assisted delivery plan. We will tell you what is realistic, what is risky, and what to do next.",
-    "ctaLabel": "Book a call",
+    "ctaLabel": "Talk to us",
     "ctaHref": "#contact",
-    "ctaIcon": "fa-regular fa-calendar"
+    "ctaIcon": "fa-regular fa-message"
   },
   "footer": {
     "logo": "/assets/ssw-logo.png",
