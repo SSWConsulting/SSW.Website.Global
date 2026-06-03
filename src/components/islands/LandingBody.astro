@@ -431,9 +431,22 @@ const footer = data.footer;
               </div>
             </div>
             <div class="form-row">
-              <div class="field" style="grid-column: 1 / -1;">
+              <div class="field">
                 <label for="f-email">Work email <span class="req">*</span></label>
-                <input id="f-email" name="email" type="email" required placeholder="jane@acme.com" />
+                <input id="f-email" name="email" type="email" required placeholder="jane@acme.com" autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="f-phone">Phone (U.S. or Canada)</label>
+                <input
+                  id="f-phone"
+                  name="phone"
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="tel-national"
+                  placeholder="(555) 123-4567"
+                  aria-describedby="f-phone-hint"
+                />
+                <small id="f-phone-hint" class="field-hint">North American number, area code first</small>
               </div>
             </div>
             <div class="form-row">

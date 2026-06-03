@@ -644,6 +644,16 @@ section.block.sunken { background: var(--grey-50); }
   color: var(--text-neutral-weak);
 }
 .field label .req { color: var(--red-500); margin-left: 2px; }
+/* Small helper text that sits under an input. Used for the contact form's
+   phone field to clarify the expected North American format without
+   inflating the label. */
+.field-hint {
+  margin-top: -2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-neutral-weaker);
+  letter-spacing: 0;
+}
 .field input, .field select, .field textarea {
   font: inherit;
   font-size: 16px;

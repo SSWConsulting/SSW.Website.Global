@@ -290,8 +290,8 @@
     "form": {
       "title": "Tell us about your project",
       "description": "Required fields are marked with a red asterisk.",
-      "submitLabel": "Book a call",
-      "submitIcon": "fa-regular fa-calendar",
+      "submitLabel": "Get in touch",
+      "submitIcon": "fa-regular fa-paper-plane",
       "privacy": "By submitting, you agree to our {link}. We never share your information.",
       "privacyLinkLabel": "privacy policy",
       "privacyLinkHref": "#",
