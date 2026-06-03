@@ -285,12 +285,12 @@
   },
   "contactSection": {
     "kicker": "Contact",
-    "title": "Book a call.",
+    "title": "Get in touch.",
     "lead": "Tell us a bit about your project. A senior consultant will get back to you within one business day.",
     "form": {
       "title": "Tell us about your project",
       "description": "Required fields are marked with a red asterisk.",
-      "submitLabel": "Get in touch",
+      "submitLabel": "Send message",
       "submitIcon": "fa-regular fa-paper-plane",
       "privacy": "By submitting, you agree to our {link}. We never share your information.",
       "privacyLinkLabel": "privacy policy",
