@@ -9,6 +9,42 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 
+/* ───────────────────────── Scroll-reveal motion system
+   One shared motion vocabulary across the page: a 16px fade-up over
+   500ms with the existing --ease-out curve. Apply `class="reveal"` to
+   any element you want to animate in; an IntersectionObserver in
+   index.astro toggles `is-visible` when it enters the viewport, the
+   transition takes care of the rest. Use the --reveal-delay custom
+   property to stagger siblings inside a grid (handled in JSX with
+   `style={`--reveal-delay: ${i * 60}ms`}`).
+
+   The whole system is gated on `html.js` so without JavaScript every
+   .reveal stays at its natural state — no FOUC, no broken page.
+   Respects prefers-reduced-motion: reduce.
+   ──────────────────────────────────────────────────────────────────── */
+html.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal,
+  html.js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ───────────────────────── Inline content links
    Applied to <a> tags inside body copy (rule references inside descriptions,
    privacy policy link, footer T&C). Default state shows a muted underline so

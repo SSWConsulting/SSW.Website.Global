@@ -118,15 +118,15 @@ const footer = data.footer;
       <div class="container hero-grid">
         <div class="hero-copy">
           {hero.eyebrow && (
-            <span class="eyebrow" data-tina-field={tinaField(hero, 'eyebrow')}>
+            <span class="eyebrow reveal" style="--reveal-delay: 0ms" data-tina-field={tinaField(hero, 'eyebrow')}>
               <span class="dot"></span>{hero.eyebrow}
             </span>
           )}
-          <h1 class="display" data-tina-field={tinaField(hero, 'title')}>
+          <h1 class="display reveal" style="--reveal-delay: 80ms" data-tina-field={tinaField(hero, 'title')}>
             {heroTitleParts.map((part) => (part.accent ? <em>{part.text}</em> : <Fragment>{part.text}</Fragment>))}
           </h1>
-          {hero.lead && <p class="lead" data-tina-field={tinaField(hero, 'lead')}>{hero.lead}</p>}
-          <div class="hero-ctas">
+          {hero.lead && <p class="lead reveal" style="--reveal-delay: 160ms" data-tina-field={tinaField(hero, 'lead')}>{hero.lead}</p>}
+          <div class="hero-ctas reveal" style="--reveal-delay: 240ms">
             {hero.primaryCta && (
               <a href={hero.primaryCta.href ?? '#contact'} class="btn btn-primary btn-lg" data-tina-field={tinaField(hero.primaryCta, 'label')}>
                 {hero.primaryCta.icon && <i class={hero.primaryCta.icon}></i>} {hero.primaryCta.label}
@@ -139,7 +139,7 @@ const footer = data.footer;
             )}
           </div>
           {hero.checks && hero.checks.length > 0 && (
-            <div class="hero-meta">
+            <div class="hero-meta reveal" style="--reveal-delay: 320ms">
               {hero.checks.map((c) => c && (
                 <span class="item">
                   <span class="check-pill"><i class="fa-solid fa-check"></i></span>
@@ -157,8 +157,8 @@ const footer = data.footer;
     <div class="stats">
       <div class="container">
         <div class="stats-grid">
-          {stats.map((s) => s && (
-            <div class="stat">
+          {stats.map((s, i) => s && (
+            <div class="stat reveal" style={`--reveal-delay: ${i * 60}ms`}>
               <div class="num" data-tina-field={tinaField(s, 'number')}>
                 {(() => {
                   const { prefix, main } = splitStatNumber(s.number);
@@ -182,7 +182,7 @@ const footer = data.footer;
   {benefits && (
     <section class="block">
       <div class="container">
-        <div class="block-head">
+        <div class="block-head reveal">
           {benefits.kicker && <div class="section-kicker" data-tina-field={tinaField(benefits, 'kicker')}>{benefits.kicker}</div>}
           {benefits.title && <h2 class="section-title" data-tina-field={tinaField(benefits, 'title')}>{benefits.title}</h2>}
           {benefits.lead && (
@@ -197,8 +197,8 @@ const footer = data.footer;
         </div>
         {benefits.items && benefits.items.length > 0 && (
           <div class="benefits-grid">
-            {benefits.items.map((b) => b && (
-              <article class="benefit">
+            {benefits.items.map((b, i) => b && (
+              <article class="benefit reveal" style={`--reveal-delay: ${i * 60}ms`}>
                 <div class="icon"><i class={`fa-solid ${b.icon ?? ''}`}></i></div>
                 <h3 data-tina-field={tinaField(b, 'title')}>{b.title}</h3>
                 <p data-tina-field={tinaField(b, 'description')}>
@@ -219,15 +219,15 @@ const footer = data.footer;
   {services && (
     <section class="block sunken" id="services">
       <div class="container">
-        <div class="block-head">
+        <div class="block-head reveal">
           {services.kicker && <div class="section-kicker" data-tina-field={tinaField(services, 'kicker')}>{services.kicker}</div>}
           {services.title && <h2 class="section-title" data-tina-field={tinaField(services, 'title')}>{services.title}</h2>}
           {services.lead && <p class="lead" data-tina-field={tinaField(services, 'lead')}>{services.lead}</p>}
         </div>
         {services.items && services.items.length > 0 && (
           <div class="services-grid">
-            {services.items.map((s) => s && (
-              <article class="service">
+            {services.items.map((s, i) => s && (
+              <article class="service reveal" style={`--reveal-delay: ${i * 60}ms`}>
                 <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
                 <div class="body">
                   <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
@@ -250,15 +250,15 @@ const footer = data.footer;
   {how && (
     <section class="block" id="how">
       <div class="container">
-        <div class="block-head">
+        <div class="block-head reveal">
           {how.kicker && <div class="section-kicker" data-tina-field={tinaField(how, 'kicker')}>{how.kicker}</div>}
           {how.title && <h2 class="section-title" data-tina-field={tinaField(how, 'title')}>{how.title}</h2>}
           {how.lead && <p class="lead" data-tina-field={tinaField(how, 'lead')}>{how.lead}</p>}
         </div>
         {how.steps && how.steps.length > 0 && (
           <div class="steps">
-            {how.steps.map((s) => s && (
-              <article class="step">
+            {how.steps.map((s, i) => s && (
+              <article class="step reveal" style={`--reveal-delay: ${i * 80}ms`}>
                 <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
                 <div class="step-num" data-tina-field={tinaField(s, 'stepLabel')}>{s.stepLabel}</div>
                 <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
@@ -280,7 +280,7 @@ const footer = data.footer;
   {why && (
     <section class="block sunken" id="why">
       <div class="container">
-        <div class="block-head">
+        <div class="block-head reveal">
           {why.kicker && <div class="section-kicker" data-tina-field={tinaField(why, 'kicker')}>{why.kicker}</div>}
           {why.title && <h2 class="section-title" data-tina-field={tinaField(why, 'title')}>{why.title}</h2>}
           {why.lead && <p class="lead" data-tina-field={tinaField(why, 'lead')}>{why.lead}</p>}
@@ -288,8 +288,8 @@ const footer = data.footer;
         <div class="why-grid">
           {why.rows && why.rows.length > 0 && (
             <div class="why-list">
-              {why.rows.map((r) => r && (
-                <div class="why-row">
+              {why.rows.map((r, i) => r && (
+                <div class="why-row reveal" style={`--reveal-delay: ${i * 60}ms`}>
                   <div class="badge-ico"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
                   <div>
                     <h4 data-tina-field={tinaField(r, 'title')}>{r.title}</h4>
@@ -307,7 +307,7 @@ const footer = data.footer;
           )}
 
           {why.testimonial && (
-            <aside class="why-card">
+            <aside class="why-card reveal" style="--reveal-delay: 120ms">
               <div>
                 <div class="quote-mark">“</div>
                 <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>{why.testimonial.quote}</blockquote>
@@ -330,7 +330,7 @@ const footer = data.footer;
     <section class="block" id="faq">
       <div class="container">
         <div class="faq-grid">
-          <div class="faq-head">
+          <div class="faq-head reveal">
             {faq.kicker && <div class="section-kicker" data-tina-field={tinaField(faq, 'kicker')}>{faq.kicker}</div>}
             {faq.title && <h2 class="section-title" data-tina-field={tinaField(faq, 'title')}>{faq.title}</h2>}
             {faq.lead && <p class="lead" data-tina-field={tinaField(faq, 'lead')}>{faq.lead}</p>}
@@ -352,8 +352,8 @@ const footer = data.footer;
 
           {faq.items && faq.items.length > 0 && (
             <div class="faq-list">
-              {faq.items.map((item) => item && (
-                <details class="faq-item" open={item.openByDefault ?? false}>
+              {faq.items.map((item, i) => item && (
+                <details class="faq-item reveal" style={`--reveal-delay: ${i * 60}ms`} open={item.openByDefault ?? false}>
                   <summary>
                     <span data-tina-field={tinaField(item, 'question')}>{item.question}</span>
                     <span class="toggle"><i class="fa-solid fa-plus"></i></span>
@@ -375,7 +375,7 @@ const footer = data.footer;
   {contact && (
     <section class="block" id="contact">
       <div class="container">
-        <div class="block-head">
+        <div class="block-head reveal">
           {contact.kicker && <div class="section-kicker" data-tina-field={tinaField(contact, 'kicker')}>{contact.kicker}</div>}
           {contact.title && <h2 class="section-title" data-tina-field={tinaField(contact, 'title')}>{contact.title}</h2>}
           {contact.lead && <p class="lead" data-tina-field={tinaField(contact, 'lead')}>{contact.lead}</p>}
@@ -409,7 +409,7 @@ const footer = data.footer;
                 style="position:absolute;width:0;height:0;border:0;visibility:hidden"
               ></iframe>
               <form
-                class="form-card"
+                class="form-card reveal"
                 id="contact-form"
                 method="POST"
                 action={`https://submit.jotform.com/submit/${contact.form.jotformId}/`}
@@ -534,7 +534,7 @@ const footer = data.footer;
           </form>
             </>
           ) : (
-            <div class="form-card form-card-fallback" role="alert">
+            <div class="form-card form-card-fallback reveal" role="alert">
               <div class="form-header">
                 <h3>Contact form unavailable</h3>
                 <p>The form is temporarily offline. Please email <a href="mailto:info@ssw.com">info@ssw.com</a> and a senior consultant will get back to you within one business day.</p>
@@ -543,7 +543,7 @@ const footer = data.footer;
           )}
 
           {contact.asideItems && contact.asideItems.length > 0 && (
-            <aside class="contact-aside">
+            <aside class="contact-aside reveal" style="--reveal-delay: 120ms">
               {contact.asideItems.map((item) => item && (
                 <div class="item">
                   <div class="icon"><i class={`fa-solid ${item.icon ?? ''}`}></i></div>
@@ -563,10 +563,10 @@ const footer = data.footer;
   {ctaBanner && (
     <section class="cta-banner">
       <div class="container">
-        {ctaBanner.title && <h2 data-tina-field={tinaField(ctaBanner, 'title')}>{ctaBanner.title}</h2>}
-        {ctaBanner.description && <p data-tina-field={tinaField(ctaBanner, 'description')}>{ctaBanner.description}</p>}
+        {ctaBanner.title && <h2 class="reveal" style="--reveal-delay: 0ms" data-tina-field={tinaField(ctaBanner, 'title')}>{ctaBanner.title}</h2>}
+        {ctaBanner.description && <p class="reveal" style="--reveal-delay: 80ms" data-tina-field={tinaField(ctaBanner, 'description')}>{ctaBanner.description}</p>}
         {ctaBanner.ctaLabel && (
-          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <div class="reveal" style="--reveal-delay: 160ms; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
             <a href={ctaBanner.ctaHref ?? '#contact'} class="btn btn-primary btn-lg" data-tina-field={tinaField(ctaBanner, 'ctaLabel')}>
               {ctaBanner.ctaIcon && <i class={ctaBanner.ctaIcon}></i>} {ctaBanner.ctaLabel}
             </a>
@@ -581,11 +581,11 @@ const footer = data.footer;
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
+        <div class="footer-brand reveal" style="--reveal-delay: 0ms">
           {footer.logo && <img src={footer.logo} alt="SSW" data-tina-field={tinaField(footer, 'logo')} />}
           {footer.tagline && <p data-tina-field={tinaField(footer, 'tagline')}>{footer.tagline}</p>}
         </div>
-        <div class="footer-col">
+        <div class="footer-col reveal" style="--reveal-delay: 80ms">
           {footer.columnTitle && <h5 data-tina-field={tinaField(footer, 'columnTitle')}>{footer.columnTitle}</h5>}
           {footer.links && (
             <ul>

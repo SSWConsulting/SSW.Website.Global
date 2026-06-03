@@ -16,6 +16,9 @@ const meta = data.meta;
 <!doctype html>
 <html lang="en">
 <head>
+  {/* Mark JS as available before paint so `html.js .reveal` rules engage
+      and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely. */}
+  <script is:inline>document.documentElement.classList.add('js');</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{meta?.title ?? 'SSW'}</title>
@@ -39,6 +42,31 @@ const meta = data.meta;
     const onScroll = () => { if (nav) (nav as HTMLElement).dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // Scroll-reveal: every .reveal element fades up the first time it
+    // crosses ~15% into the viewport. Once revealed it stays revealed —
+    // the observer unobserves to avoid re-firing on scroll-out/in. Users
+    // who prefer reduced motion get everything visible immediately (the
+    // CSS rule already handles the static state; we just skip the observer).
+    const revealNodes = document.querySelectorAll('.reveal');
+    if (revealNodes.length > 0) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+        revealNodes.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+        );
+        revealNodes.forEach((el) => observer.observe(el));
+      }
+    }
 
     // Progressive enhancement for the Jotform contact form.
     //
