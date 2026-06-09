@@ -40,9 +40,11 @@ const FIELD_MAP: Record<string, string> = {
 	project_type: 'q7_projectType',
 	budget: 'q8_budget',
 	message: 'q9_tellUs',
-	// Jotform's Phone element submits as a composite; the [full] key carries the
-	// raw value when the form has masking enabled.
-	phone: 'q11_phoneNumber[full]',
+	// Phone is a plain Short Text on the Jotform form (not a Phone element), so
+	// it's a single value, not a composite phoneNumber[full] key. The q-number
+	// drifts whenever the field is recreated — re-curl form.jotform.com/<id>
+	// after any Jotform-side edit to confirm.
+	phone: 'q12_phoneNumber12',
 };
 
 const REQUIRED_FIELDS = ['name', 'email', 'company', 'country', 'project_type', 'message'];
