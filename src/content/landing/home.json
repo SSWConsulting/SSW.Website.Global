@@ -92,7 +92,7 @@
   "benefitsSection": {
     "kicker": "Benefits",
     "title": "What you get working with us.",
-    "lead": "AI accelerates delivery, while engineers ensure quality through code review, testing, and 1-week Scrum cadence. Learn more in our [rules to better AI development](https://www.ssw.com.au/rules/rules-to-better-ai-development).",
+    "lead": "AI accelerates delivery, while engineers ensure quality through code review, testing, and 1-week Scrum cadence. Learn more in our [Rules to Better AI-Assisted Development](https://www.ssw.com.au/rules/rules-to-better-ai-assisted-development).",
     "items": [
       {
         "icon": "fa-bolt",
