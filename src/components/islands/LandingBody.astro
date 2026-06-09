@@ -63,48 +63,65 @@ const footer = data.footer;
 
   {hero && (
     <section class="hero">
-      {hero.image && (
-        <div
-          class="hero-bg"
-          role="img"
-          aria-label={hero.imageAlt ?? ''}
-          style={`--hero-image: url("${hero.image.replace(/"/g, '%22')}")`}
-          data-tina-field={tinaField(hero, 'image')}
-        ></div>
-      )}
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          {hero.eyebrow && (
-            <span class="eyebrow reveal" style="--reveal-delay: 0ms" data-tina-field={tinaField(hero, 'eyebrow')}>
-              <span class="dot"></span>{hero.eyebrow}
-            </span>
+      <div class="container">
+        <div class="hero-frame">
+          {hero.image && (
+            <div
+              class="hero-bg"
+              role="img"
+              aria-label={hero.imageAlt ?? ''}
+              style={`--hero-image: url("${hero.image.replace(/"/g, '%22')}")`}
+              data-tina-field={tinaField(hero, 'image')}
+            ></div>
           )}
-          <h1 class="display reveal" style="--reveal-delay: 80ms" data-tina-field={tinaField(hero, 'title')}>
-            {heroTitleParts.map((part) => (part.accent ? <em>{part.text}</em> : <Fragment>{part.text}</Fragment>))}
-          </h1>
-          {hero.lead && <p class="lead reveal" style="--reveal-delay: 160ms" data-tina-field={tinaField(hero, 'lead')}>{hero.lead}</p>}
-          <div class="hero-ctas reveal" style="--reveal-delay: 240ms">
-            {hero.primaryCta && (
-              <a href={hero.primaryCta.href ?? '#contact'} class="btn btn-primary btn-lg" data-tina-field={tinaField(hero.primaryCta, 'label')}>
-                {hero.primaryCta.icon && <i class={hero.primaryCta.icon}></i>} {hero.primaryCta.label}
-              </a>
-            )}
-            {hero.secondaryCta && (
-              <a href={hero.secondaryCta.href ?? '#how'} class="btn btn-secondary btn-lg" data-tina-field={tinaField(hero.secondaryCta, 'label')}>
-                {hero.secondaryCta.label} {hero.secondaryCta.icon && <i class={hero.secondaryCta.icon}></i>}
-              </a>
-            )}
-          </div>
-          {hero.checks && hero.checks.length > 0 && (
-            <div class="hero-meta reveal" style="--reveal-delay: 320ms">
-              {hero.checks.map((c) => c && (
-                <span class="item">
-                  <span class="check-pill"><i class="fa-solid fa-check"></i></span>
-                  <span data-tina-field={tinaField(c, 'text')}>{c.text}</span>
-                </span>
-              ))}
+
+          {/* Decorative corner brackets — magazine/artboard framing chrome. */}
+          <span class="hero-corner tl" aria-hidden="true"></span>
+          <span class="hero-corner tr" aria-hidden="true"></span>
+          <span class="hero-corner bl" aria-hidden="true"></span>
+          <span class="hero-corner br" aria-hidden="true"></span>
+
+          {/* Top technical metadata strip. The eyebrow + region are editable;
+              the segmented bar marks and the "FRAME 12" tick are decorative. */}
+          <div class="hero-strip hero-strip-top">
+            <div class="strip-group">
+              {hero.eyebrow && <span class="strip-label" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>}
             </div>
-          )}
+            <div class="strip-group">
+              {nav?.region && <span class="strip-meta" data-tina-field={tinaField(nav, 'region')}>{nav.region}</span>}
+            </div>
+          </div>
+
+          {/* Center — big tracked display title + lead + CTAs */}
+          <div class="hero-center">
+            <h1 class="hero-title reveal" style="--reveal-delay: 80ms" data-tina-field={tinaField(hero, 'title')}>
+              {heroTitleParts.map((part) => (part.accent ? <em>{part.text}</em> : <Fragment>{part.text}</Fragment>))}
+            </h1>
+            {hero.lead && <p class="hero-lead reveal" style="--reveal-delay: 160ms" data-tina-field={tinaField(hero, 'lead')}>{hero.lead}</p>}
+            <div class="hero-ctas reveal" style="--reveal-delay: 240ms">
+              {hero.primaryCta && (
+                <a href={hero.primaryCta.href ?? '#contact'} class="btn btn-primary btn-lg" data-tina-field={tinaField(hero.primaryCta, 'label')}>
+                  {hero.primaryCta.icon && <i class={hero.primaryCta.icon}></i>} {hero.primaryCta.label}
+                </a>
+              )}
+              {hero.secondaryCta && (
+                <a href={hero.secondaryCta.href ?? '#how'} class="btn btn-secondary btn-lg" data-tina-field={tinaField(hero.secondaryCta, 'label')}>
+                  {hero.secondaryCta.label} {hero.secondaryCta.icon && <i class={hero.secondaryCta.icon}></i>}
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom technical metadata strip — editable spec tokens from
+              hero.checks, with a decorative segmented bar mark at the end. */}
+          <div class="hero-strip hero-strip-bottom">
+            {hero.checks && hero.checks.map((c, i) => c && (
+              <span class="strip-token">
+                <span class="tok-mark" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span data-tina-field={tinaField(c, 'text')}>{c.text}</span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
