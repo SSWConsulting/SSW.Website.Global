@@ -362,36 +362,35 @@ const footer = data.footer;
         <div class="contact-grid">
           {/*
             Submits directly to Jotform. As shipped in HTML, this is a plain
-            <form action method=POST>: with JS off the browser does its own
-            required-field validation, posts straight to Jotform, and the user
-            ends up on Jotform's hosted thank-you page. The inline script in
-            src/pages/index.astro progressively enhances it by retargeting the
-            submission into the hidden iframe (so the user stays on our page
-            and sees our success UI) and adding novalidate so our JS owns
-            error display.
+            <form action="/api/contact" method=POST>: with JS off the browser
+            does its own required-field validation and posts to our Astro API
+            route, which proxies to Jotform server-side and 303-redirects back
+            to /?contact=ok|err#contact. The inline script in
+            src/pages/index.astro progressively enhances it by intercepting
+            submit, POSTing JSON to the same endpoint via fetch(), and
+            inspecting the JSON response — so the success UI only fires when
+            Jotform actually accepted the payload, not when it returned a 400
+            error page (which the old iframe-target flow could not detect).
 
             The form is only rendered when jotformId is present in the Tina
             content. Tina schema marks the field required so editors can't
             clear it, but if it ever IS missing (broken deploy, partial
             content, etc.) we render an email fallback instead of an
             action-less form that would silently post back to this page.
+
+            The jotformId is sent as a hidden field so the proxy knows which
+            Jotform form to target — keeps the secret-free form ID in Tina
+            content rather than in a server-side env var.
           */}
           {contact.form?.jotformId ? (
             <>
-              <iframe
-                name="jotform-receiver"
-                id="jotform-receiver"
-                title="Form submission"
-                aria-hidden="true"
-                tabindex="-1"
-                style="position:absolute;width:0;height:0;border:0;visibility:hidden"
-              ></iframe>
               <form
                 class="form-card reveal"
                 id="contact-form"
                 method="POST"
-                action={`https://submit.jotform.com/submit/${contact.form.jotformId}/`}
+                action="/api/contact"
               >
+              <input type="hidden" name="jotformId" value={contact.form.jotformId} />
             {contact.form && (
               <div class="form-header">
                 {contact.form.title && <h3 data-tina-field={tinaField(contact.form, 'title')}>{contact.form.title}</h3>}
