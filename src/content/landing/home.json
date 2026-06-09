@@ -5,7 +5,7 @@
   },
   "nav": {
     "logo": "/assets/ssw-logo.png",
-    "region": "Americas",
+    "region": "North America-based Scrum Masters",
     "capabilitiesLabel": "Capabilities",
     "capabilities": [
       {
@@ -68,17 +68,7 @@
       "href": "#how",
       "icon": "fa-solid fa-arrow-right"
     },
-    "checks": [
-      {
-        "text": "30+ years of enterprise software experience"
-      },
-      {
-        "text": "North America-based Scrum Master"
-      },
-      {
-        "text": "1-week Sprints with live demos"
-      }
-    ],
+    "checks": [],
     "image": "",
     "imageAlt": "Developer working on AI-assisted code, dark editor screen"
   },

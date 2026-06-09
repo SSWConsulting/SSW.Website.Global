@@ -113,15 +113,19 @@ const footer = data.footer;
           </div>
 
           {/* Bottom technical metadata strip — editable spec tokens from
-              hero.checks, with a decorative segmented bar mark at the end. */}
-          <div class="hero-strip hero-strip-bottom">
-            {hero.checks && hero.checks.map((c, i) => c && (
-              <span class="strip-token">
-                <span class="tok-mark" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span data-tina-field={tinaField(c, 'text')}>{c.text}</span>
-              </span>
-            ))}
-          </div>
+              hero.checks, with a decorative segmented bar mark at the end.
+              Hidden entirely when no checks are configured so the hero frame
+              doesn't reserve empty space at the bottom. */}
+          {hero.checks && hero.checks.length > 0 && (
+            <div class="hero-strip hero-strip-bottom">
+              {hero.checks.map((c, i) => c && (
+                <span class="strip-token">
+                  <span class="tok-mark" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <span data-tina-field={tinaField(c, 'text')}>{c.text}</span>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
