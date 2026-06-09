@@ -461,10 +461,15 @@ h3 { margin: 0; }
   --hero-ink-dim: rgba(237,237,237,0.45);
   --hero-line: rgba(237,237,237,0.14);
   position: relative;
-  padding: clamp(20px, 3vw, 36px) 0 clamp(64px, 8vw, 112px);
+  padding: clamp(20px, 3vw, 36px) 0 clamp(28px, 4vw, 48px);
   background: var(--bg-base);
   color: var(--hero-ink);
 }
+/* The bottom padding inside the frame is intentionally larger than the top,
+   so the CTA buttons sit comfortably above the bracket-corner border rather
+   than crowding it. PR #36 originally put this breathing room on .hero
+   (outside the frame); it belongs inside, below the CTAs, so the framed
+   panel itself reads as having generous bottom whitespace. */
 .hero-frame {
   position: relative;
   isolation: isolate;
@@ -472,7 +477,7 @@ h3 { margin: 0; }
   border: 1px solid var(--hero-line);
   border-radius: 14px;
   background: var(--hero-field);
-  padding: clamp(16px, 2vw, 24px) clamp(20px, 3.5vw, 44px);
+  padding: clamp(16px, 2vw, 24px) clamp(20px, 3.5vw, 44px) clamp(64px, 8vw, 112px);
   min-height: clamp(320px, 42vh, 440px);
   display: flex;
   flex-direction: column;
