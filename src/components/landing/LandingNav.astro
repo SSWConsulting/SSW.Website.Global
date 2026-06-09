@@ -1,0 +1,70 @@
+---
+/**
+ * Site-wide navigation sourced from the landing collection's `nav` block.
+ * Used by both the home page (inside LandingBody for live Tina editing)
+ * and the Landing layout (for internal pages like /privacy and /about).
+ *
+ * Anchor-only hrefs (e.g. "#how") are normalised to "/#how" so they work
+ * from any page, not just the home where the targets exist.
+ */
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { LandingQuery } from '../../../tina/__generated__/types';
+
+interface Props {
+  nav: LandingQuery['landing']['nav'];
+}
+const { nav } = Astro.props;
+
+const anchorHref = (href: string | null | undefined): string => {
+  if (!href) return '#';
+  if (href.startsWith('#')) return `/${href}`;
+  return href;
+};
+---
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="/#top" class="nav-logo" aria-label="SSW home">
+      {nav?.logo && <img src={nav.logo} alt="SSW" data-tina-field={nav ? tinaField(nav, 'logo') : undefined} />}
+      {nav?.region && <span class="region" data-tina-field={tinaField(nav, 'region')}>{nav.region}</span>}
+    </a>
+    {nav && (
+      <nav class="nav-links" aria-label="Primary">
+        <div class="nav-item">
+          <a href={anchorHref('#services')} data-tina-field={tinaField(nav, 'capabilitiesLabel')}>
+            {nav.capabilitiesLabel} <i class="fa-solid fa-chevron-down caret"></i>
+          </a>
+          {nav.capabilities && nav.capabilities.length > 0 && (
+            <div class="nav-dropdown" role="menu">
+              <ul>
+                {nav.capabilities.map((cap) => cap && (
+                  <li>
+                    <a href={anchorHref(cap.href ?? '#services')}>
+                      <span class="ico"><i class={`fa-solid ${cap.icon ?? ''}`}></i></span>
+                      <span>
+                        <strong data-tina-field={tinaField(cap, 'title')}>{cap.title}</strong>
+                        <span data-tina-field={tinaField(cap, 'description')}>{cap.description}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        {nav.links?.map((link) => link && (
+          <div class="nav-item">
+            <a href={anchorHref(link.href ?? '#')} data-tina-field={tinaField(link, 'label')}>{link.label}</a>
+          </div>
+        ))}
+      </nav>
+    )}
+    {nav?.ctaLabel && (
+      <div class="nav-cta">
+        <a href={anchorHref(nav.ctaHref ?? '#contact')} class="btn btn-primary" data-tina-field={tinaField(nav, 'ctaLabel')}>
+          <i class="fa-regular fa-message"></i> {nav.ctaLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</header>

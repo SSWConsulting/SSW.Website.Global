@@ -16,7 +16,11 @@ const components: CustomComponentsMap = {
 };
 ---
 {data?.body && (
-	<div data-tina-field={tinaField(data, 'body')} class="page-body">
-		<TinaMarkdown content={data.body} components={components} />
-	</div>
+	<main class="page-shell" id="top">
+		<div class="container">
+			<article data-tina-field={tinaField(data, 'body')} class="page-body">
+				<TinaMarkdown content={data.body} components={components} />
+			</article>
+		</div>
+	</main>
 )}

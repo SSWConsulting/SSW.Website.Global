@@ -1,10 +1,25 @@
 ---
+/**
+ * Default layout for non-home pages (about, privacy, blog posts, etc.).
+ *
+ * Renders the same nav + footer the home page uses by pulling them
+ * from the `landing` collection. The page content slots in as <main>.
+ *
+ * Internal pages get the landing's design tokens (Inter font, brand
+ * red, the landing.css aesthetic) and the new favicons. The base
+ * typography for markdown body content lives in landing.css under
+ * `.page-body` so prose rendered via PageBody / BlogBody picks up
+ * appropriate spacing and sizing.
+ *
+ * Nav and footer are not wrapped in a Tina island here — editing them
+ * on internal pages won't live-preview; editors do that work from the
+ * home page where they ARE inside the Tina island and re-render on
+ * each keystroke.
+ */
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import TinaIsland from '@tinacms/astro/TinaIsland.astro';
-import { getConfig } from '../lib/data';
-import { islands } from '../lib/islands';
+import LandingNav from '../components/landing/LandingNav.astro';
+import LandingFooter from '../components/landing/LandingFooter.astro';
+import { getLanding } from '../lib/data';
 
 interface Props {
 	title: string;
@@ -13,21 +28,18 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
-const config = (await getConfig()).data?.config ?? null;
+const landing = (await getLanding('home')).data?.landing ?? null;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
+		<script is:inline>document.documentElement.classList.add('js');</script>
 		<BaseHead title={title} description={description} image={image} />
 	</head>
 	<body>
-		<TinaIsland name="global" wrapper={islands.global.wrapper}>
-			<Header config={config} />
-		</TinaIsland>
+		<LandingNav nav={landing?.nav} />
 		<slot />
-		<TinaIsland name="global-footer" wrapper={islands['global-footer'].wrapper}>
-			<Footer config={config} />
-		</TinaIsland>
+		<LandingFooter footer={landing?.footer} />
 	</body>
 </html>
