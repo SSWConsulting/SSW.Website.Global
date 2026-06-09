@@ -151,8 +151,9 @@ html.js .reveal.is-visible {
 /* ───────────────────────── Inline content links
    Applied to <a> tags inside body copy (rule references inside descriptions,
    privacy policy link, footer T&C). Default state shows a muted underline so
-   the link is discoverable without shouting; hover/focus lifts color and
-   underline to the brand red with a subtle thickness + offset bump.
+   the link is discoverable without shouting; hover/focus only lifts color
+   and underline tint to the brand red — no thickness or offset jump. A
+   single soft transition keeps the colour swap from snapping.
    ──────────────────────────────────────────────────────────────────────── */
 .content-link {
   color: var(--text-neutral);
@@ -162,18 +163,16 @@ html.js .reveal.is-visible {
   text-underline-offset: 3px;
   text-decoration-skip-ink: auto;
   border-radius: 2px;
+  /* Single subtle colour transition. Underline thickness and offset stay
+     fixed across all states, so they don't need transitions of their own. */
   transition:
-    color var(--duration-fast) var(--ease-out),
-    text-decoration-color var(--duration-normal) var(--ease-out),
-    text-decoration-thickness var(--duration-normal) var(--ease-out),
-    text-underline-offset var(--duration-normal) var(--ease-out);
+    color var(--duration-normal) var(--ease-out),
+    text-decoration-color var(--duration-normal) var(--ease-out);
 }
 .content-link:hover,
 .content-link:focus-visible {
   color: var(--red-600);
   text-decoration-color: var(--red-500);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
 }
 .content-link:active {
   color: var(--red-700);
