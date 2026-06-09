@@ -57,7 +57,7 @@
   "hero": {
     "eyebrow": "From Idea to Production",
     "title": "Enterprise software, shipped at **AI speed**.",
-    "lead": "SSW builds and ships software for companies across North America. We use AI to move quicker, 1-week sprints to stay on track, and senior engineers to keep the quality where it needs to be.",
+    "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum sprints, and senior engineering oversight.",
     "primaryCta": {
       "label": "Talk to us",
       "href": "#contact",
@@ -91,12 +91,12 @@
     {
       "number": "30",
       "suffix": "+",
-      "label": "Senior consultants and engineers across our delivery network"
+      "label": "Years of development"
     },
     {
-      "number": "99",
-      "suffix": "%",
-      "label": "Sprint commitments delivered on time"
+      "number": "100",
+      "suffix": "+",
+      "label": "Staff ready to work"
     }
   ],
   "benefitsSection": {
@@ -165,8 +165,8 @@
   },
   "howSection": {
     "kicker": "Approach",
-    "title": "How a project goes, from first call to live software.",
-    "lead": "No drawn-out discovery, no vague proposals. You'll have something working by the end of the first sprint.",
+    "title": "A predictable path from first conversation to live software.",
+    "lead": "No discovery theater. No vague proposals. You will see a working increment in the first sprint.",
     "steps": [
       {
         "icon": "fa-phone",
