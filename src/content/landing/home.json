@@ -293,7 +293,7 @@
       "submitIcon": "fa-regular fa-paper-plane",
       "privacy": "By submitting, you agree to our {link}. We never share your information.",
       "privacyLinkLabel": "privacy policy",
-      "privacyLinkHref": "#",
+      "privacyLinkHref": "/privacy",
       "successText": "Thank you! We will be in touch soon.",
       "jotformId": "261407656761058"
     },
