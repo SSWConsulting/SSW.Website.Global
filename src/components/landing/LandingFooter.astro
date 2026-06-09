@@ -1,0 +1,76 @@
+---
+/**
+ * Site-wide footer sourced from the landing collection's `footer` block.
+ * Used by both the home page (inside LandingBody for live Tina editing)
+ * and the Landing layout (for internal pages like /privacy and /about).
+ *
+ * Anchor-only hrefs ("#why" etc.) are normalised to "/#why" so they work
+ * from any page. External T&C / built-with links stay as-is.
+ */
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { LandingQuery } from '../../../tina/__generated__/types';
+
+interface Props {
+  footer: LandingQuery['landing']['footer'];
+  /**
+   * When true, the reveal animation classes are applied. Used by the home
+   * page where the footer is wrapped in a Tina island and benefits from
+   * the page-load-triggered reveal. Internal pages skip the animations to
+   * keep the layout simple.
+   */
+  reveal?: boolean;
+}
+const { footer, reveal = false } = Astro.props;
+
+const anchorHref = (href: string | null | undefined): string => {
+  if (!href) return '#';
+  if (href.startsWith('#')) return `/${href}`;
+  return href;
+};
+---
+
+{footer && (
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class={`footer-brand${reveal ? ' reveal' : ''}`} style={reveal ? '--reveal-delay: 0ms' : undefined}>
+          {footer.logo && <img src={footer.logo} alt="SSW" data-tina-field={tinaField(footer, 'logo')} />}
+          {footer.tagline && <p data-tina-field={tinaField(footer, 'tagline')}>{footer.tagline}</p>}
+        </div>
+        <div class={`footer-col${reveal ? ' reveal' : ''}`} style={reveal ? '--reveal-delay: 80ms' : undefined}>
+          {footer.columnTitle && <h5 data-tina-field={tinaField(footer, 'columnTitle')}>{footer.columnTitle}</h5>}
+          {footer.links && (
+            <ul>
+              {footer.links.map((link) => link && (
+                <li>
+                  <a href={anchorHref(link.href ?? '#')} data-tina-field={tinaField(link, 'label')}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="legal">
+          <span data-tina-field={tinaField(footer, 'copyright')}>{footer.copyright}</span>
+          {footer.termsLabel && (
+            <>
+              <span class="sep">·</span>
+              <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" class="content-link" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
+            </>
+          )}
+          {/* Privacy policy link hardcoded next to T&C. See note in LandingBody for the schema-sync tradeoff. */}
+          <span class="sep">·</span>
+          <a href="/privacy" class="content-link">Privacy policy</a>
+        </div>
+        {footer.builtWithName && (
+          <a class="built" href={footer.builtWithHref ?? '#'} target="_blank" rel="noopener">
+            <span data-tina-field={tinaField(footer, 'builtWithText')}>{footer.builtWithText}</span>
+            {footer.builtWithLogo && <img src={footer.builtWithLogo} alt={footer.builtWithName} />}
+            <strong data-tina-field={tinaField(footer, 'builtWithName')}>{footer.builtWithName}</strong>
+          </a>
+        )}
+      </div>
+    </div>
+  </footer>
+)}

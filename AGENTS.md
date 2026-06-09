@@ -61,6 +61,17 @@ public/
   admin/                    # Tina admin UI (built artifact + bridge.js)
 ```
 
+## How to add a new page
+
+Any new page (privacy policy, about, individual blog post, marketing landing for a campaign, etc.) **must use the shared landing chrome** so the site reads as one product.
+
+- For MDX/Markdown content, drop it into `src/content/page/<slug>.mdx` (with `seoTitle` in frontmatter); the existing `[...slug].astro` catch-all routes it via `Base.astro`, which renders `<LandingNav>` + slot + `<LandingFooter>` around `PageBody`.
+- For pages that need bespoke Astro markup (e.g. a custom marketing page), create `src/pages/<slug>.astro` and wrap the content in `import Base from '../layouts/Base.astro'`. Same nav + footer for free.
+- Don't reach for the upstream starter's `Header.astro` / `Footer.astro` (the orange-llama lockup) — those are legacy. `Base.astro` no longer uses them.
+- Anchor-only hrefs in nav/footer content (`#how`, `#why`) are normalised to `/#how`, `/#why` by `LandingNav` / `LandingFooter`, so they jump back to the home page's sections from any internal page.
+
+The nav and footer content live on the `landing` collection (Tina admin → Landing page → home → Navigation / Footer). Internal pages render them statically — editing them does not live-preview on `/privacy`, only on `/`. After saving they appear everywhere.
+
 ## How to add a new editable section
 
 1. **Schema**: add fields to the relevant collection in `tina/collections/*.ts` (use `object`, `list: true`, `ui.itemProps` for list labels)

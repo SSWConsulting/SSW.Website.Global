@@ -1,6 +1,8 @@
 ---
 import { tinaField } from '@tinacms/astro/tina-field';
 import type { LandingQuery } from '../../../tina/__generated__/types';
+import LandingNav from '../landing/LandingNav.astro';
+import LandingFooter from '../landing/LandingFooter.astro';
 
 interface Props {
   data?: LandingQuery['landing'] | null;
@@ -55,52 +57,7 @@ const ctaBanner = data.ctaBanner;
 const footer = data.footer;
 ---
 
-<header class="nav" id="nav">
-  <div class="container nav-inner">
-    <a href="#top" class="nav-logo" aria-label="SSW home">
-      {nav?.logo && <img src={nav.logo} alt="SSW" data-tina-field={tinaField(nav, 'logo')} />}
-      {nav?.region && <span class="region" data-tina-field={tinaField(nav, 'region')}>{nav.region}</span>}
-    </a>
-    {nav && (
-      <nav class="nav-links" aria-label="Primary">
-        <div class="nav-item">
-          <a href="#services" data-tina-field={tinaField(nav, 'capabilitiesLabel')}>
-            {nav.capabilitiesLabel} <i class="fa-solid fa-chevron-down caret"></i>
-          </a>
-          {nav.capabilities && nav.capabilities.length > 0 && (
-            <div class="nav-dropdown" role="menu">
-              <ul>
-                {nav.capabilities.map((cap) => cap && (
-                  <li>
-                    <a href={cap.href ?? '#services'}>
-                      <span class="ico"><i class={`fa-solid ${cap.icon ?? ''}`}></i></span>
-                      <span>
-                        <strong data-tina-field={tinaField(cap, 'title')}>{cap.title}</strong>
-                        <span data-tina-field={tinaField(cap, 'description')}>{cap.description}</span>
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-        {nav.links?.map((link) => link && (
-          <div class="nav-item">
-            <a href={link.href ?? '#'} data-tina-field={tinaField(link, 'label')}>{link.label}</a>
-          </div>
-        ))}
-      </nav>
-    )}
-    {nav?.ctaLabel && (
-      <div class="nav-cta">
-        <a href={nav.ctaHref ?? '#contact'} class="btn btn-primary" data-tina-field={tinaField(nav, 'ctaLabel')}>
-          <i class="fa-regular fa-message"></i> {nav.ctaLabel}
-        </a>
-      </div>
-    )}
-  </div>
-</header>
+<LandingNav nav={nav} />
 
 <main id="top">
 
@@ -577,45 +534,4 @@ const footer = data.footer;
   )}
 </main>
 
-{footer && (
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand reveal" style="--reveal-delay: 0ms">
-          {footer.logo && <img src={footer.logo} alt="SSW" data-tina-field={tinaField(footer, 'logo')} />}
-          {footer.tagline && <p data-tina-field={tinaField(footer, 'tagline')}>{footer.tagline}</p>}
-        </div>
-        <div class="footer-col reveal" style="--reveal-delay: 80ms">
-          {footer.columnTitle && <h5 data-tina-field={tinaField(footer, 'columnTitle')}>{footer.columnTitle}</h5>}
-          {footer.links && (
-            <ul>
-              {footer.links.map((link) => link && (
-                <li>
-                  <a href={link.href ?? '#'} data-tina-field={tinaField(link, 'label')}>{link.label}</a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="legal">
-          <span data-tina-field={tinaField(footer, 'copyright')}>{footer.copyright}</span>
-          {footer.termsLabel && (
-            <>
-              <span class="sep">·</span>
-              <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" class="content-link" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
-            </>
-          )}
-        </div>
-        {footer.builtWithName && (
-          <a class="built" href={footer.builtWithHref ?? '#'} target="_blank" rel="noopener">
-            <span data-tina-field={tinaField(footer, 'builtWithText')}>{footer.builtWithText}</span>
-            {footer.builtWithLogo && <img src={footer.builtWithLogo} alt={footer.builtWithName} />}
-            <strong data-tina-field={tinaField(footer, 'builtWithName')}>{footer.builtWithName}</strong>
-          </a>
-        )}
-      </div>
-    </div>
-  </footer>
-)}
+<LandingFooter footer={footer} reveal />
