@@ -246,6 +246,15 @@
     },
     "items": [
       {
+        "question": "Who is SSW for?",
+        "paragraphs": [
+          {
+            "text": "SSW is for CTOs and technology leaders who need to modernize, build, or scale critical software without waiting months to hire a full team."
+          }
+        ],
+        "openByDefault": true
+      },
+      {
         "question": "How should I choose an AI-assisted software development partner?",
         "paragraphs": [
           {
@@ -255,7 +264,7 @@
             "text": "The tools matter less than how a team uses them. We pair AI with 30+ years of consulting experience, so you get the speed without losing the accountability."
           }
         ],
-        "openByDefault": true
+        "openByDefault": false
       },
       {
         "question": "What are the benefits of working with SSW versus building in-house?",
