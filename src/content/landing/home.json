@@ -5,7 +5,7 @@
   },
   "nav": {
     "logo": "/assets/ssw-logo-darkmode.png",
-    "region": "North America-based Scrum Masters",
+    "region": "AMERICAS",
     "capabilitiesLabel": "Capabilities",
     "capabilities": [
       {
@@ -55,7 +55,7 @@
     "ctaHref": "#contact"
   },
   "hero": {
-    "eyebrow": "From Idea to Production",
+    "eyebrow": "From Idea to Production, Faster",
     "title": "Enterprise software, shipped at **AI speed**.",
     "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum sprints, and senior engineering oversight.",
     "primaryCta": {
@@ -92,7 +92,7 @@
   "benefitsSection": {
     "kicker": "Benefits",
     "title": "What you get working with us.",
-    "lead": "AI speeds up the work; it doesn't replace engineering judgment. We pair [AI-assisted development practices](https://www.ssw.com.au/rules/rules-to-better-ai-development) with code review, testing, and the 1-week Scrum cadence enterprise teams rely on.",
+    "lead": "AI accelerates delivery, while engineers ensure quality through code review, testing, and 1-week Scrum cadence. Learn more in our [rules to better AI development](https://www.ssw.com.au/rules/rules-to-better-ai-development).",
     "items": [
       {
         "icon": "fa-bolt",
@@ -106,7 +106,7 @@
       },
       {
         "icon": "fa-comments",
-        "title": "North American communication",
+        "title": "Seamless communication",
         "description": "Your Scrum Master is based in North America and runs standups, sprint reviews, and stakeholder updates during your working hours."
       },
       {
