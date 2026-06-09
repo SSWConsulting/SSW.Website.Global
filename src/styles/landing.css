@@ -460,9 +460,33 @@ h3 { margin: 0; }
   --hero-ink-dim: rgba(237,237,237,0.45);
   --hero-line: rgba(237,237,237,0.14);
   position: relative;
-  padding: clamp(20px, 3vw, 36px) 0 clamp(28px, 4vw, 48px);
+  /* `isolation: isolate` creates a stacking context so the absolute .hero-video
+     + ::after vignette layer cleanly below the framed container without
+     escaping. `overflow: hidden` clips the video to the section bounds. */
+  isolation: isolate;
+  overflow: hidden;
+  /* Roomier vertical padding so the ambient video shows above and below the
+     framed panel rather than the frame filling the section edge-to-edge.
+     Horizontal padding stays 0 — .container's gutter handles the side margins,
+     and that gutter is where the video peeks through on the left/right. */
+  padding: clamp(40px, 5vw, 72px) 0 clamp(48px, 6vw, 88px);
   background: var(--bg-base);
   color: var(--hero-ink);
+}
+/* Ensure the framed panel paints above the absolutely-positioned video +
+   vignette, even though .container itself is unpositioned by default. */
+.hero > .container { position: relative; z-index: 2; }
+/* Section-level vignette over the video — a soft top-and-bottom darkening so
+   the video reads as ambient background and doesn't compete with the framed
+   panel or the stats strip below. Above .hero-video (z:0), below .container
+   (z:2). */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
 }
 /* The bottom padding inside the frame is intentionally larger than the top,
    so the CTA buttons sit comfortably above the bracket-corner border rather
@@ -475,7 +499,12 @@ h3 { margin: 0; }
   overflow: hidden;
   border: 1px solid var(--hero-line);
   border-radius: 14px;
-  background: var(--hero-field);
+  /* Background intentionally transparent — the panel's tinted-dark colour is
+     painted by .hero-frame::before's linear-gradient, which uses 78% alpha so
+     the ambient coding video behind .hero (z:0) shows through the framed
+     panel as well as around it. Text still reads cleanly because the gradient
+     and the section-level ::after vignette together keep contrast high. */
+  background: transparent;
   padding: clamp(16px, 2vw, 24px) clamp(20px, 3.5vw, 44px) clamp(64px, 8vw, 112px);
   min-height: clamp(320px, 42vh, 440px);
   display: flex;
@@ -483,8 +512,13 @@ h3 { margin: 0; }
   justify-content: space-between;
   gap: clamp(24px, 4vw, 48px);
 }
-/* Smoky organic gradient bleeding from the right, like the reference. Sits
-   under everything; a Tina hero.image layers over it when present. */
+/* Smoky organic gradient bleeding from the right, like the reference. The
+   linear-gradient base uses color-mix to bake an alpha into the dark panel
+   colour, so the hero-bg video is visible through the framed panel at
+   about 22% strength. The radial-gradient highlights stay fully opaque on
+   top (their colours are already rgba with low alpha) — they add the
+   smoky white sheen the original design called for, layered above the
+   alpha-blended base. */
 .hero-frame::before {
   content: "";
   position: absolute;
@@ -493,7 +527,9 @@ h3 { margin: 0; }
   background:
     radial-gradient(120% 90% at 78% 38%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.05) 34%, transparent 60%),
     radial-gradient(80% 70% at 92% 80%, rgba(255,255,255,0.07) 0%, transparent 55%),
-    linear-gradient(115deg, var(--hero-field) 30%, #2b2b2b 100%);
+    linear-gradient(115deg,
+      color-mix(in oklch, var(--hero-field) 78%, transparent) 30%,
+      color-mix(in oklch, #2b2b2b 78%, transparent) 100%);
   pointer-events: none;
 }
 .hero-bg {
@@ -507,8 +543,35 @@ h3 { margin: 0; }
   opacity: 0.55;
   mix-blend-mode: screen;
 }
+/* Ambient background video. Lives at the .hero section level (not inside the
+   framed panel), so it's a full-bleed background visible in the gutter around
+   the frame. Source mp4 is pre-encoded to true grayscale at the pixel level —
+   the grayscale(1) filter() rule remains defensively in case the file is
+   later replaced with a colored source. Brightness drop + contrast bump wash
+   the footage so it reads as ambient rather than foreground. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Webkit needs the prefixed filter for older Safari on iOS; modern Safari
+     accepts unprefixed. Keep both so we don't lose grayscale on a stale
+     device. */
+  -webkit-filter: grayscale(1) contrast(1.05) brightness(0.55);
+  filter: grayscale(1) contrast(1.05) brightness(0.55);
+  opacity: 0.7;
+  pointer-events: none;
+}
 @media (prefers-reduced-motion: reduce) {
   .hero-bg { animation: none; }
+  /* Don't autoplay-loop motion at the user. Hiding is cheaper than trying to
+     pause the element from CSS (which we can't reliably do across browsers)
+     — first frame is rendered as a poster via preload=metadata, but we hide
+     entirely to match the rest of the reveal system. */
+  .hero-video { display: none; }
 }
 
 /* Technical metadata strips (top + bottom) */

@@ -63,6 +63,30 @@ const footer = data.footer;
 
   {hero && (
     <section class="hero">
+      {/* Ambient B&W coding-screen video, looped and muted. Lives at the
+          section level (not inside .hero-frame) so it plays as a full-bleed
+          background visible in the gutter around the framed panel. Autoplay
+          needs muted+playsinline to pass mobile/Chrome policy. Source is
+          pre-encoded to true grayscale at the pixel level — the CSS filter()
+          rule remains defensively in case the file is later replaced with a
+          colored source. preload="metadata" keeps first paint cheap;
+          prefers-reduced-motion hides the video entirely.
+
+          Hardcoded path rather than a Tina field — adding a field to the
+          landing collection's hero block triggers the Tina Cloud schema-sync
+          gotcha (deploy serves "Not Found" until the cloud schema catches
+          up). Swap the src below to replace. */}
+      <video
+        class="hero-video"
+        src="/assets/hero-bg.mp4"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+        tabindex={-1}
+      ></video>
       <div class="container">
         <div class="hero-frame">
           {hero.image && (
