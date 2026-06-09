@@ -57,7 +57,7 @@
   "hero": {
     "eyebrow": "From Idea to Production",
     "title": "Enterprise software, shipped at **AI speed**.",
-    "lead": "SSW builds production-grade applications for organizations across North America. Faster delivery, guided by AI-assisted development, Scrum discipline, and senior engineering oversight.",
+    "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum sprints, and senior engineering oversight.",
     "primaryCta": {
       "label": "Talk to us",
       "href": "#contact",
@@ -165,7 +165,7 @@
   },
   "howSection": {
     "kicker": "Approach",
-    "title": "A predictable path from first call to live software.",
+    "title": "A predictable path from first conversation to live software.",
     "lead": "No discovery theater. No vague proposals. You will see a working increment in the first sprint.",
     "steps": [
       {
