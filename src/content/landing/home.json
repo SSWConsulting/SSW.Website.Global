@@ -4,7 +4,7 @@
     "description": "We build and ship enterprise software for North American teams using AI and 1-week Scrum sprints, with a Scrum Master in your time zone."
   },
   "nav": {
-    "logo": "/assets/ssw-logo.png",
+    "logo": "/assets/ssw-logo-darkmode.png",
     "region": "North America-based Scrum Masters",
     "capabilitiesLabel": "Capabilities",
     "capabilities": [
@@ -318,7 +318,7 @@
     "ctaIcon": "fa-regular fa-message"
   },
   "footer": {
-    "logo": "/assets/ssw-logo.png",
+    "logo": "/assets/ssw-logo-darkmode.png",
     "tagline": "SSW builds enterprise software for clients across the Americas, using AI and 1-week Scrum sprints.",
     "columnTitle": "Company",
     "links": [
