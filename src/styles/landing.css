@@ -500,7 +500,12 @@ h3 { margin: 0; }
   overflow: hidden;
   border: 1px solid var(--hero-line);
   border-radius: 14px;
-  background: var(--hero-field);
+  /* Background intentionally transparent — the panel's tinted-dark colour is
+     painted by .hero-frame::before's linear-gradient, which uses 78% alpha so
+     the ambient coding video behind .hero (z:0) shows through the framed
+     panel as well as around it. Text still reads cleanly because the gradient
+     and the section-level ::after vignette together keep contrast high. */
+  background: transparent;
   padding: clamp(16px, 2vw, 24px) clamp(20px, 3.5vw, 44px) clamp(64px, 8vw, 112px);
   min-height: clamp(320px, 42vh, 440px);
   display: flex;
@@ -508,8 +513,13 @@ h3 { margin: 0; }
   justify-content: space-between;
   gap: clamp(24px, 4vw, 48px);
 }
-/* Smoky organic gradient bleeding from the right, like the reference. Sits
-   under everything; a Tina hero.image layers over it when present. */
+/* Smoky organic gradient bleeding from the right, like the reference. The
+   linear-gradient base uses color-mix to bake an alpha into the dark panel
+   colour, so the hero-bg video is visible through the framed panel at
+   about 22% strength. The radial-gradient highlights stay fully opaque on
+   top (their colours are already rgba with low alpha) — they add the
+   smoky white sheen the original design called for, layered above the
+   alpha-blended base. */
 .hero-frame::before {
   content: "";
   position: absolute;
@@ -518,7 +528,9 @@ h3 { margin: 0; }
   background:
     radial-gradient(120% 90% at 78% 38%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.05) 34%, transparent 60%),
     radial-gradient(80% 70% at 92% 80%, rgba(255,255,255,0.07) 0%, transparent 55%),
-    linear-gradient(115deg, var(--hero-field) 30%, #2b2b2b 100%);
+    linear-gradient(115deg,
+      color-mix(in oklch, var(--hero-field) 78%, transparent) 30%,
+      color-mix(in oklch, #2b2b2b 78%, transparent) 100%);
   pointer-events: none;
 }
 .hero-bg {
