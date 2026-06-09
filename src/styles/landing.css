@@ -747,6 +747,10 @@ section.block.sunken { background: var(--bg-sunken); }
 
 .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 @media (max-width: 760px) { .services-grid { grid-template-columns: 1fr; } }
+/* Capabilities cards: presentational only — no link wraps the article, so we
+   intentionally drop the hover affordance (red border lift) the cards had
+   before. Hover hinting on a non-interactive element reads as "click me" and
+   the click does nothing, which is worse than a static card. */
 .service {
   background: var(--bg-raised);
   border: 1px solid var(--stroke-neutral);
@@ -755,9 +759,7 @@ section.block.sunken { background: var(--bg-sunken); }
   display: flex;
   gap: 20px;
   align-items: flex-start;
-  transition: border-color var(--duration-normal) var(--ease-out);
 }
-.service:hover { border-color: var(--red-400); }
 .service .icon {
   width: 44px; height: 44px;
   flex-shrink: 0;
