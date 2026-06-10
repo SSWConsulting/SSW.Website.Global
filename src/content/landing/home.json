@@ -305,7 +305,7 @@
       },
       {
         "icon": "fa-envelope",
-        "title": "info@ssw.com",
+        "title": "hello@ssw.com",
         "description": "We reply to every inquiry within one business day."
       }
     ]
@@ -313,7 +313,7 @@
   "ctaBanner": {
     "title": "Let's build the next version of your software.",
     "description": "Tell a senior consultant what you're trying to build, and we'll give you a straight read on what's doable and where the risks are.",
-    "ctaLabel": "Talk to us",
+    "ctaLabel": "Talk to a senior consultant",
     "ctaHref": "#contact",
     "ctaIcon": "fa-regular fa-message"
   },
