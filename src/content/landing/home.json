@@ -202,7 +202,7 @@
       {
         "icon": "fa-robot",
         "title": "Practical AI adoption",
-        "description": "We use the AI tools that hold up in production and ignore the rest. To keep it honest, we follow guidance like avoiding [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias) — whatever the AI produces still gets reviewed and owned by a person."
+        "description": "We use production-ready AI tools and ignore the hype. To avoid [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias), every AI output is still reviewed, validated, and owned by a person."
       },
       {
         "icon": "fa-shield-halved",
@@ -229,7 +229,7 @@
     "helper": {
       "kicker": "Still have a question?",
       "title": "Talk to a senior consultant.",
-      "description": "Calls run about 30 minutes, and you'll leave with a clear next step, whether or not you end up working with us.",
+      "description": "In about 30 minutes, you'll walk away with a clear next step, whether or not we end up working together.",
       "ctaLabel": "Talk to us",
       "ctaHref": "#contact",
       "ctaIcon": "fa-regular fa-message"

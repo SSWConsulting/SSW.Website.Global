@@ -743,16 +743,25 @@ section.block.sunken { background: var(--bg-sunken); }
   flex-direction: column;
   gap: 12px;
 }
-.benefit .icon {
-  width: 40px; height: 40px;
+/* ───────────────────────── Shared icon frame
+   One square hairline-bordered icon vocabulary used across the landing
+   page (Benefits, Capabilities, Approach, Why SSW rows, Contact aside).
+   Every previous per-section copy of these properties is gone; the
+   per-section rules below now only carry the *differences* (sibling
+   margins, flex-shrink), and the shared look lives here in one place.
+   Bumped to 48×48 / 20px glyph in PR #48 — subsumed here. */
+.icon {
+  width: 48px; height: 48px;
   border-radius: var(--edge);
   background: none;
   border: 1px solid var(--stroke-neutral);
   color: var(--red-600);
   display: grid; place-items: center;
-  margin-bottom: 8px;
 }
-.benefit .icon i { font-size: 18px; }
+.icon i { font-size: 20px; }
+
+/* Per-context overrides — sibling margins / flex behaviour only. */
+.benefit .icon { margin-bottom: 8px; }
 .benefit h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
 .benefit p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
 
@@ -771,16 +780,7 @@ section.block.sunken { background: var(--bg-sunken); }
   gap: 20px;
   align-items: flex-start;
 }
-.service .icon {
-  width: 44px; height: 44px;
-  flex-shrink: 0;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-}
-.service .icon i { font-size: 18px; }
+.service .icon { flex-shrink: 0; }
 .service .body { display: flex; flex-direction: column; gap: 6px; }
 .service h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
 .service p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
@@ -815,16 +815,7 @@ section.block.sunken { background: var(--bg-sunken); }
 @media (max-width: 540px) {
   .step { border-right: 0; margin-right: 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
 }
-.step .icon {
-  width: 32px; height: 32px;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  margin-bottom: 20px;
-}
-.step .icon i { font-size: 15px; }
+.step .icon { margin-bottom: 20px; }
 .step .step-num {
   font-family: var(--font-mono-true);
   font-size: 13px;
@@ -858,16 +849,8 @@ section.block.sunken { background: var(--bg-sunken); }
   border-bottom: 1px solid var(--stroke-neutral-weak);
   align-items: flex-start;
 }
-.why-row .badge-ico {
-  width: 36px; height: 36px;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  margin-top: 2px;
-}
-.why-row .badge-ico i { font-size: 15px; }
+/* Renamed from .badge-ico — same visual pattern, was inconsistent. */
+.why-row .icon { margin-top: 2px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
 /* Testimonial card. Near-black panel with rounded corners; a large
@@ -1077,16 +1060,7 @@ section.block.sunken { background: var(--bg-sunken); }
 .contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
 .contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
 .contact-aside .item:last-child { border-bottom: none; }
-.contact-aside .item .icon {
-  width: 36px; height: 36px;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  flex-shrink: 0;
-}
-.contact-aside .item .icon i { font-size: 14px; }
+.contact-aside .item .icon { flex-shrink: 0; }
 .contact-aside h4 { font-size: 17px; font-weight: 600; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .contact-aside p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; line-height: 1.5; }
 
