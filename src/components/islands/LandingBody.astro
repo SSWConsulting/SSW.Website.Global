@@ -292,7 +292,7 @@ const footer = data.footer;
             <div class="why-list">
               {why.rows.map((r, i) => r && (
                 <div class="why-row reveal" style={`--reveal-delay: ${i * 60}ms`}>
-                  <div class="badge-ico"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
+                  <div class="icon"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
                   <div>
                     <h4 data-tina-field={tinaField(r, 'title')}>{r.title}</h4>
                     <p data-tina-field={tinaField(r, 'description')}>
