@@ -229,7 +229,7 @@
     "helper": {
       "kicker": "Still have a question?",
       "title": "Talk to a senior consultant.",
-      "description": "Calls run about 30 minutes, and you'll leave with a clear next step, whether or not you end up working with us.",
+      "description": "In about 30 minutes, you'll walk away with a clear next step, whether or not we end up working together.",
       "ctaLabel": "Talk to us",
       "ctaHref": "#contact",
       "ctaIcon": "fa-regular fa-message"
