@@ -1104,24 +1104,48 @@ details.faq-item summary {
 }
 details.faq-item summary::-webkit-details-marker { display: none; }
 details.faq-item summary:hover { color: var(--red-600); }
+/* FAQ accordion toggle button.
+   - Closed: transparent dark panel, thin translucent border, white plus icon.
+   - Open:   solid brand-red square, no extra border, white minus icon.
+   Both states get a hover lift. The glyph swap is handled by toggling the
+   two icons inside .toggle (.toggle-plus / .toggle-minus) instead of the old
+   rotate-the-plus-into-an-× trick — a real minus reads cleaner than a
+   tilted plus, and avoids a transform animation we don't actually want. */
 details.faq-item .toggle {
   flex-shrink: 0;
-  width: 36px; height: 36px;
-  border-radius: var(--edge);
-  background: var(--bg-sunken);
-  border: 1px solid var(--stroke-neutral);
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: grid; place-items: center;
-  color: var(--text-neutral);
-  transition: background var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out),
-              transform var(--duration-normal) var(--ease-out);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
 }
-details.faq-item .toggle i { font-size: 12px; }
+details.faq-item .toggle i { font-size: 14px; line-height: 1; }
+/* Show the right glyph for the current state. Both icons live in markup so
+   the swap is a pure display toggle — no transform, no flash. */
+details.faq-item .toggle .toggle-minus { display: none; }
+details[open].faq-item .toggle .toggle-plus { display: none; }
+details[open].faq-item .toggle .toggle-minus { display: inline-block; }
+
+/* Closed-state hover: subtle white wash + firmer border, no colour shift. */
+details.faq-item summary:hover .toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.32);
+}
 details[open].faq-item .toggle {
   background: var(--red-500);
   border-color: var(--red-500);
   color: #fff;
-  transform: rotate(45deg);
+}
+/* Open-state hover: darker red, matches .btn-primary:hover treatment. */
+details[open].faq-item summary:hover .toggle {
+  background: var(--red-600);
+  border-color: var(--red-600);
 }
 details.faq-item .answer { padding: 0 0 24px; max-width: 64ch; }
 details.faq-item .answer p { font-size: 16px; line-height: 1.6; color: var(--text-neutral-weak); margin: 0 0 12px; }
