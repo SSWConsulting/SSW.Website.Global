@@ -134,7 +134,7 @@
       {
         "icon": "fa-robot",
         "title": "AI-assisted software development",
-        "description": "Applications built with our [AI-assisted development workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow) — specs, code generation, QA, and review. Senior engineers steer the tooling, so what you ship is quick to build and easy to maintain later."
+        "description": "Build applications faster with an [AI-assisted workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow) covering specs, code generation, QA, and review. Senior engineers guide the process, so your software is quick to ship and easy to maintain."
       },
       {
         "icon": "fa-arrows-rotate",
@@ -305,7 +305,7 @@
       },
       {
         "icon": "fa-envelope",
-        "title": "info@ssw.com",
+        "title": "hello@ssw.com",
         "description": "We reply to every inquiry within one business day."
       }
     ]
@@ -313,7 +313,7 @@
   "ctaBanner": {
     "title": "Let's build the next version of your software.",
     "description": "Tell a senior consultant what you're trying to build, and we'll give you a straight read on what's doable and where the risks are.",
-    "ctaLabel": "Talk to us",
+    "ctaLabel": "Talk to a senior consultant",
     "ctaHref": "#contact",
     "ctaIcon": "fa-regular fa-message"
   },

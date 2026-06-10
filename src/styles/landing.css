@@ -20,7 +20,7 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-.page-shell .container { max-width: 760px; /* tighter than the landing for legibility */ }
+.page-shell .container { max-width: 960px; /* tighter than the landing (1240) but wide enough that long sentences in legal copy don't break into too many short lines */ }
 
 .page-body {
   font-family: var(--font-sans);
@@ -29,7 +29,12 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-neutral);
   word-wrap: break-word;
 }
-.page-body > * + * { margin-top: 1.1em; }
+/* Standard block rhythm between top-level children — 1.5em sits in the
+   middle of the 1.4-1.6em range Medium, Substack, and Wikipedia use for
+   long-form body copy, and gives noticeably more space between paragraphs
+   and lists than the previous 1.1em did. Headings still win because
+   .page-body h2/h3 have their own explicit margin-top via specificity. */
+.page-body > * + * { margin-top: 1.5em; }
 .page-body h1 {
   font-family: var(--font-display);
   font-weight: 700;
@@ -85,6 +90,27 @@ a { color: inherit; text-decoration: none; }
 .page-body em { font-style: italic; }
 .page-body ul, .page-body ol { padding-left: 1.4em; margin: 0; }
 .page-body li + li { margin-top: 0.5em; }
+/* Brand-red square bullets for unordered lists. Default disc/circle markers
+   were generic; the brand uses red squares throughout the landing kickers
+   and stat marks, so unify the legal/internal-page lists into the same
+   vocabulary. Custom ::before square instead of list-style-type: square
+   because list-style-type renders tiny (3-4px in most browsers) and
+   ::marker color support is still uneven across older browsers. Ordered
+   lists keep their native numbered markers — different semantic, not a
+   "bullet" the user asked to restyle. */
+.page-body ul { list-style: none; padding-left: 1.4em; }
+.page-body ul > li { position: relative; }
+.page-body ul > li::before {
+  content: "";
+  position: absolute;
+  /* Pull left into the padding-left gutter so the square aligns with the
+     baseline of the first text line (top: 0.6em ≈ x-height at 17/1.65). */
+  left: -1.05em;
+  top: 0.6em;
+  width: 7px;
+  height: 7px;
+  background: var(--red-500);
+}
 .page-body blockquote {
   margin: 0;
   padding: 0.4em 0 0.4em 1.1em;
