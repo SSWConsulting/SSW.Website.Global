@@ -202,7 +202,7 @@
       {
         "icon": "fa-robot",
         "title": "Practical AI adoption",
-        "description": "We use the AI tools that hold up in production and ignore the rest. To keep it honest, we follow guidance like avoiding [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias) — whatever the AI produces still gets reviewed and owned by a person."
+        "description": "We use production-ready AI tools and ignore the hype. To avoid [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias), every AI output is still reviewed, validated, and owned by a person."
       },
       {
         "icon": "fa-shield-halved",
