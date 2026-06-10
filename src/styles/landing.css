@@ -9,6 +9,17 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 
+/* Base-layout internal pages (privacy, blog, etc.) also load the starter's
+   global.css, which sets a light gradient body background, dark text, and the
+   Atkinson font. On dark pages that overrides our theme, so re-assert the dark
+   field + Inter here with higher specificity (html.dark body) than global.css's
+   bare `body` rule, independent of stylesheet load order. */
+html.dark body {
+  background: var(--bg-base);
+  color: var(--text-neutral);
+  font-family: var(--font-sans);
+}
+
 /* ───────────────────────── Internal page shell
    Wraps the body of internal pages (privacy, about, blog posts etc.)
    that render through PageBody / BlogBody under Base.astro. Inherits
@@ -20,7 +31,7 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-.page-shell .container { max-width: 760px; /* tighter than the landing for legibility */ }
+.page-shell .container { max-width: 960px; /* tighter than the landing (1240) but wide enough that long sentences in legal copy don't break into too many short lines */ }
 
 .page-body {
   font-family: var(--font-sans);
@@ -29,7 +40,12 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-neutral);
   word-wrap: break-word;
 }
-.page-body > * + * { margin-top: 1.1em; }
+/* Standard block rhythm between top-level children — 1.5em sits in the
+   middle of the 1.4-1.6em range Medium, Substack, and Wikipedia use for
+   long-form body copy, and gives noticeably more space between paragraphs
+   and lists than the previous 1.1em did. Headings still win because
+   .page-body h2/h3 have their own explicit margin-top via specificity. */
+.page-body > * + * { margin-top: 1.5em; }
 .page-body h1 {
   font-family: var(--font-display);
   font-weight: 700;
@@ -85,6 +101,27 @@ a { color: inherit; text-decoration: none; }
 .page-body em { font-style: italic; }
 .page-body ul, .page-body ol { padding-left: 1.4em; margin: 0; }
 .page-body li + li { margin-top: 0.5em; }
+/* Brand-red square bullets for unordered lists. Default disc/circle markers
+   were generic; the brand uses red squares throughout the landing kickers
+   and stat marks, so unify the legal/internal-page lists into the same
+   vocabulary. Custom ::before square instead of list-style-type: square
+   because list-style-type renders tiny (3-4px in most browsers) and
+   ::marker color support is still uneven across older browsers. Ordered
+   lists keep their native numbered markers — different semantic, not a
+   "bullet" the user asked to restyle. */
+.page-body ul { list-style: none; padding-left: 1.4em; }
+.page-body ul > li { position: relative; }
+.page-body ul > li::before {
+  content: "";
+  position: absolute;
+  /* Pull left into the padding-left gutter so the square aligns with the
+     baseline of the first text line (top: 0.6em ≈ x-height at 17/1.65). */
+  left: -1.05em;
+  top: 0.6em;
+  width: 7px;
+  height: 7px;
+  background: var(--red-500);
+}
 .page-body blockquote {
   margin: 0;
   padding: 0.4em 0 0.4em 1.1em;
@@ -743,16 +780,25 @@ section.block.sunken { background: var(--bg-sunken); }
   flex-direction: column;
   gap: 12px;
 }
-.benefit .icon {
-  width: 40px; height: 40px;
+/* ───────────────────────── Shared icon frame
+   One square hairline-bordered icon vocabulary used across the landing
+   page (Benefits, Capabilities, Approach, Why SSW rows, Contact aside).
+   Every previous per-section copy of these properties is gone; the
+   per-section rules below now only carry the *differences* (sibling
+   margins, flex-shrink), and the shared look lives here in one place.
+   Bumped to 48×48 / 20px glyph in PR #48 — subsumed here. */
+.icon {
+  width: 48px; height: 48px;
   border-radius: var(--edge);
   background: none;
   border: 1px solid var(--stroke-neutral);
   color: var(--red-600);
   display: grid; place-items: center;
-  margin-bottom: 8px;
 }
-.benefit .icon i { font-size: 18px; }
+.icon i { font-size: 20px; }
+
+/* Per-context overrides — sibling margins / flex behaviour only. */
+.benefit .icon { margin-bottom: 8px; }
 .benefit h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
 .benefit p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
 
@@ -771,16 +817,7 @@ section.block.sunken { background: var(--bg-sunken); }
   gap: 20px;
   align-items: flex-start;
 }
-.service .icon {
-  width: 44px; height: 44px;
-  flex-shrink: 0;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-}
-.service .icon i { font-size: 18px; }
+.service .icon { flex-shrink: 0; }
 .service .body { display: flex; flex-direction: column; gap: 6px; }
 .service h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
 .service p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
@@ -815,6 +852,7 @@ section.block.sunken { background: var(--bg-sunken); }
 @media (max-width: 540px) {
   .step { border-right: 0; margin-right: 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
 }
+.step .icon { margin-bottom: 20px; }
 .step .step-num {
   font-family: var(--font-mono-true);
   font-size: 13px;
@@ -846,20 +884,19 @@ section.block.sunken { background: var(--bg-sunken); }
   border-bottom: 1px solid var(--stroke-neutral-weak);
   align-items: flex-start;
 }
-.why-row .badge-ico {
-  width: 36px; height: 36px;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  margin-top: 2px;
-}
-.why-row .badge-ico i { font-size: 15px; }
+/* Renamed from .badge-ico — same visual pattern, was inconsistent. */
+.why-row .icon { margin-top: 2px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+/* Testimonial card. Near-black panel with rounded corners; a large
+   translucent closing-quote glyph anchors the top-right as a decorative
+   mark. Body text reads in a muted off-white while <strong> phrases
+   inside the quote (parsed from **markers**) lift to full white +
+   bold for the opener. A hairline separator divides the quote from
+   the attribution block (round avatar + name + brand-red role caps). */
 .why-card {
-  background: var(--grey-800);
+  position: relative;
+  background: #0e0e0e;
   color: #fff;
   border: 1px solid var(--stroke-neutral);
   border-radius: var(--edge);
@@ -868,21 +905,48 @@ section.block.sunken { background: var(--bg-sunken); }
   gap: 24px;
   min-height: 440px;
   justify-content: space-between;
+  overflow: hidden;
 }
-.why-card .quote-mark { font-family: var(--font-display); font-size: 64px; line-height: 0.5; color: var(--red-500); height: 32px; }
+/* Decorative closing-quote glyph in the top-right corner. Big serif weight,
+   heavily faded so it reads as a graphic accent rather than punctuation. */
+.why-card .quote-mark {
+  position: absolute;
+  top: 18px;
+  right: 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 1;
+  color: rgba(255,255,255,0.18);
+  pointer-events: none;
+  user-select: none;
+}
 .why-card blockquote {
   margin: 0;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.015em;
-  color: rgba(255,255,255,0.95);
+  /* Editorial pull-quote feel: italic Inter, slightly smaller than the
+     surrounding section copy, with looser leading so the longer paragraph
+     stays comfortable to read at the testimonial card's narrower measure. */
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  /* Muted body so the bolded opener (next rule) pops in white. */
+  color: rgba(255,255,255,0.62);
   text-wrap: pretty;
+}
+/* Opener phrase wrapped in <strong> from the **marker** parser — full
+   white at a heavier weight, so the opening idea pops out of the muted
+   surrounding paragraph. Stays italic via inheritance from blockquote. */
+.why-card blockquote strong {
+  color: #fff;
+  font-weight: 700;
 }
 .why-card .attr { display: flex; align-items: center; gap: 14px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
 .why-card .avatar {
   width: 44px; height: 44px;
-  border-radius: var(--edge);
+  /* Round avatar to match the design — was a 3px-radius square. */
+  border-radius: 50%;
   background: var(--red-500);
   display: grid; place-items: center;
   font-family: var(--font-mono-true);
@@ -892,7 +956,17 @@ section.block.sunken { background: var(--bg-sunken); }
   color: #fff;
 }
 .why-card .name { font-weight: 600; color: #fff; font-size: 16px; }
-.why-card .role { font-size: 14px; color: rgba(255,255,255,0.55); }
+/* Company / role in brand-red uppercase mono tracking, matching the
+   section-kicker treatment used elsewhere on the page. */
+.why-card .role {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red-500);
+  margin-top: 2px;
+}
 
 .contact-grid {
   display: grid;
@@ -1021,16 +1095,7 @@ section.block.sunken { background: var(--bg-sunken); }
 .contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
 .contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
 .contact-aside .item:last-child { border-bottom: none; }
-.contact-aside .item .icon {
-  width: 36px; height: 36px;
-  border-radius: var(--edge);
-  background: none;
-  border: 1px solid var(--stroke-neutral);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  flex-shrink: 0;
-}
-.contact-aside .item .icon i { font-size: 14px; }
+.contact-aside .item .icon { flex-shrink: 0; }
 .contact-aside h4 { font-size: 17px; font-weight: 600; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .contact-aside p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; line-height: 1.5; }
 
@@ -1092,24 +1157,48 @@ details.faq-item summary {
 }
 details.faq-item summary::-webkit-details-marker { display: none; }
 details.faq-item summary:hover { color: var(--red-600); }
+/* FAQ accordion toggle button.
+   - Closed: transparent dark panel, thin translucent border, white plus icon.
+   - Open:   solid brand-red square, no extra border, white minus icon.
+   Both states get a hover lift. The glyph swap is handled by toggling the
+   two icons inside .toggle (.toggle-plus / .toggle-minus) instead of the old
+   rotate-the-plus-into-an-× trick — a real minus reads cleaner than a
+   tilted plus, and avoids a transform animation we don't actually want. */
 details.faq-item .toggle {
   flex-shrink: 0;
-  width: 36px; height: 36px;
-  border-radius: var(--edge);
-  background: var(--bg-sunken);
-  border: 1px solid var(--stroke-neutral);
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: grid; place-items: center;
-  color: var(--text-neutral);
-  transition: background var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out),
-              transform var(--duration-normal) var(--ease-out);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
 }
-details.faq-item .toggle i { font-size: 12px; }
+details.faq-item .toggle i { font-size: 14px; line-height: 1; }
+/* Show the right glyph for the current state. Both icons live in markup so
+   the swap is a pure display toggle — no transform, no flash. */
+details.faq-item .toggle .toggle-minus { display: none; }
+details[open].faq-item .toggle .toggle-plus { display: none; }
+details[open].faq-item .toggle .toggle-minus { display: inline-block; }
+
+/* Closed-state hover: subtle white wash + firmer border, no colour shift. */
+details.faq-item summary:hover .toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.32);
+}
 details[open].faq-item .toggle {
   background: var(--red-500);
   border-color: var(--red-500);
   color: #fff;
-  transform: rotate(45deg);
+}
+/* Open-state hover: darker red, matches .btn-primary:hover treatment. */
+details[open].faq-item summary:hover .toggle {
+  background: var(--red-600);
+  border-color: var(--red-600);
 }
 details.faq-item .answer { padding: 0 0 24px; max-width: 64ch; }
 details.faq-item .answer p { font-size: 16px; line-height: 1.6; color: var(--text-neutral-weak); margin: 0 0 12px; }

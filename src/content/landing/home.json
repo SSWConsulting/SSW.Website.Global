@@ -134,7 +134,7 @@
       {
         "icon": "fa-robot",
         "title": "AI-assisted software development",
-        "description": "Applications built with our [AI-assisted development workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow) — specs, code generation, QA, and review. Senior engineers steer the tooling, so what you ship is quick to build and easy to maintain later."
+        "description": "Build applications faster with an [AI-assisted workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow) covering specs, code generation, QA, and review. Senior engineers guide the process, so your software is quick to ship and easy to maintain."
       },
       {
         "icon": "fa-arrows-rotate",
@@ -202,7 +202,7 @@
       {
         "icon": "fa-robot",
         "title": "Practical AI adoption",
-        "description": "We use the AI tools that hold up in production and ignore the rest. To keep it honest, we follow guidance like avoiding [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias) — whatever the AI produces still gets reviewed and owned by a person."
+        "description": "We use production-ready AI tools and ignore the hype. To avoid [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias), every AI output is still reviewed, validated, and owned by a person."
       },
       {
         "icon": "fa-shield-halved",
@@ -216,7 +216,7 @@
       }
     ],
     "testimonial": {
-      "quote": "SSW helped us streamline our development process by reducing complexity in our environment and increasing our development throughput. Their expertise, innovative approach, and access to SMEs across multiple disciplines enabled the project to exceed its goals. The work completed during the project, and the knowledge transferred to the BizCover team, set us on the right path to achieve our objectives.",
+      "quote": "**SSW helped us streamline our development process** by reducing complexity in our environment and increasing our development throughput. Their expertise, innovative approach, and access to SMEs across multiple disciplines enabled the project to exceed its goals. The work completed during the project, and the knowledge transferred to the BizCover team, set us on the right path to achieve our objectives.",
       "avatarInitials": "DT",
       "name": "Dino T",
       "role": "BizCover"
@@ -229,7 +229,7 @@
     "helper": {
       "kicker": "Still have a question?",
       "title": "Talk to a senior consultant.",
-      "description": "Calls run about 30 minutes, and you'll leave with a clear next step, whether or not you end up working with us.",
+      "description": "In about 30 minutes, you'll walk away with a clear next step, whether or not we end up working together.",
       "ctaLabel": "Talk to us",
       "ctaHref": "#contact",
       "ctaIcon": "fa-regular fa-message"
@@ -305,7 +305,7 @@
       },
       {
         "icon": "fa-envelope",
-        "title": "info@ssw.com",
+        "title": "hello@ssw.com",
         "description": "We reply to every inquiry within one business day."
       }
     ]
@@ -313,7 +313,7 @@
   "ctaBanner": {
     "title": "Let's build the next version of your software.",
     "description": "Tell a senior consultant what you're trying to build, and we'll give you a straight read on what's doable and where the risks are.",
-    "ctaLabel": "Talk to us",
+    "ctaLabel": "Talk to a senior consultant",
     "ctaHref": "#contact",
     "ctaIcon": "fa-regular fa-message"
   },

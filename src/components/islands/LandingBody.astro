@@ -291,7 +291,7 @@ const footer = data.footer;
             <div class="why-list">
               {why.rows.map((r, i) => r && (
                 <div class="why-row reveal" style={`--reveal-delay: ${i * 60}ms`}>
-                  <div class="badge-ico"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
+                  <div class="icon"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
                   <div>
                     <h4 data-tina-field={tinaField(r, 'title')}>{r.title}</h4>
                     <p data-tina-field={tinaField(r, 'description')}>
@@ -309,10 +309,20 @@ const footer = data.footer;
 
           {why.testimonial && (
             <aside class="why-card reveal" style="--reveal-delay: 120ms">
-              <div>
-                <div class="quote-mark">“</div>
-                <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>{why.testimonial.quote}</blockquote>
-              </div>
+              {/* Closing quotation mark, decorative, anchored to the card's
+                  top-right corner via CSS. aria-hidden so screen readers don't
+                  announce a stray punctuation character. */}
+              <div class="quote-mark" aria-hidden="true">”</div>
+              <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>
+                {/* Reuses parseAccentTitle (which already splits on **markers**)
+                    to bold opener phrases in the quote. The marker maps to
+                    <strong> here rather than <em> — emphasis on importance,
+                    not typographic stress — and the CSS styles <strong>
+                    brighter/white so the opener pops against the muted body. */}
+                {parseAccentTitle(why.testimonial.quote).map((p) =>
+                  p.accent ? <strong>{p.text}</strong> : <Fragment>{p.text}</Fragment>,
+                )}
+              </blockquote>
               <div class="attr">
                 <div class="avatar" data-tina-field={tinaField(why.testimonial, 'avatarInitials')}>{why.testimonial.avatarInitials}</div>
                 <div>
@@ -357,7 +367,13 @@ const footer = data.footer;
                 <details class="faq-item reveal" style={`--reveal-delay: ${i * 60}ms`} open={item.openByDefault ?? false}>
                   <summary>
                     <span data-tina-field={tinaField(item, 'question')}>{item.question}</span>
-                    <span class="toggle"><i class="fa-solid fa-plus"></i></span>
+                    {/* Render both glyphs and let CSS show the right one based on
+                        the parent <details>'s open state. Cleaner than rotating a
+                        single + into an ×, which never quite reads as a minus. */}
+                    <span class="toggle">
+                      <i class="fa-solid fa-plus toggle-plus" aria-hidden="true"></i>
+                      <i class="fa-solid fa-minus toggle-minus" aria-hidden="true"></i>
+                    </span>
                   </summary>
                   <div class="answer">
                     {item.paragraphs?.map((p) => p && (
@@ -444,9 +460,7 @@ const footer = data.footer;
                   inputmode="tel"
                   autocomplete="tel-national"
                   placeholder="(555) 123-4567"
-                  aria-describedby="f-phone-hint"
                 />
-                <small id="f-phone-hint" class="field-hint">North American number, area code first</small>
               </div>
             </div>
             <div class="form-row">
