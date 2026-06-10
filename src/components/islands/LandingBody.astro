@@ -358,7 +358,13 @@ const footer = data.footer;
                 <details class="faq-item reveal" style={`--reveal-delay: ${i * 60}ms`} open={item.openByDefault ?? false}>
                   <summary>
                     <span data-tina-field={tinaField(item, 'question')}>{item.question}</span>
-                    <span class="toggle"><i class="fa-solid fa-plus"></i></span>
+                    {/* Render both glyphs and let CSS show the right one based on
+                        the parent <details>'s open state. Cleaner than rotating a
+                        single + into an ×, which never quite reads as a minus. */}
+                    <span class="toggle">
+                      <i class="fa-solid fa-plus toggle-plus" aria-hidden="true"></i>
+                      <i class="fa-solid fa-minus toggle-minus" aria-hidden="true"></i>
+                    </span>
                   </summary>
                   <div class="answer">
                     {item.paragraphs?.map((p) => p && (
