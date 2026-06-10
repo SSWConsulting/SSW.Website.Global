@@ -20,7 +20,7 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-.page-shell .container { max-width: 760px; /* tighter than the landing for legibility */ }
+.page-shell .container { max-width: 960px; /* tighter than the landing (1240) but wide enough that long sentences in legal copy don't break into too many short lines */ }
 
 .page-body {
   font-family: var(--font-sans);
