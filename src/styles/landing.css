@@ -905,17 +905,21 @@ section.block.sunken { background: var(--bg-sunken); }
 }
 .why-card blockquote {
   margin: 0;
-  font-size: 22px;
+  /* Editorial pull-quote feel: italic Inter, slightly smaller than the
+     surrounding section copy, with looser leading so the longer paragraph
+     stays comfortable to read at the testimonial card's narrower measure. */
+  font-style: italic;
+  font-size: 19px;
   font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: -0.015em;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
   /* Muted body so the bolded opener (next rule) pops in white. */
   color: rgba(255,255,255,0.62);
   text-wrap: pretty;
 }
 /* Opener phrase wrapped in <strong> from the **marker** parser — full
    white at a heavier weight, so the opening idea pops out of the muted
-   surrounding paragraph. */
+   surrounding paragraph. Stays italic via inheritance from blockquote. */
 .why-card blockquote strong {
   color: #fff;
   font-weight: 700;
