@@ -858,8 +858,12 @@ section.block.sunken { background: var(--bg-sunken); }
   border-bottom: 1px solid var(--stroke-neutral-weak);
   align-items: flex-start;
 }
+/* Why-SSW row uses the same square-frame icon pattern as the .icon rule
+   family but historically named .badge-ico. Bumped to 48x48 / 20px glyph
+   alongside the rest so the icon vocabulary stays consistent across the
+   page. The class name stays as-is to avoid touching the JSX. */
 .why-row .badge-ico {
-  width: 36px; height: 36px;
+  width: 48px; height: 48px;
   border-radius: var(--edge);
   background: none;
   border: 1px solid var(--stroke-neutral);
@@ -867,7 +871,7 @@ section.block.sunken { background: var(--bg-sunken); }
   display: grid; place-items: center;
   margin-top: 2px;
 }
-.why-row .badge-ico i { font-size: 15px; }
+.why-row .badge-ico i { font-size: 20px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
 .why-card {
