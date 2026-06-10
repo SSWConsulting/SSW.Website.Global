@@ -83,7 +83,7 @@ html.dark body {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   text-decoration-skip-ink: auto;
-  border-radius: 2px;
+  border-radius: var(--edge);
   transition:
     color var(--duration-fast) var(--ease-out),
     text-decoration-color var(--duration-normal) var(--ease-out),
@@ -132,13 +132,13 @@ html.dark body {
   font-family: var(--font-mono);
   font-size: 0.92em;
   padding: 0.15em 0.4em;
-  border-radius: var(--radius-sm);
+  border-radius: var(--edge);
   background: var(--grey-100);
 }
 .page-body pre {
   overflow-x: auto;
   padding: 1em 1.2em;
-  border-radius: var(--radius-md);
+  border-radius: var(--edge);
   background: var(--grey-900);
   color: #fff;
 }
@@ -199,7 +199,7 @@ html.js .reveal.is-visible {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   text-decoration-skip-ink: auto;
-  border-radius: 2px;
+  border-radius: var(--edge);
   /* Single subtle colour transition. Underline thickness and offset stay
      fixed across all states, so they don't need transitions of their own. */
   transition:
@@ -233,7 +233,7 @@ button { font: inherit; cursor: pointer; }
   --font-mono-true: var(--font-sans);
   /* Flatter, crisper geometry than the design-system defaults — the redesign
      leans on hairlines and right angles instead of big radii + soft shadows. */
-  --edge: 3px;
+  --edge: .375rem;
   /* Shared "panel" surface — the dark-grey field + grey smoke used by the hero
      frame and reused on feature panels so sections read as one system. */
   --panel-field: #181818;
@@ -263,7 +263,7 @@ body, p { font-size: 16px; line-height: 1.6; }
   padding: 0;
   border: 0;
   background: none;
-  border-radius: 0;
+  border-radius: var(--edge);
 }
 .eyebrow .dot {
   width: 28px; height: 2px; border-radius: 0;
@@ -326,11 +326,11 @@ h3 { margin: 0; }
   justify-content: center;
   gap: 10px;
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 16px;
   letter-spacing: -0.01em;
   padding: 12px 20px;
-  border-radius: var(--edge);
+  border-radius: 6.75px;
   border: 1px solid transparent;
   transition: background var(--duration-fast) var(--ease-out),
               color var(--duration-fast) var(--ease-out),
@@ -445,7 +445,7 @@ h3 { margin: 0; }
   display: flex;
   gap: 12px;
   padding: 12px;
-  border-radius: var(--radius);
+  border-radius: var(--edge);
   align-items: flex-start;
   transition: background var(--duration-fast) var(--ease-out);
 }
@@ -535,7 +535,7 @@ h3 { margin: 0; }
   isolation: isolate;
   overflow: hidden;
   border: 1px solid var(--hero-line);
-  border-radius: 14px;
+  border-radius: var(--edge);
   /* Background intentionally transparent — the panel's tinted-dark colour is
      painted by .hero-frame::before's linear-gradient, which uses 78% alpha so
      the ambient coding video behind .hero (z:0) shows through the framed
@@ -762,7 +762,7 @@ section.block.sunken { background: var(--bg-sunken); }
   position: relative;
   isolation: isolate;
   border: 1px solid var(--stroke-neutral);
-  border-radius: 14px;
+  border-radius: var(--edge);
   overflow: hidden;
   background:
     radial-gradient(110% 130% at 88% -10%, rgba(255,255,255,0.10) 0%, transparent 55%),
@@ -811,7 +811,7 @@ section.block.sunken { background: var(--bg-sunken); }
 .service {
   background: var(--bg-raised);
   border: 1px solid var(--stroke-neutral);
-  border-radius: 0;
+  border-radius: var(--edge);
   padding: 28px;
   display: flex;
   gap: 20px;
@@ -860,8 +860,6 @@ section.block.sunken { background: var(--bg-sunken); }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--red-500);
-  padding-top: 12px;
-  border-top: 2px solid var(--red-500);
   margin-bottom: 12px;
 }
 .step h3 {
@@ -901,7 +899,7 @@ section.block.sunken { background: var(--bg-sunken); }
   background: #0e0e0e;
   color: #fff;
   border: 1px solid var(--stroke-neutral);
-  border-radius: 18px;
+  border-radius: var(--edge);
   padding: 40px;
   display: flex; flex-direction: column;
   gap: 24px;
@@ -982,7 +980,7 @@ section.block.sunken { background: var(--bg-sunken); }
   background: var(--bg-raised);
   border: 1px solid var(--stroke-neutral);
   border-top: 3px solid var(--red-500);
-  border-radius: 0;
+  border-radius: var(--edge);
   padding: clamp(32px, 4vw, 48px);
   box-shadow: none;
   position: relative;
@@ -1071,7 +1069,7 @@ section.block.sunken { background: var(--bg-sunken); }
   padding: 20px;
   background: var(--green-100);
   border: 1px solid var(--green-500);
-  border-radius: var(--radius-md);
+  border-radius: var(--edge);
   color: var(--green-700);
   font-size: 16px;
   margin-top: 16px;
@@ -1086,7 +1084,7 @@ section.block.sunken { background: var(--bg-sunken); }
   padding: 20px;
   background: var(--red-50);
   border: 1px solid var(--red-200);
-  border-radius: var(--radius-md);
+  border-radius: var(--edge);
   color: var(--red-800);
   font-size: 16px;
   margin-top: 16px;
@@ -1115,7 +1113,7 @@ section.block.sunken { background: var(--bg-sunken); }
   background: var(--bg-sunken);
   border: 1px solid var(--stroke-neutral);
   border-top: 3px solid var(--red-500);
-  border-radius: 0;
+  border-radius: var(--edge);
   box-shadow: none;
   position: relative;
 }
