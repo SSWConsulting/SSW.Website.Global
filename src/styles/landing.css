@@ -9,6 +9,17 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 
+/* Base-layout internal pages (privacy, blog, etc.) also load the starter's
+   global.css, which sets a light gradient body background, dark text, and the
+   Atkinson font. On dark pages that overrides our theme, so re-assert the dark
+   field + Inter here with higher specificity (html.dark body) than global.css's
+   bare `body` rule, independent of stylesheet load order. */
+html.dark body {
+  background: var(--bg-base);
+  color: var(--text-neutral);
+  font-family: var(--font-sans);
+}
+
 /* ───────────────────────── Internal page shell
    Wraps the body of internal pages (privacy, about, blog posts etc.)
    that render through PageBody / BlogBody under Base.astro. Inherits
