@@ -870,31 +870,65 @@ section.block.sunken { background: var(--bg-sunken); }
 .why-row .badge-ico i { font-size: 15px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+/* Testimonial card. Near-black panel with rounded corners; a large
+   translucent closing-quote glyph anchors the top-right as a decorative
+   mark. Body text reads in a muted off-white while <strong> phrases
+   inside the quote (parsed from **markers**) lift to full white +
+   bold for the opener. A hairline separator divides the quote from
+   the attribution block (round avatar + name + brand-red role caps). */
 .why-card {
-  background: var(--grey-800);
+  position: relative;
+  background: #0e0e0e;
   color: #fff;
   border: 1px solid var(--stroke-neutral);
-  border-radius: 0;
+  border-radius: 18px;
   padding: 40px;
   display: flex; flex-direction: column;
   gap: 24px;
   min-height: 440px;
   justify-content: space-between;
+  overflow: hidden;
 }
-.why-card .quote-mark { font-family: var(--font-display); font-size: 64px; line-height: 0.5; color: var(--red-500); height: 32px; }
+/* Decorative closing-quote glyph in the top-right corner. Big serif weight,
+   heavily faded so it reads as a graphic accent rather than punctuation. */
+.why-card .quote-mark {
+  position: absolute;
+  top: 18px;
+  right: 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 1;
+  color: rgba(255,255,255,0.18);
+  pointer-events: none;
+  user-select: none;
+}
 .why-card blockquote {
   margin: 0;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.015em;
-  color: rgba(255,255,255,0.95);
+  /* Editorial pull-quote feel: italic Inter, slightly smaller than the
+     surrounding section copy, with looser leading so the longer paragraph
+     stays comfortable to read at the testimonial card's narrower measure. */
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  /* Muted body so the bolded opener (next rule) pops in white. */
+  color: rgba(255,255,255,0.62);
   text-wrap: pretty;
+}
+/* Opener phrase wrapped in <strong> from the **marker** parser — full
+   white at a heavier weight, so the opening idea pops out of the muted
+   surrounding paragraph. Stays italic via inheritance from blockquote. */
+.why-card blockquote strong {
+  color: #fff;
+  font-weight: 700;
 }
 .why-card .attr { display: flex; align-items: center; gap: 14px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
 .why-card .avatar {
   width: 44px; height: 44px;
-  border-radius: var(--edge);
+  /* Round avatar to match the design — was a 3px-radius square. */
+  border-radius: 50%;
   background: var(--red-500);
   display: grid; place-items: center;
   font-family: var(--font-mono-true);
@@ -904,7 +938,17 @@ section.block.sunken { background: var(--bg-sunken); }
   color: #fff;
 }
 .why-card .name { font-weight: 600; color: #fff; font-size: 16px; }
-.why-card .role { font-size: 14px; color: rgba(255,255,255,0.55); }
+/* Company / role in brand-red uppercase mono tracking, matching the
+   section-kicker treatment used elsewhere on the page. */
+.why-card .role {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red-500);
+  margin-top: 2px;
+}
 
 .contact-grid {
   display: grid;

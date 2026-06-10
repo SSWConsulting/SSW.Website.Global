@@ -310,10 +310,20 @@ const footer = data.footer;
 
           {why.testimonial && (
             <aside class="why-card reveal" style="--reveal-delay: 120ms">
-              <div>
-                <div class="quote-mark">“</div>
-                <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>{why.testimonial.quote}</blockquote>
-              </div>
+              {/* Closing quotation mark, decorative, anchored to the card's
+                  top-right corner via CSS. aria-hidden so screen readers don't
+                  announce a stray punctuation character. */}
+              <div class="quote-mark" aria-hidden="true">”</div>
+              <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>
+                {/* Reuses parseAccentTitle (which already splits on **markers**)
+                    to bold opener phrases in the quote. The marker maps to
+                    <strong> here rather than <em> — emphasis on importance,
+                    not typographic stress — and the CSS styles <strong>
+                    brighter/white so the opener pops against the muted body. */}
+                {parseAccentTitle(why.testimonial.quote).map((p) =>
+                  p.accent ? <strong>{p.text}</strong> : <Fragment>{p.text}</Fragment>,
+                )}
+              </blockquote>
               <div class="attr">
                 <div class="avatar" data-tina-field={tinaField(why.testimonial, 'avatarInitials')}>{why.testimonial.avatarInitials}</div>
                 <div>
