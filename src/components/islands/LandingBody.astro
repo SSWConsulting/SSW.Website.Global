@@ -261,7 +261,6 @@ const footer = data.footer;
           <div class="steps">
             {how.steps.map((s, i) => s && (
               <article class="step reveal" style={`--reveal-delay: ${i * 80}ms`}>
-                <div class="icon"><i class={`fa-solid ${s.icon ?? ''}`}></i></div>
                 <div class="step-num" data-tina-field={tinaField(s, 'stepLabel')}>{s.stepLabel}</div>
                 <h3 data-tina-field={tinaField(s, 'title')}>{s.title}</h3>
                 <p data-tina-field={tinaField(s, 'description')}>
