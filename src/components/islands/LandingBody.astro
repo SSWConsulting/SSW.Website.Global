@@ -111,9 +111,6 @@ const footer = data.footer;
             <div class="strip-group">
               {hero.eyebrow && <span class="strip-label" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>}
             </div>
-            <div class="strip-group">
-              {nav?.region && <span class="strip-meta" data-tina-field={tinaField(nav, 'region')}>{nav.region}</span>}
-            </div>
           </div>
 
           {/* Center — big tracked display title + lead + CTAs */}
@@ -509,7 +506,7 @@ const footer = data.footer;
               tabindex="-1"
               autocomplete="off"
               aria-hidden="true"
-              style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"
+              style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;opacity:0"
             />
             <div class="form-actions">
               {contact.form?.privacy && (

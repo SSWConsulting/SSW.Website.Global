@@ -53,15 +53,19 @@ const anchorHref = (href: string | null | undefined): string => {
       <div class="footer-bottom">
         <div class="legal">
           <span data-tina-field={tinaField(footer, 'copyright')}>{footer.copyright}</span>
-          {footer.termsLabel && (
-            <>
-              <span class="sep">·</span>
-              <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" class="content-link" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
-            </>
-          )}
-          {/* Privacy policy link hardcoded next to T&C. See note in LandingBody for the schema-sync tradeoff. */}
-          <span class="sep">·</span>
-          <a href="/privacy" class="content-link">Privacy policy</a>
+          <span class="sep lead-sep">·</span>
+          {/* Terms + Privacy grouped so they wrap to their own line together on
+              mobile. Privacy policy link hardcoded next to T&C — see note in
+              LandingBody for the schema-sync tradeoff. */}
+          <span class="legal-links">
+            {footer.termsLabel && (
+              <>
+                <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" class="content-link" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
+                <span class="sep">·</span>
+              </>
+            )}
+            <a href="/privacy" class="content-link">Privacy policy</a>
+          </span>
         </div>
         {footer.builtWithName && (
           <a class="built" href={footer.builtWithHref ?? '#'} target="_blank" rel="noopener">
