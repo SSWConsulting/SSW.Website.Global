@@ -625,7 +625,7 @@ h3 { margin: 0; }
   text-transform: uppercase;
   color: var(--hero-ink);
 }
-.hero-strip-top { justify-content: space-between; }
+.hero-strip-top { justify-content: center; }
 .hero-strip-bottom {
   justify-content: space-between;
   flex-wrap: wrap;
@@ -677,6 +677,12 @@ h3 { margin: 0; }
   border-color: var(--hero-line);
 }
 .hero-ctas .btn-secondary:hover { background: rgba(236,225,207,0.08); border-color: var(--hero-ink-dim); }
+/* On small screens stack the hero CTAs full-width so both buttons match,
+   instead of each sizing to its own label. */
+@media (max-width: 560px) {
+  .hero-ctas { flex-direction: column; align-items: stretch; width: 100%; }
+  .hero-ctas .btn { width: 100%; }
+}
 
 /* Bottom strip spec tokens (rendered from hero.checks) */
 .hero-strip .strip-token { display: inline-flex; align-items: baseline; gap: 10px; white-space: nowrap; }
@@ -1137,6 +1143,19 @@ section.block.sunken { background: var(--bg-sunken); }
 }
 .faq-helper p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0 0 20px; }
 .faq-helper .helper-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+/* On mobile, the standalone CTAs (FAQ helper, bottom banner, contact submit)
+   span the full width instead of sizing to their label — consistent with the
+   hero CTAs. */
+@media (max-width: 560px) {
+  .faq-helper .helper-actions { flex-direction: column; align-items: stretch; }
+  .faq-helper .helper-actions .btn,
+  .cta-banner .btn,
+  .form-actions .btn { width: 100%; }
+  /* The CTA banner has no padded panel around it (unlike the hero frame and
+     form card), so a full-container button reads wider than the others. Cap it
+     to the same content measure and centre it so all the mobile CTAs match. */
+  .cta-banner .btn { max-width: 20rem; margin-inline: auto; }
+}
 .faq-list { display: flex; flex-direction: column; border-top: 1px solid var(--stroke-neutral); }
 details.faq-item { border-bottom: 1px solid var(--stroke-neutral); }
 details.faq-item summary {
@@ -1260,3 +1279,16 @@ footer { background: var(--bg-base); padding: 64px 0 32px; border-top: 1px solid
 .footer-bottom .built { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-neutral-weaker); }
 .footer-bottom .built img { height: 22px; width: auto; }
 .footer-bottom .built strong { color: var(--text-neutral); font-weight: 600; }
+/* Centre the footer's legal + built-with rows on mobile, where they stack, and
+   break the Terms/Privacy links onto their own line below the copyright. */
+@media (max-width: 560px) {
+  .footer-bottom { flex-direction: column; justify-content: center; text-align: center; }
+  .footer-bottom .legal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+  .footer-bottom .legal .lead-sep { display: none; }
+}
