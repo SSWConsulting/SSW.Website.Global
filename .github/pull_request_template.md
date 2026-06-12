@@ -1,5 +1,6 @@
 <!-- describe the change, why it is needed, and what it accomplishes -->
 <!-- As per rule https://www.ssw.com.au/rules/over-the-shoulder-prs -->
+<!-- Getting the PR merged is part of the PBI - call someone to review your changes to get them merged ASAP -->
 
 - Affected routes: <!-- e.g. `/`, `/admin/` -->
 

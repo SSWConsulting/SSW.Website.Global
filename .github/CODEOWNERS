@@ -1,5 +1,5 @@
 # Default owners for everything
-* @0xharkirat
+* @SSWConsulting/sswdevelopers
 
-# .github folder is owned by repo maintainers
-/.github @wicksipedia @GordonBeeming @tiagov8
+# .github folder (CI, policies, deploy) is owned by the website maintainers team
+/.github @SSWConsulting/ssw-website-maintainers

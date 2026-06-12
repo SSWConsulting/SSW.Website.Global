@@ -3,22 +3,29 @@ updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     labels:
       - 'Type: Dependencies'
     commit-message:
-      prefix: 'Actions'
+      prefix: '⬆️ github-actions'
     rebase-strategy: auto
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     labels:
       - 'Type: Dependencies'
     commit-message:
-      prefix: 'NPM'
+      prefix: '⬆️ npm'
     rebase-strategy: auto
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 14
+      semver-patch-days: 7
     ignore:
       # Tina canary releases use a pinned date-stamped version; let Hark bump these by hand
       - dependency-name: '@tinacms/astro'
