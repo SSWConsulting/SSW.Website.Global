@@ -128,28 +128,28 @@
   },
   "servicesSection": {
     "kicker": "Capabilities",
-    "title": "From a quick prototype to a system you run the business on.",
-    "lead": "Whether it's a rough idea or a platform you'll depend on for years, the same senior people and the same process see it through.",
+    "title": "From prototype to production",
+    "lead": "Whether it is a rough idea or a long-term platform, the same senior people and process see it through.",
     "items": [
       {
         "icon": "fa-robot",
         "title": "AI-assisted software development",
-        "description": "Build applications faster with an [AI-assisted workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow) covering specs, code generation, QA, and review. Senior engineers guide the process, so your software is quick to ship and easy to maintain."
+        "description": "Build applications faster with [AI-assisted](https://www.ssw.com.au/rules/ai-assisted-development-workflow) specs, code, QA, and review, guided by senior engineers."
       },
       {
         "icon": "fa-arrows-rotate",
         "title": "Legacy app modernization",
-        "description": "Move aging .NET, WinForms, and on-prem systems to the cloud a piece at a time, so the business keeps running while you do it."
+        "description": "Modernize aging .NET, WinForms, and on-prem systems piece by piece, without stopping the business."
       },
       {
         "icon": "fa-table-cells-large",
         "title": "Custom business applications",
-        "description": "Internal tools shaped around how your team actually works, and wired into the systems you already use."
+        "description": "Internal tools shaped around your workflow and connected to the systems you already use."
       },
       {
         "icon": "fa-compass",
         "title": "Technical consulting and architecture",
-        "description": "Senior architects help you get the big technical calls right early, while they're still cheap to change."
+        "description": "Senior architects help you make the right technical calls early, while they are still easy to change."
       }
     ]
   },
