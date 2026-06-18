@@ -242,6 +242,21 @@ const footer = data.footer;
             ))}
           </div>
         )}
+
+        {/* Mid-page CTA, sitting below the Capabilities cards inside the same
+            sunken section. Copy is hardcoded rather than wired to a new Tina
+            field on servicesSection — adding a field to the landing
+            collection's hero/services blocks triggers the Tina Cloud
+            schema-sync gotcha (deploy serves "Not Found" until cloud catches
+            up). If marketing needs to edit this string later, the right path
+            is a separate schema-add PR that gets deployed once and stays. */}
+        <div class="section-cta reveal" style="--reveal-delay: 240ms">
+          <h3 class="section-cta-title">Have a project in mind?</h3>
+          <p class="section-cta-lead">Talk to a senior software consultant about what you're building, what's holding it back, and the smartest next step.</p>
+          <a href="#contact" class="btn btn-primary btn-lg">
+            <i class="fa-regular fa-message"></i> Book a free consultation
+          </a>
+        </div>
       </div>
     </section>
   )}
