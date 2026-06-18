@@ -162,25 +162,25 @@
         "icon": "fa-phone",
         "stepLabel": "Step 01",
         "title": "Discovery call",
-        "description": "A 30-minute call with a senior consultant to talk through your goals, your constraints, and what a good outcome looks like."
+        "description": "A 30-minute call to understand your goals, constraints, and ideal outcome."
       },
       {
         "icon": "fa-pencil-ruler",
         "stepLabel": "Step 02",
         "title": "Solution design",
-        "description": "We work out the architecture, timeline, and team, then write it up as a proposal you can actually plan around."
+        "description": "We define the architecture, timeline, and team in a clear proposal you can plan around."
       },
       {
         "icon": "fa-microchip",
         "stepLabel": "Step 03",
         "title": "Rapid AI-assisted build",
-        "description": "Engineers build features with AI in the loop, and everything is reviewed, tested, and deployed as it goes. For early validation, see our rule on [AI tools in prototype development](https://www.ssw.com.au/rules/ai-for-prototype-development)."
+        "description": "Engineers build with AI in the loop, while every feature is reviewed, tested, and deployed as it goes. See our [AI prototyping rule](https://www.ssw.com.au/rules/ai-for-prototype-development)."
       },
       {
         "icon": "fa-rotate",
         "stepLabel": "Step 04",
-        "title": "Live in production, improving weekly",
-        "description": "Launch isn't the end of it. We keep shipping features, fixes, and tweaks every week in 1-week sprints."
+        "title": "Live and improving weekly",
+        "description": "After launch, we keep shipping features, fixes, and tweaks in 1-week sprints."
       }
     ]
   },
