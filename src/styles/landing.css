@@ -894,6 +894,37 @@ section.block.sunken { background: var(--bg-sunken); }
 .why-row .icon { margin-top: 2px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+/* YouTube embed living in the right column of .why-grid, balancing the row
+   list on the left. aspect-ratio keeps the 16:9 frame at any column width
+   without padding-bottom percentage hacks. Same rounded-corner + hairline
+   border treatment as the testimonial card for visual continuity inside
+   the section. */
+.why-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--stroke-neutral);
+  background: #0e0e0e;
+}
+.why-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Full-width row below the why-grid that holds the testimonial. Caps the
+   measure so the muted italic quote stays comfortable to read — without
+   this, the card would stretch to the container's 1240px and the line
+   length would get unreadable for a paragraph-length pull-quote. */
+.why-card-shell {
+  margin-top: clamp(56px, 7vw, 96px);
+  display: flex;
+  justify-content: center;
+}
+.why-card-shell > .why-card { width: 100%; max-width: 880px; }
 /* Testimonial card. Near-black panel with rounded corners; a large
    translucent closing-quote glyph anchors the top-right as a decorative
    mark. Body text reads in a muted off-white while <strong> phrases
