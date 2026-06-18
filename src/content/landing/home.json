@@ -191,28 +191,28 @@
     "rows": [
       {
         "icon": "fa-user-tie",
-        "title": "Experienced teams, sized to your project",
-        "description": "Senior architects, engineers, and Scrum Masters who've shipped for banking, healthcare, government, and Fortune 500 clients. We size the team to your stage and your budget."
+        "title": "Senior teams, sized to fit",
+        "description": "Experienced architects, engineers, and Scrum Masters matched to your project, stage, and budget."
       },
       {
         "icon": "fa-arrows-spin",
-        "title": "Proven Scrum process",
-        "description": "1-week sprints with a working demo at the end of each one. You're never left guessing where the project stands."
+        "title": "Proven [Scrum process](https://www.ssw.com.au/rules/rules-to-better-scrum)",
+        "description": "1-week Scrum sprints with a working demo every week, so you always know where things stand."
       },
       {
         "icon": "fa-robot",
-        "title": "Practical AI adoption",
-        "description": "We use production-ready AI tools and ignore the hype. To avoid [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias), every AI output is still reviewed, validated, and owned by a person."
+        "title": "Practical AI, human reviewed",
+        "description": "We use AI where it helps, but every output is reviewed, validated, and owned by a person."
       },
       {
         "icon": "fa-shield-halved",
         "title": "Strong engineering standards",
-        "description": "Public coding rules, automated checks, and mandatory code review on every change. We let AI help where it improves quality, like [automated code reviews on GitHub](https://www.ssw.com.au/rules/automatic-code-reviews-github)."
+        "description": "Public rules, automated checks, and mandatory code review keep every change accountable."
       },
       {
         "icon": "fa-scale-balanced",
-        "title": "Balance of quality, speed, and cost",
-        "description": "Most shops make you trade quality for speed or cost. We work to keep all three in a sensible balance rather than maxing out one."
+        "title": "Quality, speed, and cost in balance",
+        "description": "We help you move fast without treating quality or budget as afterthoughts."
       }
     ],
     "testimonial": {

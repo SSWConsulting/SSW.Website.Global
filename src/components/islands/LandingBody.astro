@@ -290,7 +290,18 @@ const footer = data.footer;
                 <div class="why-row reveal" style={`--reveal-delay: ${i * 60}ms`}>
                   <div class="icon"><i class={`fa-solid ${r.icon ?? ''}`}></i></div>
                   <div>
-                    <h4 data-tina-field={tinaField(r, 'title')}>{r.title}</h4>
+                    {/* Title supports [label](url) inline markdown links — same
+                        parser as the description below. Lets editors point a
+                        single phrase in the headline at an SSW rules page (e.g.
+                        "Proven [Scrum process](…)") without splitting into a
+                        separate Tina field. */}
+                    <h4 data-tina-field={tinaField(r, 'title')}>
+                      {parseInlineLinks(r.title).map((part) =>
+                        part.type === 'link'
+                          ? <a href={part.href} target="_blank" rel="noopener noreferrer" class="content-link">{part.label}</a>
+                          : <Fragment>{part.value}</Fragment>,
+                      )}
+                    </h4>
                     <p data-tina-field={tinaField(r, 'description')}>
                       {parseInlineLinks(r.description).map((part) =>
                         part.type === 'link'
