@@ -1009,13 +1009,13 @@ section.block.sunken { background: var(--bg-sunken); }
   margin-top: 2px;
 }
 
+/* Was a 2-col grid (form + aside) before the aside was removed. Now a
+   single-column wrapper that caps the form width so it stays readable on
+   wide viewports instead of stretching to the full landing container. */
 .contact-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 0.9fr;
-  gap: clamp(40px, 5vw, 64px);
-  align-items: start;
+  max-width: 720px;
+  margin: 0 auto;
 }
-@media (max-width: 920px) { .contact-grid { grid-template-columns: 1fr; } }
 
 .form-card {
   background: var(--bg-raised);
@@ -1133,12 +1133,6 @@ section.block.sunken { background: var(--bg-sunken); }
 .form-error i { color: var(--red-500); flex-shrink: 0; }
 .form-error a { color: var(--red-700); text-decoration: underline; text-underline-offset: 2px; }
 
-.contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
-.contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
-.contact-aside .item:last-child { border-bottom: none; }
-.contact-aside .item .icon { flex-shrink: 0; }
-.contact-aside h4 { font-size: 17px; font-weight: 600; color: var(--text-neutral-strong); margin: 0 0 4px; }
-.contact-aside p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; line-height: 1.5; }
 
 .faq-grid {
   display: grid;

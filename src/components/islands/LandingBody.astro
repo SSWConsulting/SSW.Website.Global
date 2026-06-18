@@ -608,19 +608,11 @@ const footer = data.footer;
             </div>
           )}
 
-          {contact.asideItems && contact.asideItems.length > 0 && (
-            <aside class="contact-aside reveal" style="--reveal-delay: 120ms">
-              {contact.asideItems.map((item) => item && (
-                <div class="item">
-                  <div class="icon"><i class={`fa-solid ${item.icon ?? ''}`}></i></div>
-                  <div>
-                    <h4 data-tina-field={tinaField(item, 'title')}>{item.title}</h4>
-                    <p data-tina-field={tinaField(item, 'description')}>{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </aside>
-          )}
+          {/* Right-column aside (Americas / hello@ssw.com cards) removed —
+              duplicated info already covered by the nav region badge and
+              the footer contact links. contact.asideItems data is left in
+              place in the Tina schema so the field stays editable, but
+              no longer renders. */}
         </div>
       </div>
     </section>
