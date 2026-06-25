@@ -228,6 +228,21 @@ html.dark body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Page-level action bar — currently used at the top of /terms-conditions
+   for the Print button, but reusable on any MDX page that wants a row of
+   action buttons above the body. Right-aligned on desktop so it sits in
+   the typographic margin without competing with the H1; left-aligned on
+   mobile to stack cleanly under the heading. */
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: clamp(8px, 1.5vw, 16px) 0 clamp(24px, 3vw, 40px);
+}
+@media (max-width: 540px) {
+  .page-actions { justify-content: flex-start; }
+}
+.page-actions .btn { white-space: nowrap; }
+
 /* ───────────────────────── Printable sign-off form
    A 2-column label/value grid that mirrors a paper form: label on the
    left (right-aligned, bold), an empty bordered "line" on the right
@@ -295,7 +310,7 @@ html.dark body {
     background: #fff !important;
     color: #000 !important;
   }
-  .nav, footer, .breadcrumb { display: none !important; }
+  .nav, footer, .breadcrumb, .page-actions { display: none !important; }
   .page-shell { padding: 0; }
   .page-body a { color: #000; text-decoration: underline; }
   /* Keep tables visible with proper borders on paper. */
@@ -503,17 +518,22 @@ h3 { margin: 0; }
   white-space: nowrap;
 }
 .btn i { font-size: 14px; }
+/* Each :hover rule re-asserts `color` so that on internal pages — which
+   also load the starter's global.css — the bare `a:hover { color: var(--accent) }`
+   in that stylesheet doesn't outspecify our class-level button colour
+   (`a:hover` is (0,0,1,1); `.btn-primary` is (0,0,1,0), so `a:hover` wins
+   without an explicit hover colour at the class+pseudo level). */
 .btn-primary { background: var(--red-500); color: #fff; }
-.btn-primary:hover { background: var(--red-600); }
-.btn-primary:active { background: var(--red-700); }
+.btn-primary:hover { background: var(--red-600); color: #fff; }
+.btn-primary:active { background: var(--red-700); color: #fff; }
 .btn-secondary {
   background: var(--bg-raised);
   color: var(--text-neutral-strong);
   border-color: var(--stroke-neutral-strong);
 }
-.btn-secondary:hover { background: var(--bg-sunken); }
+.btn-secondary:hover { background: var(--bg-sunken); color: var(--text-neutral-strong); }
 .btn-ghost { color: var(--text-neutral-strong); padding: 10px 14px; }
-.btn-ghost:hover { background: var(--grey-100); }
+.btn-ghost:hover { background: var(--grey-100); color: var(--text-neutral-strong); }
 .btn-lg { padding: 14px 22px; font-size: 17px; }
 .btn-lg i { font-size: 16px; }
 
