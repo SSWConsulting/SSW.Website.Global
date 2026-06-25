@@ -31,7 +31,7 @@ html.dark body {
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-.page-shell .container { max-width: 960px; /* tighter than the landing (1240) but wide enough that long sentences in legal copy don't break into too many short lines */ }
+.page-shell .container { max-width: 1100px; /* wide enough to give the T&C rate tables comfortable room without forcing horizontal scroll, still tighter than the landing's 1240 so paragraph copy keeps a readable measure */ }
 
 /* Breadcrumb above the article on internal pages. Mono-uppercase to match
    the .section-kicker / .strip-meta vocabulary used across the landing,
@@ -195,7 +195,12 @@ html.dark body {
   border-radius: var(--edge);
 }
 .page-body table thead {
-  background: var(--grey-100);
+  /* Was var(--grey-100) — which only gets redefined in light mode, so on
+     this dark-mode-only page the thead was painting near-white text
+     (--text-neutral-strong = rgba(255,255,255,0.95)) over near-white bg.
+     Use --bg-raised for a subtle dark "card" feel that has contrast against
+     both the cell text and the page background in either theme. */
+  background: var(--bg-raised);
 }
 .page-body table th {
   font-family: var(--font-mono-true);
@@ -221,6 +226,91 @@ html.dark body {
 .page-body table td:not(:first-child) {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+/* ───────────────────────── Printable sign-off form
+   A 2-column label/value grid that mirrors a paper form: label on the
+   left (right-aligned, bold), an empty bordered "line" on the right
+   that prints cleanly so a client can fill it in by hand. Used at the
+   bottom of /terms-conditions; styles are generic so any future MDX
+   page that drops a .signoff-form gets the same affordance.
+   ──────────────────────────────────────────────────────────────────── */
+.signoff-form {
+  margin-top: clamp(24px, 3vw, 40px);
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--bg-raised);
+  border: 1px solid var(--stroke-neutral-weak);
+  border-radius: var(--edge);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.page-body .signoff-form > * + * { margin-top: 0; /* override the page-body 1.5em block rhythm — the form has its own internal gap */ }
+.signoff-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .signoff-row { grid-template-columns: 1fr; gap: 6px; }
+}
+.signoff-form dt {
+  font-weight: 700;
+  color: var(--text-neutral-strong);
+  text-align: right;
+  padding-top: 10px;
+  line-height: 1.3;
+}
+@media (max-width: 640px) {
+  .signoff-form dt { text-align: left; padding-top: 0; }
+}
+.signoff-form dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.signoff-line {
+  display: block;
+  width: 100%;
+  height: 42px;
+  background: var(--bg-base);
+  border: 1px solid var(--stroke-neutral);
+  border-radius: var(--edge);
+}
+.signoff-line-tall { height: 72px; }
+.signoff-hint {
+  font-size: 13px;
+  color: var(--text-neutral-weak);
+  font-style: italic;
+}
+
+/* Print rules — the T&C is a printable contract; clients should be able
+   to hit Cmd+P / Ctrl+P and get a clean paper version. Hide chrome
+   (nav, footer, breadcrumb), flip colours to ink-friendly black-on-white,
+   and keep the sign-off form intact on one page where possible. */
+@media print {
+  body, html.dark body, .page-shell, .page-body, .signoff-form {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .nav, footer, .breadcrumb { display: none !important; }
+  .page-shell { padding: 0; }
+  .page-body a { color: #000; text-decoration: underline; }
+  /* Keep tables visible with proper borders on paper. */
+  .page-body table,
+  .page-body table th,
+  .page-body table td {
+    border-color: #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  /* The sign-off block is the printable contract surface — keep it on
+     one page where possible and draw the input "lines" as black borders. */
+  .signoff-form { page-break-inside: avoid; border-color: #000 !important; }
+  .signoff-line { background: #fff !important; border-color: #000 !important; }
+  .signoff-form dt { color: #000 !important; }
 }
 
 /* ───────────────────────── Scroll-reveal motion system
