@@ -43,23 +43,12 @@ html.dark body {
    was capping the .page-body to a narrow centered column even though prose-level children have their
    own 72ch max-width. */
 .page-body { width: auto; max-width: none; }
-/* Internal pages use the same container max-width as the landing (1240) so
-   the whole site feels like one width system. Prose-level elements
-   (paragraphs, headings, lists, quotes) cap at 72ch so individual lines
-   don't run to 150+ characters — that's the readability bound for body
-   text. Block-level structures that want the full width (tables, the
-   sign-off form, the page-actions row, hr separators) inherit none. */
-.page-shell .container { max-width: var(--page-max); }
-.page-body p,
-.page-body h1,
-.page-body h2,
-.page-body h3,
-.page-body h4,
-.page-body h5,
-.page-body h6,
-.page-body ul,
-.page-body ol,
-.page-body blockquote { max-width: 72ch; }
+/* Internal pages cap at 960px — narrower than the landing's 1240 because
+   long-form legal copy reads better at a tighter measure, but wider than
+   the previous 720 so paragraphs and tables get room to breathe. Prose
+   elements fill the container; the 960 itself is the natural readability
+   cap (≈100ch at 17px Inter is the upper bound). */
+.page-shell .container { max-width: 960px; }
 
 /* Breadcrumb above the article on internal pages. Mono-uppercase to match
    the .section-kicker / .strip-meta vocabulary used across the landing,
@@ -256,11 +245,28 @@ html.dark body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Page-level action bar — currently used at the top of /terms-conditions
-   for the Print button, but reusable on any MDX page that wants a row of
-   action buttons above the body. Right-aligned on desktop so it sits in
-   the typographic margin without competing with the H1; left-aligned on
-   mobile to stack cleanly under the heading. */
+/* Page header — title + action buttons inline. Used at the top of MDX
+   pages that want a Print/Share/etc. button next to the H1 instead of
+   stacked above the body copy. Flex row, baseline-aligned so the button
+   sits along the heading's typographic baseline; wraps to two lines on
+   ≤540px viewports where the H1 needs the full row. */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(8px, 1.5vw, 16px);
+}
+/* The .page-body > * + * 1.5em block rhythm and the .page-body h1
+   margin-bottom: 0.3em both want to apply to the H1 inside the header.
+   Zero them out — the .page-header itself owns the spacing now. */
+.page-header > h1 { margin: 0; max-width: none; }
+.page-header > .page-actions { margin: 0; flex-shrink: 0; }
+
+/* Page-level action bar — Print button etc. Stand-alone form (outside a
+   .page-header) right-aligns above the article. Inside a .page-header it
+   shares a baseline-aligned row with the H1 (overrides above). */
 .page-actions {
   display: flex;
   justify-content: flex-end;
