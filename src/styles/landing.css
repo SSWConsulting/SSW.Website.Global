@@ -31,7 +31,23 @@ html.dark body {
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-.page-shell .container { max-width: 1100px; /* wide enough to give the T&C rate tables comfortable room without forcing horizontal scroll, still tighter than the landing's 1240 so paragraph copy keeps a readable measure */ }
+/* Internal pages use the same container max-width as the landing (1240) so
+   the whole site feels like one width system. Prose-level elements
+   (paragraphs, headings, lists, quotes) cap at 72ch so individual lines
+   don't run to 150+ characters — that's the readability bound for body
+   text. Block-level structures that want the full width (tables, the
+   sign-off form, the page-actions row, hr separators) inherit none. */
+.page-shell .container { max-width: var(--page-max); }
+.page-body p,
+.page-body h1,
+.page-body h2,
+.page-body h3,
+.page-body h4,
+.page-body h5,
+.page-body h6,
+.page-body ul,
+.page-body ol,
+.page-body blockquote { max-width: 72ch; }
 
 /* Breadcrumb above the article on internal pages. Mono-uppercase to match
    the .section-kicker / .strip-meta vocabulary used across the landing,
