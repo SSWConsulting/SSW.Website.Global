@@ -271,6 +271,24 @@ html.dark body {
 }
 .page-actions .btn { white-space: nowrap; }
 
+/* Aside callout — a small, quiet note used for editorial/contextual asides
+   at the end of a long page (the AU-source attribution on /terms-conditions
+   today, but reusable for any MDX page that wants a "by the way" box).
+   Quieter than the .signoff-form: thinner border, muted text, no header. */
+.page-note {
+  margin-top: clamp(24px, 3vw, 40px);
+  padding: clamp(16px, 2vw, 24px) clamp(20px, 2.5vw, 28px);
+  background: var(--bg-raised);
+  border: 1px solid var(--stroke-neutral-weak);
+  border-left: 3px solid var(--red-500);
+  border-radius: var(--edge);
+  color: var(--text-neutral-weak);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.page-note a { color: var(--text-neutral); }
+.page-note a:hover, .page-note a:focus-visible { color: var(--red-500); }
+
 /* ───────────────────────── Printable sign-off form
    A 2-column label/value grid that mirrors a paper form: label on the
    left (right-aligned, bold), an empty bordered "line" on the right
