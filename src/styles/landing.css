@@ -47,13 +47,16 @@ main, article {
   background: var(--bg-base);
 }
 .page-body { /* width/max-width handled by the bare-element reset above */ }
-/* Internal pages use the same 1240 container as the landing so the page
-   doesn't feel boxed in on wide viewports. To keep best-practice prose
-   readability inside the wider frame, paragraphs / headings / lists /
-   quotes cap at 75ch (≈720px at 17px Inter), centered within the
-   container via auto-margins. Structural blocks (tables, signoff form,
-   breadcrumb, page header, page note) take the full container width. */
-.page-shell .container { max-width: var(--page-max); }
+/* Internal pages get a wider container than the landing (1400 vs 1240)
+   because long-form content with rate tables and legal headings benefits
+   from horizontal room — the landing's grid sections look right at 1240,
+   but here the breadcrumb, headings, tables and sign-off form all want
+   the extra width. Prose-level elements (paragraphs, headings, lists,
+   quotes) still cap at 85ch (≈800px at 17px Inter) so individual lines
+   stay inside the 60-95ch readability sweet spot. Structural blocks
+   (tables, signoff form, breadcrumb, page header, page note) take the
+   full container width. */
+.page-shell .container { max-width: 1400px; }
 .page-body > p,
 .page-body > h2,
 .page-body > h3,
@@ -63,7 +66,7 @@ main, article {
 .page-body > ul,
 .page-body > ol,
 .page-body > blockquote {
-  max-width: 75ch;
+  max-width: 85ch;
 }
 
 /* Breadcrumb above the article on internal pages. Mono-uppercase to match
