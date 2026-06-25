@@ -27,22 +27,26 @@ html.dark body {
    vertical breathing room and types the markdown body in Inter to
    match the rest of the site.
    ──────────────────────────────────────────────────────────────────── */
-.page-shell {
-  /* The starter's global.css declares `main { width: 720px; max-width: calc(100% - 2em); margin: auto }`
-     for blog-post-style centered reading layouts. That bare-element rule wins over us for any property
-     we don't explicitly override, which is why the T&C page kept rendering at 720px wide even after we
-     widened the container. Reset width / max-width / margin here so the page-shell expands to the full
-     viewport and lets the container inside drive the width. */
+/* Beat global.css's `main { width: 720px }` and `article { width: 720px }`
+   element rules from the starter's blog-post layout. These constraints
+   were being applied to the OUTER <main> rendered by Tina's TinaIsland
+   wrapper (which has no class for us to target) and to the .page-body
+   <article>, which capped the page at 720px even after we widened
+   .page-shell. Anchored at the element level so any future <main> /
+   <article> on the site stays full-width unless explicitly constrained
+   by a class rule. */
+main, article {
   width: auto;
   max-width: none;
   margin: 0;
+  padding: 0;
+}
+
+.page-shell {
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-/* Same fix for the article: global.css's `article { width: 720px; max-width: calc(100% - 2em) }`
-   was capping the .page-body to a narrow centered column even though prose-level children have their
-   own 72ch max-width. */
-.page-body { width: auto; max-width: none; }
+.page-body { /* width/max-width handled by the bare-element reset above */ }
 /* Internal pages cap at 960px — narrower than the landing's 1240 because
    long-form legal copy reads better at a tighter measure, but wider than
    the previous 720 so paragraphs and tables get room to breathe. Prose
