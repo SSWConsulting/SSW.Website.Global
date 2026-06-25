@@ -47,12 +47,24 @@ main, article {
   background: var(--bg-base);
 }
 .page-body { /* width/max-width handled by the bare-element reset above */ }
-/* Internal pages cap at 960px — narrower than the landing's 1240 because
-   long-form legal copy reads better at a tighter measure, but wider than
-   the previous 720 so paragraphs and tables get room to breathe. Prose
-   elements fill the container; the 960 itself is the natural readability
-   cap (≈100ch at 17px Inter is the upper bound). */
-.page-shell .container { max-width: 960px; }
+/* Internal pages use the same 1240 container as the landing so the page
+   doesn't feel boxed in on wide viewports. To keep best-practice prose
+   readability inside the wider frame, paragraphs / headings / lists /
+   quotes cap at 75ch (≈720px at 17px Inter), centered within the
+   container via auto-margins. Structural blocks (tables, signoff form,
+   breadcrumb, page header, page note) take the full container width. */
+.page-shell .container { max-width: var(--page-max); }
+.page-body > p,
+.page-body > h2,
+.page-body > h3,
+.page-body > h4,
+.page-body > h5,
+.page-body > h6,
+.page-body > ul,
+.page-body > ol,
+.page-body > blockquote {
+  max-width: 75ch;
+}
 
 /* Breadcrumb above the article on internal pages. Mono-uppercase to match
    the .section-kicker / .strip-meta vocabulary used across the landing,
@@ -203,10 +215,7 @@ main, article {
    silently — the renderer has no `table`/`tr`/`td` cases, but it does
    pass `html` nodes through, so `<table>…</table>` survives. */
 .page-body table {
-  display: block;
   width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
   border-collapse: collapse;
   font-size: 15px;
   line-height: 1.5;
@@ -214,6 +223,19 @@ main, article {
      card rather than floating against the page background. */
   border: 1px solid var(--stroke-neutral-weak);
   border-radius: var(--edge);
+  /* Default to native table layout at desktop widths so all columns fit
+     inside the wider container without needing to scroll. */
+}
+/* On narrow viewports the 5-column rate tables won't fit; fall back to
+   horizontal scroll inside the table itself rather than overflowing the
+   container. Threshold matches the rest of the page-body responsive
+   breakpoints. */
+@media (max-width: 720px) {
+  .page-body table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
 }
 .page-body table thead {
   /* Was var(--grey-100) — which only gets redefined in light mode, so on
