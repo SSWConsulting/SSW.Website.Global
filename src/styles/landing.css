@@ -47,27 +47,11 @@ main, article {
   background: var(--bg-base);
 }
 .page-body { /* width/max-width handled by the bare-element reset above */ }
-/* Internal pages get a wider container than the landing (1400 vs 1240)
-   because long-form content with rate tables and legal headings benefits
-   from horizontal room — the landing's grid sections look right at 1240,
-   but here the breadcrumb, headings, tables and sign-off form all want
-   the extra width. Prose-level elements (paragraphs, headings, lists,
-   quotes) still cap at 85ch (≈800px at 17px Inter) so individual lines
-   stay inside the 60-95ch readability sweet spot. Structural blocks
-   (tables, signoff form, breadcrumb, page header, page note) take the
-   full container width. */
-.page-shell .container { max-width: 1400px; }
-.page-body > p,
-.page-body > h2,
-.page-body > h3,
-.page-body > h4,
-.page-body > h5,
-.page-body > h6,
-.page-body > ul,
-.page-body > ol,
-.page-body > blockquote {
-  max-width: 85ch;
-}
+/* Internal pages cap at 960px — wide enough that paragraphs at 75ch and
+   the 5-column rate tables both fit comfortably without horizontal
+   scroll, narrow enough that long-form legal copy doesn't sprawl across
+   the full viewport on wide desktops. */
+.page-shell .container { max-width: 960px; }
 
 /* Breadcrumb above the article on internal pages. Mono-uppercase to match
    the .section-kicker / .strip-meta vocabulary used across the landing,
@@ -388,9 +372,12 @@ main, article {
    keep the sign-off form intact on one page where possible, and use
    close to the full paper width. */
 @page {
-  /* Trim the default browser margin (~3/4 inch) so the printable area
-     spans nearly the full sheet — no large white gutters on the sides. */
-  margin: 12mm;
+  /* Trim the default browser margin (~19mm) hard so the printable area
+     uses nearly the full sheet — small gutter just so text doesn't run
+     to the edge of the paper. Combined with the tightened in-document
+     spacing below, this brings the printed T&C down from 12+ pages to
+     a much more reasonable count. */
+  margin: 8mm;
 }
 @media print {
   /* Page chrome off. */
@@ -411,7 +398,30 @@ main, article {
   .page-shell { padding: 0 !important; }
   .page-shell .container { padding: 0 !important; max-width: none !important; }
 
+  /* Tighten in-document spacing for print. Screen values are tuned for
+     comfortable scrolling; on paper that translates to a lot of empty
+     vertical space and unnecessary page breaks. These overrides
+     compress the rhythm to a contract-document feel. */
+  .page-body { font-size: 10.5pt; line-height: 1.45; }
+  .page-body > * + * { margin-top: 0.6em !important; }
+  .page-body h1 { font-size: 20pt !important; margin: 0 0 0.25em !important; }
+  .page-body h2 { font-size: 13pt !important; margin: 1em 0 0.15em !important; }
+  .page-body h3 { font-size: 11pt !important; margin: 0.8em 0 0.1em !important; }
+
   .page-body a { color: #000 !important; text-decoration: underline; }
+
+  /* Show URL after each external link so a printed copy is still useful
+     when read off paper. Limited to absolute http(s) and mailto: links
+     so internal anchors (#section), site-relative routes (/privacy) and
+     empty hrefs don't print noisy " (/) " markers. Long URLs wrap inside
+     the appended string rather than overflowing the column. */
+  .page-body a[href^="http"]::after,
+  .page-body a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+    color: #000 !important;
+  }
 
   /* Force-print the red square list bullets. By default browsers strip
      element backgrounds when printing (print-color-adjust: economy is
@@ -440,19 +450,37 @@ main, article {
   }
 
   /* The sign-off block is the printable contract surface — keep it on
-     one page where possible and draw the input "lines" as black borders. */
+     one page where possible, draw the input "lines" as black borders,
+     and tighten the row spacing so it fits inside a single page even
+     after the contract text takes more pages than expected. */
   .signoff-form {
     page-break-inside: avoid;
     border-color: #000 !important;
     background: transparent !important;
+    margin-top: 12px !important;
+    padding: 14px !important;
+    gap: 8px !important;
   }
+  .signoff-row { gap: 12px !important; }
   .signoff-line {
     background: transparent !important;
     border-color: #000 !important;
+    height: 28px !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .signoff-form dt { color: #000 !important; }
+  .signoff-line-tall { height: 48px !important; }
+  .signoff-form dt { color: #000 !important; padding-top: 6px !important; }
+
+  /* Tighten table cell padding so rate cards take fewer rows of
+     vertical space on paper. */
+  .page-body table th,
+  .page-body table td { padding: 4px 8px !important; font-size: 10pt !important; }
+
+  /* Section blocks (sign-off form, page-note, last paragraph) shouldn't
+     get orphaned at the bottom of a page with just a heading above them. */
+  .page-body h2, .page-body h3 { page-break-after: avoid; }
+  .page-note { page-break-inside: avoid; }
 }
 
 /* ───────────────────────── Scroll-reveal motion system
