@@ -33,6 +33,33 @@ html.dark body {
 }
 .page-shell .container { max-width: 960px; /* tighter than the landing (1240) but wide enough that long sentences in legal copy don't break into too many short lines */ }
 
+/* Breadcrumb above the article on internal pages. Mono-uppercase to match
+   the .section-kicker / .strip-meta vocabulary used across the landing,
+   so the page chrome reads as the same design system. Current-page span
+   lifts to neutral-strong; "Home" link hovers to brand red. */
+.breadcrumb {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-neutral-weak);
+  margin-bottom: clamp(24px, 3vw, 40px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.breadcrumb a {
+  color: var(--text-neutral-weak);
+  text-decoration: none;
+  transition: color var(--duration-normal) var(--ease-out);
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible { color: var(--red-500); }
+.breadcrumb .sep { opacity: 0.5; }
+.breadcrumb [aria-current="page"] { color: var(--text-neutral-strong); }
+
 .page-body {
   font-family: var(--font-sans);
   font-size: 17px;
@@ -147,6 +174,53 @@ html.dark body {
   border: 0;
   border-top: 1px solid var(--stroke-neutral-weak);
   margin: 2em 0;
+}
+/* Internal-page tables (rate cards on /terms-conditions, etc.). Hairline
+   borders, mono header row, right-aligned numeric cells, and horizontal
+   scroll wrapper for narrow viewports. Authored as inline HTML in the
+   MDX because Tina's TinaMarkdown renderer drops markdown table nodes
+   silently — the renderer has no `table`/`tr`/`td` cases, but it does
+   pass `html` nodes through, so `<table>…</table>` survives. */
+.page-body table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+  /* Faint border around the block so the table reads as a self-contained
+     card rather than floating against the page background. */
+  border: 1px solid var(--stroke-neutral-weak);
+  border-radius: var(--edge);
+}
+.page-body table thead {
+  background: var(--grey-100);
+}
+.page-body table th {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-neutral-strong);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  white-space: nowrap;
+}
+.page-body table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  color: var(--text-neutral);
+}
+.page-body table tbody tr:last-child td { border-bottom: 0; }
+/* Right-align numeric columns (every column after the first). The
+   :first-child stays left-aligned as the role name. */
+.page-body table th:not(:first-child),
+.page-body table td:not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ───────────────────────── Scroll-reveal motion system

@@ -2,7 +2,7 @@
 /**
  * Site-wide footer sourced from the landing collection's `footer` block.
  * Used by both the home page (inside LandingBody for live Tina editing)
- * and the Landing layout (for internal pages like /privacy and /about).
+ * and the Landing layout (for internal pages like /privacy and /terms).
  *
  * Anchor-only hrefs ("#why" etc.) are normalised to "/#why" so they work
  * from any page. External T&C / built-with links stay as-is.
@@ -27,6 +27,16 @@ const anchorHref = (href: string | null | undefined): string => {
   if (href.startsWith('#')) return `/${href}`;
   return href;
 };
+
+/** Treat absolute http(s) hrefs as external — open in a new tab with
+ *  noopener. Site-relative hrefs ("/terms-conditions", "/privacy") stay
+ *  same-tab. Lets editors swap termsHref between an internal route and
+ *  an external rules page without touching markup. */
+const isExternalUrl = (href: string | null | undefined): boolean =>
+  !!href && /^https?:\/\//i.test(href);
+
+const termsHref = footer?.termsHref ?? '#';
+const termsIsExternal = isExternalUrl(termsHref);
 ---
 
 {footer && (
@@ -60,7 +70,13 @@ const anchorHref = (href: string | null | undefined): string => {
           <span class="legal-links">
             {footer.termsLabel && (
               <>
-                <a href={footer.termsHref ?? '#'} target="_blank" rel="noopener" class="content-link" data-tina-field={tinaField(footer, 'termsLabel')}>{footer.termsLabel}</a>
+                <a
+                  href={termsHref}
+                  class="content-link"
+                  data-tina-field={tinaField(footer, 'termsLabel')}
+                  target={termsIsExternal ? '_blank' : undefined}
+                  rel={termsIsExternal ? 'noopener' : undefined}
+                >{footer.termsLabel}</a>
                 <span class="sep">·</span>
               </>
             )}
