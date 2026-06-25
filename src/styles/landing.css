@@ -28,9 +28,21 @@ html.dark body {
    match the rest of the site.
    ──────────────────────────────────────────────────────────────────── */
 .page-shell {
+  /* The starter's global.css declares `main { width: 720px; max-width: calc(100% - 2em); margin: auto }`
+     for blog-post-style centered reading layouts. That bare-element rule wins over us for any property
+     we don't explicitly override, which is why the T&C page kept rendering at 720px wide even after we
+     widened the container. Reset width / max-width / margin here so the page-shell expands to the full
+     viewport and lets the container inside drive the width. */
+  width: auto;
+  max-width: none;
+  margin: 0;
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
+/* Same fix for the article: global.css's `article { width: 720px; max-width: calc(100% - 2em) }`
+   was capping the .page-body to a narrow centered column even though prose-level children have their
+   own 72ch max-width. */
+.page-body { width: auto; max-width: none; }
 /* Internal pages use the same container max-width as the landing (1240) so
    the whole site feels like one width system. Prose-level elements
    (paragraphs, headings, lists, quotes) cap at 72ch so individual lines
@@ -320,27 +332,73 @@ html.dark body {
 /* Print rules — the T&C is a printable contract; clients should be able
    to hit Cmd+P / Ctrl+P and get a clean paper version. Hide chrome
    (nav, footer, breadcrumb), flip colours to ink-friendly black-on-white,
-   and keep the sign-off form intact on one page where possible. */
+   keep the sign-off form intact on one page where possible, and use
+   close to the full paper width. */
+@page {
+  /* Trim the default browser margin (~3/4 inch) so the printable area
+     spans nearly the full sheet — no large white gutters on the sides. */
+  margin: 12mm;
+}
 @media print {
-  body, html.dark body, .page-shell, .page-body, .signoff-form {
-    background: #fff !important;
+  /* Page chrome off. */
+  .nav, footer, .breadcrumb, .page-actions { display: none !important; }
+
+  /* Pull every wrapper to white-on-black-text. The * selector at the end
+     catches anything we'd otherwise have to enumerate by hand — strong,
+     em, code, h-tags, td, etc. — so the printed page reads as solid
+     black ink instead of the dark-mode mid-greys. */
+  body, html.dark body, .page-shell, .page-body, .page-body * {
+    background: transparent !important;
     color: #000 !important;
   }
-  .nav, footer, .breadcrumb, .page-actions { display: none !important; }
-  .page-shell { padding: 0; }
-  .page-body a { color: #000; text-decoration: underline; }
-  /* Keep tables visible with proper borders on paper. */
+  body, html.dark body { background: #fff !important; }
+
+  /* Drop our outer page padding and the container's gutter so the content
+     uses the @page margin instead of stacking gutters on top of it. */
+  .page-shell { padding: 0 !important; }
+  .page-shell .container { padding: 0 !important; max-width: none !important; }
+
+  .page-body a { color: #000 !important; text-decoration: underline; }
+
+  /* Force-print the red square list bullets. By default browsers strip
+     element backgrounds when printing (print-color-adjust: economy is
+     the default), so our ::before squares were invisible on paper —
+     bullets need print-color-adjust: exact to actually render. We also
+     swap red → black for ink-friendliness. */
+  .page-body ul > li::before {
+    background: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Tables get visible borders on paper. The thead background is forced
+     to print as a light-grey shade so the header row still reads as
+     distinct from the body cells. */
   .page-body table,
   .page-body table th,
   .page-body table td {
     border-color: #000 !important;
-    background: #fff !important;
     color: #000 !important;
   }
+  .page-body table thead {
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   /* The sign-off block is the printable contract surface — keep it on
      one page where possible and draw the input "lines" as black borders. */
-  .signoff-form { page-break-inside: avoid; border-color: #000 !important; }
-  .signoff-line { background: #fff !important; border-color: #000 !important; }
+  .signoff-form {
+    page-break-inside: avoid;
+    border-color: #000 !important;
+    background: transparent !important;
+  }
+  .signoff-line {
+    background: transparent !important;
+    border-color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
   .signoff-form dt { color: #000 !important; }
 }
 
