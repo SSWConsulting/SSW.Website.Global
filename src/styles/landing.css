@@ -27,11 +27,58 @@ html.dark body {
    vertical breathing room and types the markdown body in Inter to
    match the rest of the site.
    ──────────────────────────────────────────────────────────────────── */
+/* Beat global.css's `main { width: 720px }` and `article { width: 720px }`
+   element rules from the starter's blog-post layout. These constraints
+   were being applied to the OUTER <main> rendered by Tina's TinaIsland
+   wrapper (which has no class for us to target) and to the .page-body
+   <article>, which capped the page at 720px even after we widened
+   .page-shell. Anchored at the element level so any future <main> /
+   <article> on the site stays full-width unless explicitly constrained
+   by a class rule. */
+main, article {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
 .page-shell {
   padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
   background: var(--bg-base);
 }
-.page-shell .container { max-width: 960px; /* tighter than the landing (1240) but wide enough that long sentences in legal copy don't break into too many short lines */ }
+.page-body { /* width/max-width handled by the bare-element reset above */ }
+/* Internal pages cap at 960px — wide enough that paragraphs at 75ch and
+   the 5-column rate tables both fit comfortably without horizontal
+   scroll, narrow enough that long-form legal copy doesn't sprawl across
+   the full viewport on wide desktops. */
+.page-shell .container { max-width: 960px; }
+
+/* Breadcrumb above the article on internal pages. Mono-uppercase to match
+   the .section-kicker / .strip-meta vocabulary used across the landing,
+   so the page chrome reads as the same design system. Current-page span
+   lifts to neutral-strong; "Home" link hovers to brand red. */
+.breadcrumb {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-neutral-weak);
+  margin-bottom: clamp(24px, 3vw, 40px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.breadcrumb a {
+  color: var(--text-neutral-weak);
+  text-decoration: none;
+  transition: color var(--duration-normal) var(--ease-out);
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible { color: var(--red-500); }
+.breadcrumb .sep { opacity: 0.5; }
+.breadcrumb [aria-current="page"] { color: var(--text-neutral-strong); }
 
 .page-body {
   font-family: var(--font-sans);
@@ -147,6 +194,293 @@ html.dark body {
   border: 0;
   border-top: 1px solid var(--stroke-neutral-weak);
   margin: 2em 0;
+}
+/* Internal-page tables (rate cards on /terms-conditions, etc.). Hairline
+   borders, mono header row, right-aligned numeric cells, and horizontal
+   scroll wrapper for narrow viewports. Authored as inline HTML in the
+   MDX because Tina's TinaMarkdown renderer drops markdown table nodes
+   silently — the renderer has no `table`/`tr`/`td` cases, but it does
+   pass `html` nodes through, so `<table>…</table>` survives. */
+.page-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+  /* Faint border around the block so the table reads as a self-contained
+     card rather than floating against the page background. */
+  border: 1px solid var(--stroke-neutral-weak);
+  border-radius: var(--edge);
+  /* Default to native table layout at desktop widths so all columns fit
+     inside the wider container without needing to scroll. */
+}
+/* On narrow viewports the 5-column rate tables won't fit; fall back to
+   horizontal scroll inside the table itself rather than overflowing the
+   container. Threshold matches the rest of the page-body responsive
+   breakpoints. */
+@media (max-width: 720px) {
+  .page-body table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}
+.page-body table thead {
+  /* Was var(--grey-100) — which only gets redefined in light mode, so on
+     this dark-mode-only page the thead was painting near-white text
+     (--text-neutral-strong = rgba(255,255,255,0.95)) over near-white bg.
+     Use --bg-raised for a subtle dark "card" feel that has contrast against
+     both the cell text and the page background in either theme. */
+  background: var(--bg-raised);
+}
+.page-body table th {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-neutral-strong);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  white-space: nowrap;
+}
+.page-body table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  color: var(--text-neutral);
+}
+.page-body table tbody tr:last-child td { border-bottom: 0; }
+/* Right-align numeric columns (every column after the first). The
+   :first-child stays left-aligned as the role name. */
+.page-body table th:not(:first-child),
+.page-body table td:not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page header — title + action buttons inline. Used at the top of MDX
+   pages that want a Print/Share/etc. button next to the H1 instead of
+   stacked above the body copy. Flex row, baseline-aligned so the button
+   sits along the heading's typographic baseline; wraps to two lines on
+   ≤540px viewports where the H1 needs the full row. */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(8px, 1.5vw, 16px);
+}
+/* The .page-body > * + * 1.5em block rhythm and the .page-body h1
+   margin-bottom: 0.3em both want to apply to the H1 inside the header.
+   Zero them out — the .page-header itself owns the spacing now. */
+.page-header > h1 { margin: 0; max-width: none; }
+.page-header > .page-actions { margin: 0; flex-shrink: 0; }
+
+/* Page-level action bar — Print button etc. Stand-alone form (outside a
+   .page-header) right-aligns above the article. Inside a .page-header it
+   shares a baseline-aligned row with the H1 (overrides above). */
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: clamp(8px, 1.5vw, 16px) 0 clamp(24px, 3vw, 40px);
+}
+@media (max-width: 540px) {
+  .page-actions { justify-content: flex-start; }
+}
+.page-actions .btn { white-space: nowrap; }
+
+/* Aside callout — a small, quiet note used for editorial/contextual asides
+   at the end of a long page (the AU-source attribution on /terms-conditions
+   today, but reusable for any MDX page that wants a "by the way" box).
+   Quieter than the .signoff-form: thinner border, muted text, no header. */
+.page-note {
+  margin-top: clamp(24px, 3vw, 40px);
+  padding: clamp(16px, 2vw, 24px) clamp(20px, 2.5vw, 28px);
+  background: var(--bg-raised);
+  border: 1px solid var(--stroke-neutral-weak);
+  border-left: 3px solid var(--red-500);
+  border-radius: var(--edge);
+  color: var(--text-neutral-weak);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.page-note a { color: var(--text-neutral); }
+.page-note a:hover, .page-note a:focus-visible { color: var(--red-500); }
+
+/* ───────────────────────── Printable sign-off form
+   A 2-column label/value grid that mirrors a paper form: label on the
+   left (right-aligned, bold), an empty bordered "line" on the right
+   that prints cleanly so a client can fill it in by hand. Used at the
+   bottom of /terms-conditions; styles are generic so any future MDX
+   page that drops a .signoff-form gets the same affordance.
+   ──────────────────────────────────────────────────────────────────── */
+.signoff-form {
+  margin-top: clamp(24px, 3vw, 40px);
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--bg-raised);
+  border: 1px solid var(--stroke-neutral-weak);
+  border-radius: var(--edge);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.page-body .signoff-form > * + * { margin-top: 0; /* override the page-body 1.5em block rhythm — the form has its own internal gap */ }
+.signoff-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .signoff-row { grid-template-columns: 1fr; gap: 6px; }
+}
+.signoff-form dt {
+  font-weight: 700;
+  color: var(--text-neutral-strong);
+  text-align: right;
+  padding-top: 10px;
+  line-height: 1.3;
+}
+@media (max-width: 640px) {
+  .signoff-form dt { text-align: left; padding-top: 0; }
+}
+.signoff-form dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.signoff-line {
+  display: block;
+  width: 100%;
+  height: 42px;
+  background: var(--bg-base);
+  border: 1px solid var(--stroke-neutral);
+  border-radius: var(--edge);
+}
+.signoff-line-tall { height: 72px; }
+.signoff-hint {
+  font-size: 13px;
+  color: var(--text-neutral-weak);
+  font-style: italic;
+}
+
+/* Print rules — the T&C is a printable contract; clients should be able
+   to hit Cmd+P / Ctrl+P and get a clean paper version. Hide chrome
+   (nav, footer, breadcrumb), flip colours to ink-friendly black-on-white,
+   keep the sign-off form intact on one page where possible, and use
+   close to the full paper width. */
+@page {
+  /* Trim the default browser margin (~19mm) hard so the printable area
+     uses nearly the full sheet — small gutter just so text doesn't run
+     to the edge of the paper. Combined with the tightened in-document
+     spacing below, this brings the printed T&C down from 12+ pages to
+     a much more reasonable count. */
+  margin: 8mm;
+}
+@media print {
+  /* Page chrome off. */
+  .nav, footer, .breadcrumb, .page-actions { display: none !important; }
+
+  /* Pull every wrapper to white-on-black-text. The * selector at the end
+     catches anything we'd otherwise have to enumerate by hand — strong,
+     em, code, h-tags, td, etc. — so the printed page reads as solid
+     black ink instead of the dark-mode mid-greys. */
+  body, html.dark body, .page-shell, .page-body, .page-body * {
+    background: transparent !important;
+    color: #000 !important;
+  }
+  body, html.dark body { background: #fff !important; }
+
+  /* Drop our outer page padding and the container's gutter so the content
+     uses the @page margin instead of stacking gutters on top of it. */
+  .page-shell { padding: 0 !important; }
+  .page-shell .container { padding: 0 !important; max-width: none !important; }
+
+  /* Tighten in-document spacing for print. Screen values are tuned for
+     comfortable scrolling; on paper that translates to a lot of empty
+     vertical space and unnecessary page breaks. These overrides
+     compress the rhythm to a contract-document feel. */
+  .page-body { font-size: 10.5pt; line-height: 1.45; }
+  .page-body > * + * { margin-top: 0.6em !important; }
+  .page-body h1 { font-size: 20pt !important; margin: 0 0 0.25em !important; }
+  .page-body h2 { font-size: 13pt !important; margin: 1em 0 0.15em !important; }
+  .page-body h3 { font-size: 11pt !important; margin: 0.8em 0 0.1em !important; }
+
+  .page-body a { color: #000 !important; text-decoration: underline; }
+
+  /* Show URL after each external link so a printed copy is still useful
+     when read off paper. Limited to absolute http(s) and mailto: links
+     so internal anchors (#section), site-relative routes (/privacy) and
+     empty hrefs don't print noisy " (/) " markers. Long URLs wrap inside
+     the appended string rather than overflowing the column. */
+  .page-body a[href^="http"]::after,
+  .page-body a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+    color: #000 !important;
+  }
+
+  /* Force-print the red square list bullets. By default browsers strip
+     element backgrounds when printing (print-color-adjust: economy is
+     the default), so our ::before squares were invisible on paper —
+     bullets need print-color-adjust: exact to actually render. We also
+     swap red → black for ink-friendliness. */
+  .page-body ul > li::before {
+    background: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Tables get visible borders on paper. The thead background is forced
+     to print as a light-grey shade so the header row still reads as
+     distinct from the body cells. */
+  .page-body table,
+  .page-body table th,
+  .page-body table td {
+    border-color: #000 !important;
+    color: #000 !important;
+  }
+  .page-body table thead {
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* The sign-off block is the printable contract surface — keep it on
+     one page where possible, draw the input "lines" as black borders,
+     and tighten the row spacing so it fits inside a single page even
+     after the contract text takes more pages than expected. */
+  .signoff-form {
+    page-break-inside: avoid;
+    border-color: #000 !important;
+    background: transparent !important;
+    margin-top: 12px !important;
+    padding: 14px !important;
+    gap: 8px !important;
+  }
+  .signoff-row { gap: 12px !important; }
+  .signoff-line {
+    background: transparent !important;
+    border-color: #000 !important;
+    height: 28px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .signoff-line-tall { height: 48px !important; }
+  .signoff-form dt { color: #000 !important; padding-top: 6px !important; }
+
+  /* Tighten table cell padding so rate cards take fewer rows of
+     vertical space on paper. */
+  .page-body table th,
+  .page-body table td { padding: 4px 8px !important; font-size: 10pt !important; }
+
+  /* Section blocks (sign-off form, page-note, last paragraph) shouldn't
+     get orphaned at the bottom of a page with just a heading above them. */
+  .page-body h2, .page-body h3 { page-break-after: avoid; }
+  .page-note { page-break-inside: avoid; }
 }
 
 /* ───────────────────────── Scroll-reveal motion system
@@ -339,17 +673,22 @@ h3 { margin: 0; }
   white-space: nowrap;
 }
 .btn i { font-size: 14px; }
+/* Each :hover rule re-asserts `color` so that on internal pages — which
+   also load the starter's global.css — the bare `a:hover { color: var(--accent) }`
+   in that stylesheet doesn't outspecify our class-level button colour
+   (`a:hover` is (0,0,1,1); `.btn-primary` is (0,0,1,0), so `a:hover` wins
+   without an explicit hover colour at the class+pseudo level). */
 .btn-primary { background: var(--red-500); color: #fff; }
-.btn-primary:hover { background: var(--red-600); }
-.btn-primary:active { background: var(--red-700); }
+.btn-primary:hover { background: var(--red-600); color: #fff; }
+.btn-primary:active { background: var(--red-700); color: #fff; }
 .btn-secondary {
   background: var(--bg-raised);
   color: var(--text-neutral-strong);
   border-color: var(--stroke-neutral-strong);
 }
-.btn-secondary:hover { background: var(--bg-sunken); }
+.btn-secondary:hover { background: var(--bg-sunken); color: var(--text-neutral-strong); }
 .btn-ghost { color: var(--text-neutral-strong); padding: 10px 14px; }
-.btn-ghost:hover { background: var(--grey-100); }
+.btn-ghost:hover { background: var(--grey-100); color: var(--text-neutral-strong); }
 .btn-lg { padding: 14px 22px; font-size: 17px; }
 .btn-lg i { font-size: 16px; }
 

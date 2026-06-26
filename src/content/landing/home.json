@@ -345,7 +345,7 @@
     ],
     "copyright": "© 1990–2026 SSW. All rights reserved.",
     "termsLabel": "Terms & conditions",
-    "termsHref": "https://www.ssw.com.au/terms-and-conditions",
+    "termsHref": "/terms-conditions",
     "builtWithText": "Built with",
     "builtWithName": "TinaCMS",
     "builtWithHref": "https://tina.io",

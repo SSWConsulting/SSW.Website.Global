@@ -4,6 +4,7 @@ import type { CustomComponentsMap } from '@tinacms/astro/types';
 import { tinaField } from '@tinacms/astro/tina-field';
 import type { PageQuery } from '../../../tina/__generated__/types';
 import YouTubeEmbed from '../mdx/YouTubeEmbed.astro';
+import RawHtml from '../mdx/RawHtml.astro';
 
 interface Props {
 	data?: PageQuery['page'] | null;
@@ -13,14 +14,44 @@ const { data } = Astro.props;
 
 const components: CustomComponentsMap = {
 	YouTubeEmbed,
+	// Override Tina's default `html` / `html_inline` handling so raw HTML
+	// blocks inside MDX pages (e.g. the rate tables on /terms-conditions)
+	// render as actual markup rather than escaped text. See RawHtml.astro
+	// for why this is needed.
+	html: RawHtml,
+	html_inline: RawHtml,
 };
 ---
 {data?.body && (
 	<main class="page-shell" id="top">
 		<div class="container">
+			{/* Breadcrumb above the article so every internal page (privacy,
+			    terms, about, future pages) gets the same "Home / <Title>"
+			    affordance for free. Label comes from data.seoTitle — the
+			    field is already required on the page schema, so no schema
+			    change here. Current-page span uses aria-current for assistive
+			    tech; visual current state is just a strong-text colour swap. */}
+			<nav class="breadcrumb" aria-label="Breadcrumb">
+				<a href="/">Home</a>
+				<span class="sep" aria-hidden="true">/</span>
+				<span aria-current="page">{data.seoTitle}</span>
+			</nav>
 			<article data-tina-field={tinaField(data, 'body')} class="page-body">
 				<TinaMarkdown content={data.body} components={components} />
 			</article>
 		</div>
 	</main>
 )}
+
+<script>
+	/* Wires any <button class="js-print-page"> on the page to window.print().
+	   Lives here rather than as an inline `onclick="..."` in the MDX because
+	   inline event-handler attributes inside MDX get parsed inconsistently
+	   by the @mdx-js + Tina rich-text pipeline — most recently observed
+	   hanging the Cloudflare build at "Indexing local files". A normal
+	   <script> in PageBody.astro is plain Astro: bundled, tree-shaken, and
+	   only loaded on pages that render PageBody. */
+	document.querySelectorAll('button.js-print-page').forEach((btn) => {
+		btn.addEventListener('click', () => window.print());
+	});
+</script>

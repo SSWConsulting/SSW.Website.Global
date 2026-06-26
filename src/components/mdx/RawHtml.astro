@@ -1,0 +1,28 @@
+---
+/**
+ * Pass-through renderer for `html` and `html_inline` nodes in Tina's
+ * rich-text AST. Tina's default Node.astro handles the html node type
+ * but renders the value as a string — which Astro then escapes, so a
+ * raw `<table>…</table>` blob ends up on the page as `&lt;table&gt;…`.
+ *
+ * Registering this component on the `components` map under the `html`
+ * and `html_inline` keys means Node.astro hands it the raw value as a
+ * `value` prop, and we inject it via `set:html` so the markup actually
+ * lands as HTML.
+ *
+ * This is the lever that lets us author inline `<table>` markup inside
+ * MDX page bodies (used for the consulting rate cards on
+ * /terms-conditions). Tina's renderer has no native table node type,
+ * so the alternative would be either a custom MDX template (and a
+ * schema-sync hit) or rendering the rate tables as flat prose.
+ *
+ * No safety concerns inside our own content collection — Tina-managed
+ * MDX files are author-trusted. Don't register this for user-supplied
+ * markdown without sanitization.
+ */
+interface Props {
+  value: string;
+}
+const { value } = Astro.props;
+---
+<Fragment set:html={value} />
