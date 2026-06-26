@@ -1233,6 +1233,37 @@ section.block.sunken { background: var(--bg-sunken); }
 .why-row .icon { margin-top: 2px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+/* YouTube embed living in the right column of .why-grid, balancing the row
+   list on the left. aspect-ratio keeps the 16:9 frame at any column width
+   without padding-bottom percentage hacks. Same rounded-corner + hairline
+   border treatment as the testimonial card for visual continuity inside
+   the section. */
+.why-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--stroke-neutral);
+  background: #0e0e0e;
+}
+.why-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Full-width row below the why-grid that holds the testimonial. Caps the
+   measure so the muted italic quote stays comfortable to read — without
+   this, the card would stretch to the container's 1240px and the line
+   length would get unreadable for a paragraph-length pull-quote. */
+.why-card-shell {
+  margin-top: clamp(56px, 7vw, 96px);
+  display: flex;
+  justify-content: center;
+}
+.why-card-shell > .why-card { width: 100%; max-width: 880px; }
 /* Testimonial card. Near-black panel with rounded corners; a large
    translucent closing-quote glyph anchors the top-right as a decorative
    mark. Body text reads in a muted off-white while <strong> phrases
@@ -1248,8 +1279,12 @@ section.block.sunken { background: var(--bg-sunken); }
   padding: 40px;
   display: flex; flex-direction: column;
   gap: 24px;
-  min-height: 440px;
-  justify-content: space-between;
+  /* min-height was 440px when this card lived in the right column of the
+     2-col why-grid and needed presence next to the row list. Now that it's
+     in a full-width row below the grid, the natural height of the quote +
+     attribution fills the card; min-height was forcing visible empty space
+     between blockquote and .attr via justify-content: space-between. */
+  justify-content: flex-start;
   overflow: hidden;
 }
 /* Decorative closing-quote glyph in the top-right corner. Big serif weight,
@@ -1313,13 +1348,13 @@ section.block.sunken { background: var(--bg-sunken); }
   margin-top: 2px;
 }
 
+/* Was a 2-col grid (form + aside) before the aside was removed. Now a
+   single-column wrapper that caps the form width so it stays readable on
+   wide viewports instead of stretching to the full landing container. */
 .contact-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 0.9fr;
-  gap: clamp(40px, 5vw, 64px);
-  align-items: start;
+  max-width: 720px;
+  margin: 0 auto;
 }
-@media (max-width: 920px) { .contact-grid { grid-template-columns: 1fr; } }
 
 .form-card {
   background: var(--bg-raised);
@@ -1437,12 +1472,6 @@ section.block.sunken { background: var(--bg-sunken); }
 .form-error i { color: var(--red-500); flex-shrink: 0; }
 .form-error a { color: var(--red-700); text-decoration: underline; text-underline-offset: 2px; }
 
-.contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
-.contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
-.contact-aside .item:last-child { border-bottom: none; }
-.contact-aside .item .icon { flex-shrink: 0; }
-.contact-aside h4 { font-size: 17px; font-weight: 600; color: var(--text-neutral-strong); margin: 0 0 4px; }
-.contact-aside p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; line-height: 1.5; }
 
 .faq-grid {
   display: grid;
