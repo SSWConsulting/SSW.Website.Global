@@ -42,3 +42,16 @@ const components: CustomComponentsMap = {
 		</div>
 	</main>
 )}
+
+<script>
+	/* Wires any <button class="js-print-page"> on the page to window.print().
+	   Lives here rather than as an inline `onclick="..."` in the MDX because
+	   inline event-handler attributes inside MDX get parsed inconsistently
+	   by the @mdx-js + Tina rich-text pipeline — most recently observed
+	   hanging the Cloudflare build at "Indexing local files". A normal
+	   <script> in PageBody.astro is plain Astro: bundled, tree-shaken, and
+	   only loaded on pages that render PageBody. */
+	document.querySelectorAll('button.js-print-page').forEach((btn) => {
+		btn.addEventListener('click', () => window.print());
+	});
+</script>
