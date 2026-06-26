@@ -330,8 +330,37 @@ const footer = data.footer;
             </div>
           )}
 
-          {why.testimonial && (
-            <aside class="why-card reveal" style="--reveal-delay: 120ms">
+          {/* YouTube embed for the Why-SSW pitch video, occupying the right
+              column of the why-grid. Sits in the same 2-col rhythm as the
+              testimonial used to (now moved below as its own full-width row).
+              URL is hardcoded for the same reason the hero video is — adding
+              a Tina field on the why block hits the schema-sync gotcha. Swap
+              the videoId below to replace.
+
+              youtube-nocookie.com (privacy-enhanced mode) so YouTube doesn't
+              drop cookies until the user hits play; loading="lazy" defers
+              the iframe until it scrolls near the viewport. */}
+          <div class="why-video reveal" style="--reveal-delay: 120ms">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/Jveq6VFjWTA"
+              title="Why SSW"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        {/* Testimonial moved out of the why-grid so it sits as its own
+            full-width row below the rows + video pair. Cap its measure with
+            the .why-card-shell wrapper so the muted italic quote stays
+            comfortable at the wider container — running it edge-to-edge
+            at the landing's full 1240px max would have made the line
+            length unreadable. */}
+        {why.testimonial && (
+          <div class="why-card-shell">
+            <aside class="why-card reveal" style="--reveal-delay: 0ms">
               {/* Closing quotation mark, decorative, anchored to the card's
                   top-right corner via CSS. aria-hidden so screen readers don't
                   announce a stray punctuation character. */}
@@ -354,8 +383,8 @@ const footer = data.footer;
                 </div>
               </div>
             </aside>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   )}
@@ -579,19 +608,11 @@ const footer = data.footer;
             </div>
           )}
 
-          {contact.asideItems && contact.asideItems.length > 0 && (
-            <aside class="contact-aside reveal" style="--reveal-delay: 120ms">
-              {contact.asideItems.map((item) => item && (
-                <div class="item">
-                  <div class="icon"><i class={`fa-solid ${item.icon ?? ''}`}></i></div>
-                  <div>
-                    <h4 data-tina-field={tinaField(item, 'title')}>{item.title}</h4>
-                    <p data-tina-field={tinaField(item, 'description')}>{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </aside>
-          )}
+          {/* Right-column aside (Americas / hello@ssw.com cards) removed —
+              duplicated info already covered by the nav region badge and
+              the footer contact links. contact.asideItems data is left in
+              place in the Tina schema so the field stays editable, but
+              no longer renders. */}
         </div>
       </div>
     </section>
