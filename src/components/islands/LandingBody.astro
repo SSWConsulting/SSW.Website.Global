@@ -642,13 +642,12 @@ const footer = data.footer;
                     const linkLabel = contact.form.privacyLinkLabel ?? 'privacy policy';
                     const linkHref = contact.form.privacyLinkHref ?? '#';
                     const parts = text.split('{link}');
-                    return (
-                      <>
-                        {parts[0]}
-                        <a href={linkHref} class="content-link">{linkLabel}</a>
-                        {parts[1] ?? ''}
-                      </>
-                    );
+                    /* No whitespace between {parts[0]}, <a>, and {parts[1]}
+                       — JSX/Astro inserts a space character between sibling
+                       expressions on separate lines, which would render as
+                       "...our privacy policy . We never..." with a visible
+                       space before the full stop. */
+                    return (<>{parts[0]}<a href={linkHref} class="content-link">{linkLabel}</a>{parts[1] ?? ''}</>);
                   })()}
                 </div>
               )}

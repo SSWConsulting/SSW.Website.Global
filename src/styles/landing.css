@@ -1480,9 +1480,11 @@ section.block.sunken { background: var(--bg-sunken); }
   position: absolute;
   /* Rest state: label vertically centered on the input via top:50% +
      translateY(-50%). 14px left aligns with the input's text padding so
-     it really does look like the placeholder. */
+     the label really reads as the placeholder. No background — the label
+     never crosses the input's border, it just lifts up inside the input's
+     own padding area when floated (see floated rule below). */
   top: 50%;
-  left: 12px;
+  left: 14px;
   transform: translateY(-50%);
   font-size: 16px;
   font-weight: 400;
@@ -1490,21 +1492,21 @@ section.block.sunken { background: var(--bg-sunken); }
   text-transform: none;
   color: var(--text-neutral-weak);
   pointer-events: none;
-  padding: 0 4px;
-  background: var(--bg-base);
   transition:
     top var(--duration-normal) var(--ease-out),
     font-size var(--duration-normal) var(--ease-out),
+    letter-spacing var(--duration-normal) var(--ease-out),
     color var(--duration-normal) var(--ease-out);
 }
-/* Textarea labels can't vertically center on a multi-line control, so
-   pin them to a fixed top inset that lines up with the typed text. */
-.field textarea ~ label { top: 18px; transform: none; }
+/* Textarea label sits at a fixed top inset (multi-line controls can't
+   vertically center on the typed text line). */
+.field textarea ~ label { top: 20px; transform: none; }
 .field label .req { color: var(--red-500); margin-left: 2px; }
 
-/* Floated state — label sits on top edge of the input + shrinks. The
-   small horizontal padding + bg-base background give it a notched
-   "cut-out" look over the input's border. */
+/* Floated state — label slides up to the top of the input's padding
+   area and shrinks. Stays INSIDE the input bounds (no border overlap),
+   so no background-cutout trickery needed. Brand-red caps treatment
+   matches the .section-kicker vocabulary used elsewhere. */
 .field input:focus ~ label,
 .field input:not(:placeholder-shown) ~ label,
 .field textarea:focus ~ label,
@@ -1512,14 +1514,16 @@ section.block.sunken { background: var(--bg-sunken); }
 .field select:focus ~ label,
 .field select:required:valid ~ label,
 .field select:not([required]):not(:has(option[value=""]:checked)) ~ label,
-/* Autofilled inputs report :placeholder-shown=false in Firefox/Chrome
-   but stay shown in Webkit; the :-webkit-autofill match forces the float
-   state when the autofill yellow background kicks in. */
+/* Webkit doesn't always flip :placeholder-shown on autofill — this
+   match forces the floated state when the yellow autofill kicks in. */
 .field input:-webkit-autofill ~ label {
-  top: 0;
-  font-size: 12px;
+  top: 8px;
+  transform: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--text-neutral-strong);
-  transform: translateY(-50%);
 }
 @media (prefers-reduced-motion: reduce) {
   .field label { transition: none; }
@@ -1535,18 +1539,18 @@ section.block.sunken { background: var(--bg-sunken); }
   letter-spacing: 0;
 }
 .field input, .field select, .field textarea {
-  /* width: 100% explicitly so <select> stretches to fill the .field column
-     in the form-row grid. Without it, <select> sizes to its widest option
-     (which for Country / Project type / Budget is much narrower than the
-     50% column), making those fields visually shorter than the <input>
-     fields above them. <input> and <textarea> get the same rule for
+  /* width: 100% so <select> stretches to its .field column instead of
+     sizing to the widest option. <input> and <textarea> get it too for
      consistency. box-sizing: border-box is inherited from the global *
-     reset so padding stays inside the 100%. */
+     reset so padding stays inside the 100%.
+     padding-top is bumped to 22px (vs 8px bottom) so the floated label
+     has room to sit inside the input's top padding zone — no border
+     overlap, no background-mask trickery needed. */
   width: 100%;
   font: inherit;
   font-size: 16px;
   font-weight: 500;
-  padding: 12px 14px;
+  padding: 22px 14px 8px;
   border: 1px solid var(--stroke-neutral);
   border-radius: var(--edge);
   background: var(--bg-base);
