@@ -540,56 +540,74 @@ const footer = data.footer;
                 {contact.form.description && <p data-tina-field={tinaField(contact.form, 'description')}>{contact.form.description}</p>}
               </div>
             )}
+            {/* Adaptive-placeholder pattern per
+                https://www.ssw.com.au/rules/use-adaptive-placeholders-on-your-forms
+                — the <label> sits inside the field at rest (acting as the
+                placeholder) and animates up + shrinks when the field is
+                focused or has a value.
+
+                Implementation notes for editors / future authors:
+                - The <label> renders AFTER the input/select/textarea so the
+                  CSS `~ label` sibling selector can target it.
+                - Inputs and textareas use placeholder=" " (a single space)
+                  so `:placeholder-shown` reliably reports the empty state;
+                  the real label copy lives in the <label>, not the
+                  placeholder attribute.
+                - Selects use a `value="" disabled selected hidden` first
+                  option as the placeholder slot; CSS detects the empty
+                  state via :required:invalid (for required selects) or
+                  :has(option[value=""]:checked) (for the optional Budget).
+                  `hidden` keeps that empty option out of the open
+                  dropdown list. */}
             <div class="form-row">
               <div class="field">
+                <input id="f-name" name="name" type="text" required placeholder=" " autocomplete="name" />
                 <label for="f-name">Full name <span class="req">*</span></label>
-                <input id="f-name" name="name" type="text" required placeholder="Jane Smith" autocomplete="name" />
               </div>
               <div class="field">
+                <input id="f-company" name="company" type="text" required placeholder=" " autocomplete="organization" />
                 <label for="f-company">Company <span class="req">*</span></label>
-                <input id="f-company" name="company" type="text" required placeholder="Acme Inc." />
               </div>
             </div>
             <div class="form-row">
               <div class="field">
+                <input id="f-email" name="email" type="email" required placeholder=" " autocomplete="email" />
                 <label for="f-email">Work email <span class="req">*</span></label>
-                <input id="f-email" name="email" type="email" required placeholder="jane@acme.com" autocomplete="email" />
               </div>
               <div class="field">
-                <label for="f-phone">Phone (U.S. or Canada)</label>
                 <input
                   id="f-phone"
                   name="phone"
                   type="tel"
                   inputmode="tel"
                   autocomplete="tel-national"
-                  placeholder="(555) 123-4567"
+                  placeholder=" "
                 />
+                <label for="f-phone">Phone (U.S. or Canada)</label>
               </div>
             </div>
             <div class="form-row">
               <div class="field">
-                <label for="f-country">Country <span class="req">*</span></label>
                 <select id="f-country" name="country" required>
-                  <option value="">Select a country</option>
+                  <option value="" disabled selected hidden></option>
                   <option>United States</option>
                   <option>Canada</option>
                   <option>Other</option>
                 </select>
+                <label for="f-country">Country <span class="req">*</span></label>
               </div>
               <div class="field">
-                <label for="f-project">Project type <span class="req">*</span></label>
                 <select id="f-project" name="project_type" required>
-                  <option value="">Select project type</option>
+                  <option value="" disabled selected hidden></option>
                   {services?.items?.map((s) => s && <option>{s.title}</option>)}
                   <option>Not sure yet</option>
                 </select>
+                <label for="f-project">Project type <span class="req">*</span></label>
               </div>
             </div>
             <div class="field">
-              <label for="f-budget">Estimated budget</label>
               <select id="f-budget" name="budget">
-                <option value="">Select a range</option>
+                <option value="" selected hidden></option>
                 <option>Under $50K</option>
                 <option>$50K to $150K</option>
                 <option>$150K to $500K</option>
@@ -597,15 +615,16 @@ const footer = data.footer;
                 <option>$1M and above</option>
                 <option>Not sure yet</option>
               </select>
+              <label for="f-budget">Estimated budget</label>
             </div>
             <div class="field">
-              <label for="f-message">Tell us about your project <span class="req">*</span></label>
               <textarea
                 id="f-message"
                 name="message"
                 required
-                placeholder="What are you trying to build, modernize, or accelerate? Timelines, constraints, and current systems are helpful."
+                placeholder=" "
               ></textarea>
+              <label for="f-message">Tell us about your project <span class="req">*</span></label>
             </div>
             <input
               type="text"
