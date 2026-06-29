@@ -833,7 +833,14 @@ h3 { margin: 0; }
 .hero {
   --hero-field: var(--panel-field);   /* neutral dark-grey panel, darker than the page */
   --hero-ink: #ededed;         /* light grey for technical labels */
-  --hero-ink-dim: rgba(237,237,237,0.45);
+  /* Bumped from 0.45 → 0.62 for accessibility: 0.45 alpha composited over the
+     #181818 hero panel ended at ~#777 on the headline lead and the AMERICAS
+     strip-meta, which gave a 3.95:1 contrast ratio against the panel — below
+     the WCAG AA 4.5:1 bound for normal body text. 0.62 alpha lands the
+     effective text colour at ~#9c9c9c and the contrast at 6.47:1, comfortably
+     inside AA Normal. The brand-red title accent and the white hero-ink
+     headline still read as distinctly brighter than this muted lead. */
+  --hero-ink-dim: rgba(237,237,237,0.62);
   --hero-line: rgba(237,237,237,0.14);
   position: relative;
   /* `isolation: isolate` creates a stacking context so the absolute .hero-video
@@ -1406,14 +1413,20 @@ section.block.sunken { background: var(--bg-sunken); }
 }
 .why-card .name { font-weight: 600; color: #fff; font-size: 16px; }
 /* Company / role in brand-red uppercase mono tracking, matching the
-   section-kicker treatment used elsewhere on the page. */
+   section-kicker treatment used elsewhere on the page. Uses --red-400
+   (#e06161) rather than the brand --red-500 (#cc4141): at 12px small
+   uppercase, --red-500 on the #0e0e0e card hits 3.73:1 — below the
+   WCAG AA 4.5:1 bound for normal/small text. --red-400 takes it to
+   5.59:1 (AA Normal). Brand red elsewhere (kickers, buttons) stays
+   --red-500 because those sit on the lighter --bg-base #171717 with
+   different sizing. */
 .why-card .role {
   font-family: var(--font-mono-true);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--red-500);
+  color: var(--red-400);
   margin-top: 2px;
 }
 
