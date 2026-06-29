@@ -1,0 +1,31 @@
+---
+/**
+ * Google Analytics 4 (gtag.js) site-wide install.
+ *
+ * Loaded from BOTH BaseHead.astro (internal pages — privacy, about,
+ * terms-conditions, blog/*) AND index.astro (home), since the home
+ * page declares its own <head> rather than using Base.astro. Single
+ * source of truth here so the snippet only needs to be updated in
+ * one place if the measurement ID rotates.
+ *
+ * `is:inline` on the gtag config script keeps Astro from bundling it
+ * — gtag has to run in head before any tracked events fire, and we
+ * want the exact GA snippet pasted into the HTML output. `define:vars`
+ * scopes GA_ID into the inline script so the ID stays in this file
+ * only and isn't repeated across both <script> tags.
+ *
+ * Privacy note: enabling GA means the site sets analytics cookies,
+ * which contradicts the wording in /privacy section 9 ("The marketing
+ * site itself does not set tracking cookies"). Update the privacy
+ * page copy to reflect the GA integration when this lands.
+ */
+const GA_ID = 'G-F1WRLNJYK4';
+---
+<!-- Google tag (gtag.js) -->
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+<script is:inline define:vars={{ GA_ID }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+</script>
