@@ -1479,6 +1479,14 @@ section.block.sunken { background: var(--bg-sunken); }
   letter-spacing: 0;
 }
 .field input, .field select, .field textarea {
+  /* width: 100% explicitly so <select> stretches to fill the .field column
+     in the form-row grid. Without it, <select> sizes to its widest option
+     (which for Country / Project type / Budget is much narrower than the
+     50% column), making those fields visually shorter than the <input>
+     fields above them. <input> and <textarea> get the same rule for
+     consistency. box-sizing: border-box is inherited from the global *
+     reset so padding stays inside the 100%. */
+  width: 100%;
   font: inherit;
   font-size: 16px;
   font-weight: 500;
