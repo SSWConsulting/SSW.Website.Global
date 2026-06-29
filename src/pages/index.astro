@@ -68,6 +68,67 @@ const meta = data.meta;
       }
     }
 
+    // Testimonial carousel — rotates the three .why-card slides on a
+    // ms interval set via `data-rotate-interval` on the carousel root
+    // (defaults to 8s). Pauses while the pointer is over the carousel
+    // or while keyboard focus is inside it, so reading a long quote
+    // doesn't get cut short. Clicking a dot jumps to that slide and
+    // resets the interval. Respects prefers-reduced-motion: no
+    // auto-rotation, but dots still work for manual navigation.
+    const carousel = document.querySelector<HTMLElement>('.why-carousel');
+    if (carousel) {
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>('.why-card'));
+      const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>('.dot'));
+      const interval = Number(carousel.dataset.rotateInterval ?? '8000');
+      let index = 0;
+      let timerId: ReturnType<typeof setInterval> | null = null;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const show = (next: number) => {
+        slides.forEach((slide, i) => {
+          const active = i === next;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        dots.forEach((dot, i) => {
+          const active = i === next;
+          dot.classList.toggle('is-active', active);
+          dot.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        index = next;
+      };
+
+      const start = () => {
+        if (prefersReducedMotion || slides.length < 2 || timerId !== null) return;
+        timerId = setInterval(() => show((index + 1) % slides.length), interval);
+      };
+      const stop = () => {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      };
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          show(i);
+          stop();
+          start();
+        });
+      });
+
+      carousel.addEventListener('pointerenter', stop);
+      carousel.addEventListener('pointerleave', start);
+      carousel.addEventListener('focusin', stop);
+      carousel.addEventListener('focusout', (e) => {
+        // Only restart if focus actually left the carousel, not just shifted
+        // between dots within it.
+        if (!carousel.contains(e.relatedTarget as Node | null)) start();
+      });
+
+      start();
+    }
+
     // Progressive enhancement for the contact form.
     //
     // Default (no JS): the <form> posts to /api/contact (our Astro API route),

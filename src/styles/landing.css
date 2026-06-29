@@ -1264,6 +1264,75 @@ section.block.sunken { background: var(--bg-sunken); }
   justify-content: center;
 }
 .why-card-shell > .why-card { width: 100%; max-width: 880px; }
+
+/* Testimonial carousel — stacks all .why-card slides into a single grid
+   cell so the wrapper auto-sizes to the tallest card and switching
+   between them never causes a layout jump. Only the .is-active slide
+   is visible (and tab-reachable); the others fade out + drop out of
+   the tab order. Sits at the bottom under .carousel-dots. */
+.why-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.why-carousel .why-card {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  max-width: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 500ms var(--ease-out);
+  pointer-events: none;
+}
+.why-carousel .why-card.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .why-carousel .why-card { transition: none; }
+}
+
+/* Dot navigation under the cards. Generous tap target via the button's
+   own padding while the visible dot stays small. Active state lifts to
+   brand red; inactive dots are translucent white so they read as
+   navigation without competing with the testimonial text. */
+.carousel-dots {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: clamp(20px, 2.5vw, 28px);
+}
+.carousel-dots .dot {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 8px; /* hit target — visible dot is the ::after */
+  cursor: pointer;
+  position: relative;
+}
+.carousel-dots .dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+}
+.carousel-dots .dot:hover::after,
+.carousel-dots .dot:focus-visible::after {
+  background: rgba(255, 255, 255, 0.5);
+}
+.carousel-dots .dot.is-active::after {
+  background: var(--red-500);
+  transform: scale(1.2);
+}
 /* Testimonial card. Near-black panel with rounded corners; a large
    translucent closing-quote glyph anchors the top-right as a decorative
    mark. Body text reads in a muted off-white while <strong> phrases
