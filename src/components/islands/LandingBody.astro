@@ -352,39 +352,91 @@ const footer = data.footer;
           </div>
         </div>
 
-        {/* Testimonial moved out of the why-grid so it sits as its own
-            full-width row below the rows + video pair. Cap its measure with
-            the .why-card-shell wrapper so the muted italic quote stays
-            comfortable at the wider container — running it edge-to-edge
-            at the landing's full 1240px max would have made the line
-            length unreadable. */}
-        {why.testimonial && (
-          <div class="why-card-shell">
-            <aside class="why-card reveal" style="--reveal-delay: 0ms">
-              {/* Closing quotation mark, decorative, anchored to the card's
-                  top-right corner via CSS. aria-hidden so screen readers don't
-                  announce a stray punctuation character. */}
-              <div class="quote-mark" aria-hidden="true">”</div>
-              <blockquote data-tina-field={tinaField(why.testimonial, 'quote')}>
-                {/* Reuses parseAccentTitle (which already splits on **markers**)
-                    to bold opener phrases in the quote. The marker maps to
-                    <strong> here rather than <em> — emphasis on importance,
-                    not typographic stress — and the CSS styles <strong>
-                    brighter/white so the opener pops against the muted body. */}
-                {parseAccentTitle(why.testimonial.quote).map((p) =>
-                  p.accent ? <strong>{p.text}</strong> : <Fragment>{p.text}</Fragment>,
-                )}
-              </blockquote>
-              <div class="attr">
-                <div class="avatar" data-tina-field={tinaField(why.testimonial, 'avatarInitials')}>{why.testimonial.avatarInitials}</div>
-                <div>
-                  <div class="name" data-tina-field={tinaField(why.testimonial, 'name')}>{why.testimonial.name}</div>
-                  <div class="role" data-tina-field={tinaField(why.testimonial, 'role')}>{why.testimonial.role}</div>
+        {/* Testimonial carousel — three rotating cards under the why-grid.
+            The first card is the Tina-editable why.testimonial (still
+            wired up with data-tina-field bindings so editors can change
+            the BizCover quote in-place). Cards 2 and 3 are hardcoded
+            here because adding a `list: true` array to the testimonial
+            field on the landing schema would trigger the Tina Cloud
+            schema-sync gotcha — safer to inline the extras and accept
+            that they're code-edits rather than CMS-edits. Auto-rotate
+            and pause-on-hover are handled by the inline script at the
+            bottom of this file. */}
+        {why.testimonial && (() => {
+          const extraTestimonials = [
+            {
+              quote: "We have dealt with several people at SSW from a network tech helping us with a domain issue, to a couple of graphic designers and several programmers and they have ALL been first rate.",
+              avatarInitials: "PD",
+              name: "Peter Dimaridis",
+              role: "AuctionsPlus",
+            },
+            {
+              quote: "SSW's expertise and professionalism in software development left a deep impression on me. They brought exceptional value to our dev team, inspiring them with their punctuality and diligence. I'm grateful for their unwavering commitment to excellence and delighted to have them in our office. Thank you, SSW!",
+              avatarInitials: "YL",
+              name: "Yun Lu",
+              role: "LUQI Tech",
+            },
+          ];
+          const testimonials = [why.testimonial, ...extraTestimonials];
+          return (
+            <div class="why-card-shell">
+              <div
+                class="why-carousel reveal"
+                style="--reveal-delay: 0ms"
+                data-rotate-interval="8000"
+                aria-roledescription="carousel"
+                aria-label="Client testimonials"
+              >
+                {testimonials.map((t, i) => (
+                  <aside
+                    class={`why-card${i === 0 ? ' is-active' : ''}`}
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`Testimonial ${i + 1} of ${testimonials.length}`}
+                    aria-hidden={i === 0 ? 'false' : 'true'}
+                  >
+                    {/* Closing quotation mark, decorative, anchored to the card's
+                        top-right corner via CSS. aria-hidden so screen readers don't
+                        announce a stray punctuation character. */}
+                    <div class="quote-mark" aria-hidden="true">”</div>
+                    <blockquote data-tina-field={i === 0 ? tinaField(why.testimonial, 'quote') : undefined}>
+                      {/* Reuses parseAccentTitle (which already splits on **markers**)
+                          to bold opener phrases in the quote. The marker maps to
+                          <strong> here rather than <em> — emphasis on importance,
+                          not typographic stress — and the CSS styles <strong>
+                          brighter/white so the opener pops against the muted body. */}
+                      {parseAccentTitle(t.quote).map((p) =>
+                        p.accent ? <strong>{p.text}</strong> : <Fragment>{p.text}</Fragment>,
+                      )}
+                    </blockquote>
+                    <div class="attr">
+                      <div class="avatar" data-tina-field={i === 0 ? tinaField(why.testimonial, 'avatarInitials') : undefined}>{t.avatarInitials}</div>
+                      <div>
+                        <div class="name" data-tina-field={i === 0 ? tinaField(why.testimonial, 'name') : undefined}>{t.name}</div>
+                        <div class="role" data-tina-field={i === 0 ? tinaField(why.testimonial, 'role') : undefined}>{t.role}</div>
+                      </div>
+                    </div>
+                  </aside>
+                ))}
+                {/* Dot navigation — clicking a dot jumps to that slide and
+                    resets the auto-rotate timer. Real <button> elements so
+                    Tab navigation lands on them and Enter/Space activates. */}
+                <div class="carousel-dots" role="tablist" aria-label="Choose testimonial">
+                  {testimonials.map((_, i) => (
+                    <button
+                      type="button"
+                      class={`dot${i === 0 ? ' is-active' : ''}`}
+                      role="tab"
+                      aria-selected={i === 0 ? 'true' : 'false'}
+                      aria-label={`Show testimonial ${i + 1}`}
+                      data-slide-index={i}
+                    ></button>
+                  ))}
                 </div>
               </div>
-            </aside>
-          </div>
-        )}
+            </div>
+          );
+        })()}
       </div>
     </section>
   )}
