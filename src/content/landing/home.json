@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "SSW · Enterprise software delivery for North America",
-    "description": "We build and ship enterprise software for North American teams using AI and 1-week Scrum sprints, with a Scrum Master in your time zone."
+    "description": "We build and ship enterprise software for North American teams using AI and 1-week Scrum Sprints, with a Scrum Master in your time zone."
   },
   "nav": {
     "logo": "/assets/ssw-logo-darkmode.png",
@@ -57,7 +57,7 @@
   "hero": {
     "eyebrow": "From Idea to Production, Faster",
     "title": "Enterprise software, shipped at **AI speed**.",
-    "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum sprints, and senior engineering oversight.",
+    "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum Sprints, and senior engineering oversight.",
     "primaryCta": {
       "label": "Talk to a senior consultant",
       "href": "#contact",
@@ -107,12 +107,12 @@
       {
         "icon": "fa-comments",
         "title": "Seamless communication",
-        "description": "Your Scrum Master is based in North America and runs standups, sprint reviews, and stakeholder updates during your working hours."
+        "description": "Your Scrum Master is based in North America and runs standups, Sprint reviews, and stakeholder updates during your working hours."
       },
       {
         "icon": "fa-code-pull-request",
         "title": "Scrum-led delivery",
-        "description": "We work in 1-week sprints and show you working software at the end of each one. You can see what's done, what's next, and roughly when it'll be ready."
+        "description": "We work in 1-week Sprints and show you working software at the end of each one. You can see what's done, what's next, and roughly when it'll be ready."
       },
       {
         "icon": "fa-users",
@@ -156,7 +156,7 @@
   "howSection": {
     "kicker": "Approach",
     "title": "A predictable path from first conversation to live software.",
-    "lead": "No discovery theater. No vague proposals. You will see a working increment in the first sprint.",
+    "lead": "No discovery theater. No vague proposals. You will see a working increment in the first Sprint.",
     "steps": [
       {
         "icon": "fa-phone",
@@ -180,7 +180,7 @@
         "icon": "fa-rotate",
         "stepLabel": "Step 04",
         "title": "Live and improving weekly",
-        "description": "After launch, we keep shipping features, fixes, and tweaks in 1-week sprints."
+        "description": "After launch, we keep shipping features, fixes, and tweaks in 1-week Sprints."
       }
     ]
   },
@@ -197,7 +197,7 @@
       {
         "icon": "fa-arrows-spin",
         "title": "Proven [Scrum process](https://www.ssw.com.au/rules/rules-to-better-scrum)",
-        "description": "1-week Scrum sprints with a working demo every week, so you always know where things stand."
+        "description": "1-week Scrum Sprints with a working demo every week, so you always know where things stand."
       },
       {
         "icon": "fa-robot",
@@ -319,7 +319,7 @@
   },
   "footer": {
     "logo": "/assets/ssw-logo-darkmode.png",
-    "tagline": "SSW builds enterprise software for clients across the Americas, using AI and 1-week Scrum sprints.",
+    "tagline": "SSW builds enterprise software for clients across the Americas, using AI and 1-week Scrum Sprints.",
     "columnTitle": "Company",
     "links": [
       {
