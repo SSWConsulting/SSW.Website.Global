@@ -3,6 +3,7 @@ import '../styles/landing.css';
 import { ClientRouter } from 'astro:transitions';
 import TinaIsland from '@tinacms/astro/TinaIsland.astro';
 import LandingBody from '../components/islands/LandingBody.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import { getLanding } from '../lib/data';
 import { islands } from '../lib/islands';
 
@@ -16,6 +17,7 @@ const meta = data.meta;
 <!doctype html>
 <html lang="en" class="dark">
 <head>
+  <GoogleAnalytics />
   {/* Mark JS as available before paint so `html.js .reveal` rules engage
       and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely. */}
   <script is:inline>document.documentElement.classList.add('js');</script>
