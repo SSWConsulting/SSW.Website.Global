@@ -1459,15 +1459,80 @@ section.block.sunken { background: var(--bg-sunken); }
 .form-card .form-header p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
-.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+
+/* Adaptive-placeholder fields. Per ssw.com.au's rule
+   /rules/use-adaptive-placeholders-on-your-forms, the field label sits
+   inside the control at rest (acting as the placeholder) and animates
+   up + shrinks when the field gets focus or holds a value. Driven by:
+     - .field is the positioning context for the absolute label
+     - control elements sit FIRST in the DOM so the `~ label` sibling
+       selector below can target the label
+     - inputs / textareas use placeholder=" " so :placeholder-shown
+       fires reliably on empty state
+     - selects use a `value="" disabled selected hidden` first option
+       as the empty slot; required selects flip via :required:valid,
+       the optional Budget flips via :has(option[value=""]:checked) */
+.field {
+  position: relative;
+  margin-bottom: 16px;
+}
 .field label {
-  font-size: 13px;
+  position: absolute;
+  /* Rest state: label vertically centered on the input via top:50% +
+     translateY(-50%). 14px left aligns with the input's text padding so
+     the label really reads as the placeholder. No background — the label
+     never crosses the input's border, it just lifts up inside the input's
+     own padding area when floated (see floated rule below). */
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-neutral-weak);
+  pointer-events: none;
+  transition:
+    top var(--duration-normal) var(--ease-out),
+    font-size var(--duration-normal) var(--ease-out),
+    letter-spacing var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+/* Textarea label sits at a fixed top inset (multi-line controls can't
+   vertically center on the typed text line). */
+.field textarea ~ label { top: 20px; transform: none; }
+.field label .req { color: var(--red-500); margin-left: 2px; }
+
+/* Floated state — label slides up to the top of the input's padding
+   area and shrinks. Stays INSIDE the input bounds (no border overlap),
+   so no background-cutout trickery needed. Brand-red caps treatment
+   matches the .section-kicker vocabulary used elsewhere. */
+.field input:focus ~ label,
+.field input:not(:placeholder-shown) ~ label,
+.field textarea:focus ~ label,
+.field textarea:not(:placeholder-shown) ~ label,
+.field select:focus ~ label,
+.field select:required:valid ~ label,
+.field select:not([required]):not(:has(option[value=""]:checked)) ~ label,
+/* Webkit doesn't always flip :placeholder-shown on autofill — this
+   match forces the floated state when the yellow autofill kicks in. */
+.field input:-webkit-autofill ~ label {
+  top: 8px;
+  transform: none;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-neutral-weak);
+  /* Brand-red for the floated label so it's visually distinct from the
+     white input text underneath — uses --red-400 (#e06161) for AA-safe
+     contrast on the --bg-base #171717 input background (5.17:1 at 11px,
+     above the 4.5:1 small-text floor). --red-500 would have only hit
+     3.73:1, which fails AA Normal at this size. */
+  color: var(--red-400);
 }
-.field label .req { color: var(--red-500); margin-left: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .field label { transition: none; }
+}
 /* Small helper text that sits under an input. Used for the contact form's
    phone field to clarify the expected North American format without
    inflating the label. */
@@ -1479,10 +1544,18 @@ section.block.sunken { background: var(--bg-sunken); }
   letter-spacing: 0;
 }
 .field input, .field select, .field textarea {
+  /* width: 100% so <select> stretches to its .field column instead of
+     sizing to the widest option. <input> and <textarea> get it too for
+     consistency. box-sizing: border-box is inherited from the global *
+     reset so padding stays inside the 100%.
+     padding-top is bumped to 22px (vs 8px bottom) so the floated label
+     has room to sit inside the input's top padding zone — no border
+     overlap, no background-mask trickery needed. */
+  width: 100%;
   font: inherit;
   font-size: 16px;
   font-weight: 500;
-  padding: 12px 14px;
+  padding: 22px 14px 8px;
   border: 1px solid var(--stroke-neutral);
   border-radius: var(--edge);
   background: var(--bg-base);
