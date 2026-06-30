@@ -47,7 +47,7 @@ const FIELD_MAP: Record<string, string> = {
 	phone: 'q12_phoneNumber12',
 };
 
-const REQUIRED_FIELDS = ['name', 'email', 'company', 'country', 'project_type', 'message'];
+const REQUIRED_FIELDS = ['name', 'email', 'company', 'phone', 'country', 'project_type', 'message'];
 
 const HONEYPOT_FIELD = 'website';
 

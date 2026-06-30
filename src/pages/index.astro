@@ -168,6 +168,19 @@ const meta = data.meta;
 
       const SUBMIT_TIMEOUT_MS = 15000;
       const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      const errorMessageEl = document.getElementById('form-error-message');
+
+      /** Show the error box, surfacing the server-supplied error when we
+       *  have one (e.g. "Missing required fields: phone", "Invalid email
+       *  address", "Message too long"). Network/timeout failures pass
+       *  undefined and fall back to the generic "Something went wrong."
+       *  text already in the span. */
+      const showFormError = (detail: string | undefined) => {
+        if (errorMessageEl) {
+          errorMessageEl.textContent = detail ? `${detail}.` : 'Something went wrong.';
+        }
+        if (errorBox) errorBox.hidden = false;
+      };
 
       form.addEventListener('submit', async (e) => {
         if (!form.checkValidity()) {
@@ -204,11 +217,11 @@ const meta = data.meta;
             form.reset();
           } else {
             console.error('Contact form: proxy reported failure', response.status, result.error);
-            if (errorBox) errorBox.hidden = false;
+            showFormError(result.error);
           }
         } catch (err) {
           console.error('Contact form: request failed', err);
-          if (errorBox) errorBox.hidden = false;
+          showFormError(undefined);
         } finally {
           clearTimeout(timeoutId);
           if (submitBtn) submitBtn.disabled = false;

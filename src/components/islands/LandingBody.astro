@@ -581,9 +581,10 @@ const footer = data.footer;
                   type="tel"
                   inputmode="tel"
                   autocomplete="tel-national"
+                  required
                   placeholder=" "
                 />
-                <label for="f-phone">Phone (U.S. or Canada)</label>
+                <label for="f-phone">Phone (U.S. or Canada) <span class="req">*</span></label>
               </div>
             </div>
             <div class="form-row">
@@ -663,9 +664,18 @@ const footer = data.footer;
                 <div data-tina-field={tinaField(contact.form, 'successText')}>{contact.form.successText}</div>
               </div>
             )}
-            <div class="form-error" id="form-error" role="alert" hidden>
-              <i class="fa-solid fa-circle-exclamation" style="font-size:18px;"></i>
-              <div>Something went wrong. Please try again or email <a href="mailto:info@ssw.com">info@ssw.com</a>.</div>
+            <div class="form-error" id="form-error" role="alert" aria-live="polite" hidden>
+              <i class="fa-solid fa-circle-exclamation" style="font-size:18px;" aria-hidden="true"></i>
+              <div>
+                {/* `form-error-message` is replaced by the submit script with
+                    a server-supplied error when the API proxy reports a
+                    validation failure (e.g. "Missing required fields: phone",
+                    "Invalid email address"). Falls back to "Something went
+                    wrong." for network/timeout failures where we have no
+                    specific message. */}
+                <span id="form-error-message">Something went wrong.</span>
+                {' '}Please try again or email <a href="mailto:hello@ssw.com">hello@ssw.com</a>.
+              </div>
             </div>
           </form>
             </>
@@ -673,7 +683,7 @@ const footer = data.footer;
             <div class="form-card form-card-fallback reveal" role="alert">
               <div class="form-header">
                 <h3>Contact form unavailable</h3>
-                <p>The form is temporarily offline. Please email <a href="mailto:info@ssw.com">info@ssw.com</a> and a senior consultant will get back to you within one business day.</p>
+                <p>The form is temporarily offline. Please email <a href="mailto:hello@ssw.com">hello@ssw.com</a> and a senior consultant will get back to you within one business day.</p>
               </div>
             </div>
           )}
