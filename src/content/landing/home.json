@@ -6,33 +6,8 @@
   "nav": {
     "logo": "/assets/ssw-logo-darkmode.png",
     "region": "AMERICAS",
-    "capabilitiesLabel": "Capabilities",
-    "capabilities": [
-      {
-        "icon": "fa-robot",
-        "title": "AI-assisted development",
-        "description": "AI throughout the SDLC",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-arrows-rotate",
-        "title": "Legacy modernization",
-        "description": "Cloud-native migrations",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-table-cells-large",
-        "title": "Custom applications",
-        "description": "Line-of-business tools",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-compass",
-        "title": "Technical consulting",
-        "description": "Senior architecture advice",
-        "href": "#services"
-      }
-    ],
+    "capabilitiesLabel": "Solutions",
+    "capabilities": [],
     "links": [
       {
         "label": "Approach",
@@ -45,10 +20,6 @@
       {
         "label": "FAQ",
         "href": "#faq"
-      },
-      {
-        "label": "Contact",
-        "href": "#contact"
       }
     ],
     "ctaLabel": "Talk to us",
@@ -127,7 +98,7 @@
     ]
   },
   "servicesSection": {
-    "kicker": "Capabilities",
+    "kicker": "Solutions",
     "title": "From prototype to production",
     "lead": "Whether it is a rough idea or a long-term platform, the same senior people and process see it through.",
     "items": [
@@ -323,7 +294,7 @@
     "columnTitle": "Company",
     "links": [
       {
-        "label": "Capabilities",
+        "label": "Solutions",
         "href": "#services"
       },
       {
