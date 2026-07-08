@@ -1,10 +1,10 @@
 # SSW.Website.Global
 
-Marketing site for **SSW Global** — SSW's offering for the United States market, built around vibe-coded software delivery.
+Marketing site for **SSW Global**, promoting AI-assisted software delivery services across the North American market (United States and Canada).
 
 ## What we do
 
-SSW Global ships enterprise software for North American clients, with delivery led by a **US-based Scrum Master** and engineering capacity drawn from one of two pools:
+SSW Global ships enterprise software for North American clients, with delivery led by a **US-based Scrum Master** and engineering capacity drawn from one of 2 pools:
 
 - **Australian consultants** — senior SSW engineers and architects with three decades of enterprise consulting practice
 - **China-based team** — a cost-effective alternative for projects where budget is the primary constraint
