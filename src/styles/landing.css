@@ -1094,9 +1094,22 @@ h3 { margin: 0; }
 }
 .stat .label {
   margin-top: 8px;
-  font-size: 13px;
-  color: var(--text-neutral-weak);
   line-height: 1.45;
+  /* Flex column stacks the primary/secondary label lines when a stat has
+     a `\n` split. Falls back to a single-child flex when the label is
+     one line — no visual change vs the previous block layout. */
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat .label-primary {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-neutral-strong);
+}
+.stat .label-secondary {
+  font-size: 12px;
+  color: var(--text-neutral-weak);
 }
 
 section.block { padding: var(--section-pad) 0; }

@@ -170,7 +170,17 @@ const footer = data.footer;
                 })()}
                 <em data-tina-field={tinaField(s, 'suffix')}>{s.suffix}</em>
               </div>
-              <div class="label" data-tina-field={tinaField(s, 'label')}>{s.label}</div>
+              {/* Stat label supports an optional second line via a literal
+                  `\n` in the Tina string. First line renders as the primary
+                  label; any additional lines fall to a muted subtitle
+                  vocabulary (see .label-primary / .label-secondary in
+                  landing.css). Single-line labels still render as one span
+                  and inherit the primary style. */}
+              <div class="label" data-tina-field={tinaField(s, 'label')}>
+                {(s.label ?? '').split('\n').map((line, idx) => (
+                  <span class={idx === 0 ? 'label-primary' : 'label-secondary'}>{line}</span>
+                ))}
+              </div>
             </div>
           ))}
         </div>
