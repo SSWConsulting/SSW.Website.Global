@@ -45,9 +45,13 @@ const FIELD_MAP: Record<string, string> = {
 	// drifts whenever the field is recreated — re-curl form.jotform.com/<id>
 	// after any Jotform-side edit to confirm.
 	phone: 'q12_phoneNumber12',
+	// Timezone is a Short Text field on the Jotform form; Field ID #input_13,
+	// Unique Name "timezone" — combine to get the q-key. Re-check via
+	// `curl https://form.jotform.com/<id>` if the field is ever recreated.
+	timezone: 'q13_timezone',
 };
 
-const REQUIRED_FIELDS = ['name', 'email', 'company', 'phone', 'country', 'project_type', 'message'];
+const REQUIRED_FIELDS = ['name', 'email', 'company', 'phone', 'country', 'timezone', 'project_type', 'message'];
 
 const HONEYPOT_FIELD = 'website';
 

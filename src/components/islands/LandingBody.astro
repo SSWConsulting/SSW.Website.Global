@@ -597,6 +597,29 @@ const footer = data.footer;
                 </select>
                 <label for="f-country">Country <span class="req">*</span></label>
               </div>
+              {/* Timezone is auto-selected on page load by the inline script in
+                  src/pages/index.astro from Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  mapped through an IANA→label table. Users can override, and the
+                  no-JS path still requires an explicit pick. Labels are the
+                  submitted value so the Jotform inbox reads "Eastern Time (ET)"
+                  rather than a raw IANA identifier. */}
+              <div class="field">
+                <select id="f-timezone" name="timezone" required>
+                  <option value="" disabled selected hidden></option>
+                  <option>Pacific Time (PT)</option>
+                  <option>Mountain Time (MT)</option>
+                  <option>Central Time (CT)</option>
+                  <option>Eastern Time (ET)</option>
+                  <option>Alaska Time (AKT)</option>
+                  <option>Hawaii Time (HAT)</option>
+                  <option>Atlantic Time (AT)</option>
+                  <option>Newfoundland Time (NT)</option>
+                  <option>Other</option>
+                </select>
+                <label for="f-timezone">Timezone <span class="req">*</span></label>
+              </div>
+            </div>
+            <div class="form-row">
               <div class="field">
                 <select id="f-project" name="project_type" required>
                   <option value="" disabled selected hidden></option>
@@ -605,18 +628,18 @@ const footer = data.footer;
                 </select>
                 <label for="f-project">Project type <span class="req">*</span></label>
               </div>
-            </div>
-            <div class="field">
-              <select id="f-budget" name="budget">
-                <option value="" selected hidden></option>
-                <option>Under $50K</option>
-                <option>$50K to $150K</option>
-                <option>$150K to $500K</option>
-                <option>$500K to $1M</option>
-                <option>$1M and above</option>
-                <option>Not sure yet</option>
-              </select>
-              <label for="f-budget">Estimated budget</label>
+              <div class="field">
+                <select id="f-budget" name="budget">
+                  <option value="" selected hidden></option>
+                  <option>Under $50K</option>
+                  <option>$50K to $150K</option>
+                  <option>$150K to $500K</option>
+                  <option>$500K to $1M</option>
+                  <option>$1M and above</option>
+                  <option>Not sure yet</option>
+                </select>
+                <label for="f-budget">Estimated budget</label>
+              </div>
             </div>
             <div class="field">
               <textarea

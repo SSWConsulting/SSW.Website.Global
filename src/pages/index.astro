@@ -165,6 +165,41 @@ const meta = data.meta;
       window.history.replaceState({}, '', cleanUrl);
     }
 
+    // Timezone auto-select: on page load, map the browser's IANA timezone to
+    // the matching <option> in #f-timezone. Silent failure — if the browser
+    // returns an IANA zone we don't have a mapping for (e.g. a European user),
+    // the select stays empty and the user picks manually, so "Other" is only
+    // ever chosen deliberately. The label strings must stay in sync with the
+    // <option>s rendered in LandingBody.astro's contact form.
+    const timezoneSelect = document.getElementById('f-timezone') as HTMLSelectElement | null;
+    if (timezoneSelect && !timezoneSelect.value) {
+      const IANA_TO_LABEL: Record<string, string> = {
+        'America/Los_Angeles': 'Pacific Time (PT)',
+        'America/Vancouver': 'Pacific Time (PT)',
+        'America/Tijuana': 'Pacific Time (PT)',
+        'America/Denver': 'Mountain Time (MT)',
+        'America/Edmonton': 'Mountain Time (MT)',
+        'America/Phoenix': 'Mountain Time (MT)',
+        'America/Chicago': 'Central Time (CT)',
+        'America/Winnipeg': 'Central Time (CT)',
+        'America/Regina': 'Central Time (CT)',
+        'America/New_York': 'Eastern Time (ET)',
+        'America/Toronto': 'Eastern Time (ET)',
+        'America/Detroit': 'Eastern Time (ET)',
+        'America/Anchorage': 'Alaska Time (AKT)',
+        'Pacific/Honolulu': 'Hawaii Time (HAT)',
+        'America/Halifax': 'Atlantic Time (AT)',
+        'America/St_Johns': 'Newfoundland Time (NT)',
+      };
+      try {
+        const iana = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const label = IANA_TO_LABEL[iana];
+        if (label) timezoneSelect.value = label;
+      } catch {
+        /* Intl unavailable — leave the select empty for manual entry. */
+      }
+    }
+
     if (form) {
       form.noValidate = true;
 
