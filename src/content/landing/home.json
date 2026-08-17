@@ -207,7 +207,7 @@
       {
         "icon": "fa-shield-halved",
         "title": "Strong engineering standards",
-        "description": "Public rules, automated checks, and mandatory code review keep every change accountable."
+        "description": "[Public rules](https://www.ssw.com.au/rules), automated checks, and mandatory code review keep every change accountable."
       },
       {
         "icon": "fa-scale-balanced",

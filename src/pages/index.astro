@@ -40,6 +40,8 @@ const meta = data.meta;
   </TinaIsland>
 
   <script>
+    import { IANA_TO_LABEL } from '../lib/timezones';
+
     const nav = document.getElementById('nav');
     const onScroll = () => { if (nav) (nav as HTMLElement).dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -165,6 +167,27 @@ const meta = data.meta;
       window.history.replaceState({}, '', cleanUrl);
     }
 
+    // Timezone auto-select. On page load AND after each successful submit
+    // (form.reset() clears the field), map the browser's IANA timezone to the
+    // matching <option> in #f-timezone. Silent failure — if the browser
+    // returns an IANA zone we don't have a mapping for (e.g. a European user),
+    // the select stays empty and the user picks manually, so "Other" is only
+    // ever chosen deliberately. IANA_TO_LABEL and the option list are both
+    // built from TIMEZONE_LABELS in src/lib/timezones.ts, so a rename can't
+    // silently break the auto-detect.
+    const applyDetectedTimezone = () => {
+      const timezoneSelect = document.getElementById('f-timezone') as HTMLSelectElement | null;
+      if (!timezoneSelect || timezoneSelect.value) return;
+      try {
+        const iana = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const label = IANA_TO_LABEL[iana];
+        if (label) timezoneSelect.value = label;
+      } catch {
+        /* Intl unavailable — leave the select empty for manual entry. */
+      }
+    };
+    applyDetectedTimezone();
+
     if (form) {
       form.noValidate = true;
 
@@ -217,6 +240,9 @@ const meta = data.meta;
           if (response.ok && result.ok) {
             if (success) success.classList.add('visible');
             form.reset();
+            // reset() clears the timezone select; re-apply so a second
+            // submission in the same session still gets the detected value.
+            applyDetectedTimezone();
           } else {
             console.error('Contact form: proxy reported failure', response.status, result.error);
             showFormError(result.error);
