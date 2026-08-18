@@ -3,6 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "tinacms dev -c \"astro dev\"",
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 tinacms build --content=local --skip-cloud-checks -c \"astro build\"",
@@ -13,25 +16,23 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.13",
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/rss": "^4.0.15",
-    "@astrojs/sitemap": "^3.7.0",
-    "@tinacms/astro": "0.0.0-c724883-20260514062230",
-    "astro": "^5.16.0"
+    "@astrojs/cloudflare": "^13.1.10",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@tinacms/astro": "^0.4.0",
+    "astro": "^6.3.7"
   },
   "devDependencies": {
-    "@tinacms/cli": "0.0.0-c724883-20260514062230",
-    "@types/node": "^25.1.0",
+    "@tinacms/cli": "^2.4.0",
+    "@types/node": "^25.9.1",
     "cross-env": "^7.0.3",
-    "tinacms": "0.0.0-c724883-20260514062230",
-    "wrangler": "4.59.2"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tinacms": "^3.8.2",
+    "wrangler": "^4.95.0"
   },
   "pnpm": {
-    "overrides": {
-      "react": "18.3.1",
-      "react-dom": "18.3.1"
-    },
     "onlyBuiltDependencies": [
       "better-sqlite3",
       "core-js",
