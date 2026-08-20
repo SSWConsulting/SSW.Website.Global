@@ -1,0 +1,11 @@
+<!-- describe the change, why it is needed, and what it accomplishes -->
+<!-- As per rule https://www.ssw.com.au/rules/over-the-shoulder-prs -->
+<!-- Getting the PR merged is part of the PBI - call someone to review your changes to get them merged ASAP -->
+
+- Affected routes: <!-- e.g. `/`, `/admin/` -->
+
+- Fixed #{{ ISSUE NUMBER }}
+
+- [ ] Every new piece of user-visible copy is modelled as a Tina field (no hardcoded strings in `.astro` files — see [AGENTS.md](../AGENTS.md))
+- [ ] Local build passes (`pnpm run build:local`)
+- [ ] Done video or screenshots attached below

@@ -1,0 +1,39 @@
+name: 🐛 Bug Report
+description: Report a bug
+title: '🐛 {{ TITLE }}'
+labels: ['Type: Bug']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behaviour.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Video
+      description: |
+        If applicable, add screenshots or video to help explain the problem.
+        Remember to mark the area in the application that's impacted.
+    validations:
+      required: false

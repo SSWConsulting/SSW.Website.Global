@@ -1,0 +1,59 @@
+name: PR - Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.event.number }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: package.json
+          standalone: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      # Decide which build to run.
+      # Same-repo PRs: `pnpm run build` — mirrors Cloudflare Workers Builds,
+      # talks to Tina Cloud (needs PUBLIC_TINA_CLIENT_ID + TINA_TOKEN).
+      # Fork PRs: GitHub strips secrets, so fall back to `pnpm run build:local`
+      # (in-process Tina datalayer, no creds needed). Catches most breakage
+      # except the Tina Cloud schema-sync class — that's verified again
+      # post-merge on `main` via CF Builds.
+      - name: Decide build mode
+        id: mode
+        shell: bash
+        env:
+          HAS_TINA_TOKEN: ${{ secrets.TINA_TOKEN != '' }}
+        run: |
+          if [ "$HAS_TINA_TOKEN" = "true" ]; then
+            echo "script=build" >> "$GITHUB_OUTPUT"
+            echo "Using full CF parity build (Tina Cloud)"
+          else
+            echo "script=build:local" >> "$GITHUB_OUTPUT"
+            echo "::warning::Tina Cloud secrets unavailable (likely fork PR) — falling back to build:local"
+          fi
+
+      - name: Tina + Astro build
+        run: pnpm run ${{ steps.mode.outputs.script }}
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+          PUBLIC_TINA_CLIENT_ID: ${{ secrets.PUBLIC_TINA_CLIENT_ID }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
