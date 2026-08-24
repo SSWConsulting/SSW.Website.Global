@@ -30,9 +30,18 @@ const anchorHref = (href: string | null | undefined): string => {
     </a>
     {nav && (
       <nav class="nav-links" aria-label="Primary">
+        {/* Solutions / Capabilities link. The chevron caret and the
+            .nav-dropdown are only rendered when the editor has populated
+            nav.capabilities in Tina — an empty array (current default)
+            keeps the link plain so it reads as a direct scroll to
+            #services rather than a menu affordance. Adding one or more
+            capability rows brings the dropdown back automatically. */}
         <div class="nav-item">
           <a href={anchorHref('#services')} data-tina-field={tinaField(nav, 'capabilitiesLabel')}>
-            {nav.capabilitiesLabel} <i class="fa-solid fa-chevron-down caret"></i>
+            {nav.capabilitiesLabel}
+            {nav.capabilities && nav.capabilities.length > 0 && (
+              <i class="fa-solid fa-chevron-down caret"></i>
+            )}
           </a>
           {nav.capabilities && nav.capabilities.length > 0 && (
             <div class="nav-dropdown" role="menu">
