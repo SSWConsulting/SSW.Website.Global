@@ -74,19 +74,19 @@
   },
   "stats": [
     {
-      "number": "up to 3",
-      "suffix": "×",
-      "label": "Faster delivery on a typical build when AI does the heavy lifting"
+      "number": "7,000",
+      "suffix": "+",
+      "label": "Solutions delivered\nEnterprise-grade software"
+    },
+    {
+      "number": "1,800",
+      "suffix": "+",
+      "label": "Happy clients\nAcross all industries"
     },
     {
       "number": "30",
       "suffix": "+",
-      "label": "Years of development"
-    },
-    {
-      "number": "100",
-      "suffix": "+",
-      "label": "Staff ready to work"
+      "label": "Years experience\nTrusted since 1995"
     }
   ],
   "benefitsSection": {
