@@ -57,7 +57,7 @@
   "hero": {
     "eyebrow": "From Idea to Production, Faster",
     "title": "Enterprise software, shipped at **AI speed**.",
-    "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum Sprints, and senior engineering oversight.",
+    "lead": "SSW helps companies across the U.S. and Canada build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum Sprints, and senior engineering oversight.",
     "primaryCta": {
       "label": "Talk to a senior consultant",
       "href": "#contact",
@@ -76,7 +76,7 @@
     {
       "number": "up to 3",
       "suffix": "×",
-      "label": "Faster delivery on a typical build when AI does the heavy lifting"
+      "label": "Faster delivery on a typical build when AI accelerates implementation"
     },
     {
       "number": "30",
@@ -121,7 +121,7 @@
       },
       {
         "icon": "fa-chart-line",
-        "title": "Cost-effective scaling",
+        "title": "More engineering per dollar",
         "description": "Mix senior oversight with a more affordable delivery team, so you're not paying architect rates for every line of code."
       }
     ]
@@ -156,7 +156,7 @@
   "howSection": {
     "kicker": "Approach",
     "title": "A predictable path from first conversation to live software.",
-    "lead": "No discovery theater. No vague proposals. You will see a working increment in the first Sprint.",
+    "lead": "No lengthy discovery engagements. No vague proposals. You will see a working increment in the first Sprint.",
     "steps": [
       {
         "icon": "fa-phone",
