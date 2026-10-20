@@ -19,8 +19,22 @@ const meta = data.meta;
 <head>
   <GoogleAnalytics />
   {/* Mark JS as available before paint so `html.js .reveal` rules engage
-      and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely. */}
-  <script is:inline>document.documentElement.classList.add('js');</script>
+      and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely.
+      Also detect the Tina admin preview iframe so landing.css can bypass
+      the reveal gate — the bridge re-primes the DOM after our module script
+      runs, wiping any JS-added `is-visible` class and leaving editors with
+      a blank preview. CSS gated on a <html> attribute survives re-renders. */}
+  <script is:inline>
+    document.documentElement.classList.add('js');
+    try {
+      if (window.self !== window.top) {
+        document.documentElement.setAttribute('data-tina-preview', '');
+      }
+    } catch (_) {
+      /* Cross-origin SecurityError implies we ARE in an iframe. */
+      document.documentElement.setAttribute('data-tina-preview', '');
+    }
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{meta?.title ?? 'SSW'}</title>
@@ -52,17 +66,14 @@ const meta = data.meta;
     // the observer unobserves to avoid re-firing on scroll-out/in. Users
     // who prefer reduced motion get everything visible immediately (the
     // CSS rule already handles the static state; we just skip the observer).
-    // Also skipped inside the Tina admin preview iframe — the editor's
-    // iframe sizing/scroll doesn't trip the IntersectionObserver, so .reveal
-    // elements would stay opacity:0 and the preview would look mostly blank
-    // to the editor.
+    // The Tina admin preview iframe is handled in CSS via a <html>
+    // data attribute set in the inline <head> script — the Tina bridge
+    // re-primes the DOM after this module script runs, so a JS-added class
+    // here wouldn't survive.
     const revealNodes = document.querySelectorAll('.reveal');
     if (revealNodes.length > 0) {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const inPreviewIframe = (() => {
-        try { return window.self !== window.top; } catch { return true; }
-      })();
-      if (prefersReducedMotion || inPreviewIframe || typeof IntersectionObserver === 'undefined') {
+      if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
         revealNodes.forEach((el) => el.classList.add('is-visible'));
       } else {
         const observer = new IntersectionObserver(
