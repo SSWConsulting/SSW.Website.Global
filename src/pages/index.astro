@@ -52,10 +52,17 @@ const meta = data.meta;
     // the observer unobserves to avoid re-firing on scroll-out/in. Users
     // who prefer reduced motion get everything visible immediately (the
     // CSS rule already handles the static state; we just skip the observer).
+    // Also skipped inside the Tina admin preview iframe — the editor's
+    // iframe sizing/scroll doesn't trip the IntersectionObserver, so .reveal
+    // elements would stay opacity:0 and the preview would look mostly blank
+    // to the editor.
     const revealNodes = document.querySelectorAll('.reveal');
     if (revealNodes.length > 0) {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+      const inPreviewIframe = (() => {
+        try { return window.self !== window.top; } catch { return true; }
+      })();
+      if (prefersReducedMotion || inPreviewIframe || typeof IntersectionObserver === 'undefined') {
         revealNodes.forEach((el) => el.classList.add('is-visible'));
       } else {
         const observer = new IntersectionObserver(
