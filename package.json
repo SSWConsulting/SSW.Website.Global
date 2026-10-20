@@ -17,14 +17,14 @@
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
-    "@tinacms/astro": "0.0.0-c724883-20260514062230",
+    "@tinacms/astro": "^0.8.0",
     "astro": "^5.16.0"
   },
   "devDependencies": {
-    "@tinacms/cli": "0.0.0-c724883-20260514062230",
+    "@tinacms/cli": "^4.0.3",
     "@types/node": "^25.1.0",
     "cross-env": "^7.0.3",
-    "tinacms": "0.0.0-c724883-20260514062230",
+    "tinacms": "^3.15.0",
     "wrangler": "4.59.2"
   },
   "pnpm": {
