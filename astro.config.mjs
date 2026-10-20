@@ -23,16 +23,5 @@ export default defineConfig({
 		ssr: {
 			noExternal: ['@tinacms/astro', '@tinacms/bridge'],
 		},
-		build: {
-			rollupOptions: {
-				onwarn(warning, warn) {
-					if (warning.code === 'UNUSED_EXTERNAL_IMPORT' &&
-						warning.exporter === 'tinacms/dist/client') {
-						return;
-					}
-					warn(warning);
-				}
-			}
-		}
-	}
+	},
 });
