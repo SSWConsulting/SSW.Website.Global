@@ -510,6 +510,17 @@ html.js .reveal.is-visible {
   transform: none;
   will-change: auto;
 }
+/* Inside the Tina admin preview iframe, bypass the reveal gate entirely.
+   The Tina bridge re-primes the DOM after our inline script runs, which
+   wipes any `is-visible` class we would have added at load time, leaving
+   editors staring at a mostly-blank preview. This rule is gated on the
+   data attribute set in index.astro's inline script and survives DOM
+   re-renders because <html> isn't the thing being re-rendered. */
+html[data-tina-preview] .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
 @media (prefers-reduced-motion: reduce) {
   html.js .reveal,
   html.js .reveal.is-visible {
