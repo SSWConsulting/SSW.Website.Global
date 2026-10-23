@@ -3,6 +3,7 @@ import '../styles/landing.css';
 import { ClientRouter } from 'astro:transitions';
 import TinaIsland from '@tinacms/astro/TinaIsland.astro';
 import LandingBody from '../components/islands/LandingBody.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import { getLanding } from '../lib/data';
 import { islands } from '../lib/islands';
 
@@ -14,8 +15,26 @@ const meta = data.meta;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
+  <GoogleAnalytics />
+  {/* Mark JS as available before paint so `html.js .reveal` rules engage
+      and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely.
+      Also detect the Tina admin preview iframe so landing.css can bypass
+      the reveal gate — the bridge re-primes the DOM after our module script
+      runs, wiping any JS-added `is-visible` class and leaving editors with
+      a blank preview. CSS gated on a <html> attribute survives re-renders. */}
+  <script is:inline>
+    document.documentElement.classList.add('js');
+    try {
+      if (window.self !== window.top) {
+        document.documentElement.setAttribute('data-tina-preview', '');
+      }
+    } catch {
+      /* Cross-origin SecurityError implies we ARE in an iframe. */
+      document.documentElement.setAttribute('data-tina-preview', '');
+    }
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{meta?.title ?? 'SSW'}</title>
@@ -35,82 +54,224 @@ const meta = data.meta;
   </TinaIsland>
 
   <script>
+    import { IANA_TO_LABEL } from '../lib/timezones';
+
     const nav = document.getElementById('nav');
     const onScroll = () => { if (nav) (nav as HTMLElement).dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Progressive enhancement for the Jotform contact form.
+    // Scroll-reveal: every .reveal element fades up the first time it
+    // crosses ~15% into the viewport. Once revealed it stays revealed —
+    // the observer unobserves to avoid re-firing on scroll-out/in. Users
+    // who prefer reduced motion get everything visible immediately (the
+    // CSS rule already handles the static state; we just skip the observer).
+    // The Tina admin preview iframe is handled in CSS via a <html>
+    // data attribute set in the inline <head> script — the Tina bridge
+    // re-primes the DOM after this module script runs, so a JS-added class
+    // here wouldn't survive.
+    const revealNodes = document.querySelectorAll('.reveal');
+    if (revealNodes.length > 0) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+        revealNodes.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+        );
+        revealNodes.forEach((el) => observer.observe(el));
+      }
+    }
+
+    // Testimonial carousel — rotates the three .why-card slides on a
+    // ms interval set via `data-rotate-interval` on the carousel root
+    // (defaults to 8s). Pauses while the pointer is over the carousel
+    // or while keyboard focus is inside it, so reading a long quote
+    // doesn't get cut short. Clicking a dot jumps to that slide and
+    // resets the interval. Respects prefers-reduced-motion: no
+    // auto-rotation, but dots still work for manual navigation.
+    const carousel = document.querySelector<HTMLElement>('.why-carousel');
+    if (carousel) {
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>('.why-card'));
+      const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>('.dot'));
+      const interval = Number(carousel.dataset.rotateInterval ?? '8000');
+      let index = 0;
+      let timerId: ReturnType<typeof setInterval> | null = null;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const show = (next: number) => {
+        slides.forEach((slide, i) => {
+          const active = i === next;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        dots.forEach((dot, i) => {
+          const active = i === next;
+          dot.classList.toggle('is-active', active);
+          dot.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        index = next;
+      };
+
+      const start = () => {
+        if (prefersReducedMotion || slides.length < 2 || timerId !== null) return;
+        timerId = setInterval(() => show((index + 1) % slides.length), interval);
+      };
+      const stop = () => {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      };
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          show(i);
+          stop();
+          start();
+        });
+      });
+
+      carousel.addEventListener('pointerenter', stop);
+      carousel.addEventListener('pointerleave', start);
+      carousel.addEventListener('focusin', stop);
+      carousel.addEventListener('focusout', (e) => {
+        // Only restart if focus actually left the carousel, not just shifted
+        // between dots within it.
+        if (!carousel.contains(e.relatedTarget as Node | null)) start();
+      });
+
+      start();
+    }
+
+    // Progressive enhancement for the contact form.
     //
-    // Default (no JS): the <form> in the HTML is a plain action+method=POST,
-    // so the browser handles native validation, posts directly to Jotform,
-    // and the user lands on Jotform's hosted thank-you page. Functional but
-    // visually inconsistent.
+    // Default (no JS): the <form> posts to /api/contact (our Astro API route),
+    // which proxies the submission to Jotform server-side and 303-redirects
+    // back to /?contact=ok|err#contact. The user lands at the contact section
+    // and the inline status-from-URL handler below shows the success or error
+    // banner. Functional even with JS disabled.
     //
-    // With JS: retarget submissions into the hidden iframe (so the user stays
-    // on our page) and add novalidate (so our handler owns error display).
-    // The iframe's `load` event after a submit means Jotform has rendered its
-    // thank-you page inside it -- we treat that as success.
+    // With JS: intercept submit, POST the form as JSON to /api/contact via
+    // fetch(), and inspect the JSON `{ ok: true }` / `{ ok: false }` response.
+    // Unlike the old iframe-target flow, we now know with certainty whether
+    // Jotform accepted the payload — a 400 from Jotform surfaces as our error
+    // banner instead of a false-positive success message.
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
-    const receiver = document.getElementById('jotform-receiver') as HTMLIFrameElement | null;
     // Both `success` and `errorBox` are optional — they're only rendered when
     // Tina content supplies the matching copy. Don't gate the form upgrade on
-    // them, or an editor blanking successText would break the iframe handoff.
+    // them, or an editor blanking successText would break the JS handoff.
     const success = document.getElementById('form-success');
     const errorBox = document.getElementById('form-error');
-    if (form && receiver) {
-      form.target = 'jotform-receiver';
+
+    // Show success/error from the no-JS redirect path. `?contact=ok` means the
+    // server-side proxy reported success; `?contact=err` means it didn't.
+    // Strip the query param after applying so a refresh doesn't replay it.
+    if (window.location.search.includes('contact=')) {
+      const params = new URLSearchParams(window.location.search);
+      const status = params.get('contact');
+      if (status === 'ok' && success) success.classList.add('visible');
+      if (status === 'err' && errorBox) errorBox.hidden = false;
+      params.delete('contact');
+      const cleanQuery = params.toString();
+      const cleanUrl = window.location.pathname + (cleanQuery ? `?${cleanQuery}` : '') + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+    }
+
+    // Timezone auto-select. On page load AND after each successful submit
+    // (form.reset() clears the field), map the browser's IANA timezone to the
+    // matching <option> in #f-timezone. Silent failure — if the browser
+    // returns an IANA zone we don't have a mapping for (e.g. a European user),
+    // the select stays empty and the user picks manually, so "Other" is only
+    // ever chosen deliberately. IANA_TO_LABEL and the option list are both
+    // built from TIMEZONE_LABELS in src/lib/timezones.ts, so a rename can't
+    // silently break the auto-detect.
+    const applyDetectedTimezone = () => {
+      const timezoneSelect = document.getElementById('f-timezone') as HTMLSelectElement | null;
+      if (!timezoneSelect || timezoneSelect.value) return;
+      try {
+        const iana = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const label = IANA_TO_LABEL[iana];
+        if (label) timezoneSelect.value = label;
+      } catch {
+        /* Intl unavailable — leave the select empty for manual entry. */
+      }
+    };
+    applyDetectedTimezone();
+
+    if (form) {
       form.noValidate = true;
 
       const SUBMIT_TIMEOUT_MS = 15000;
-      let pendingSubmission = false;
-      let submitTimeoutId: ReturnType<typeof setTimeout> | null = null;
       const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      const errorMessageEl = document.getElementById('form-error-message');
 
-      const finishSubmission = () => {
-        pendingSubmission = false;
-        if (submitTimeoutId !== null) {
-          clearTimeout(submitTimeoutId);
-          submitTimeoutId = null;
+      /** Show the error box, surfacing the server-supplied error when we
+       *  have one (e.g. "Missing required fields: phone", "Invalid email
+       *  address", "Message too long"). Network/timeout failures pass
+       *  undefined and fall back to the generic "Something went wrong."
+       *  text already in the span. */
+      const showFormError = (detail: string | undefined) => {
+        if (errorMessageEl) {
+          errorMessageEl.textContent = detail ? `${detail}.` : 'Something went wrong.';
         }
-        if (submitBtn) submitBtn.disabled = false;
+        if (errorBox) errorBox.hidden = false;
       };
 
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         if (!form.checkValidity()) {
           e.preventDefault();
           form.reportValidity();
           return;
         }
-        if (!form.getAttribute('action')) {
-          e.preventDefault();
-          console.error('Contact form: no action set (missing jotformId)');
-          if (errorBox) errorBox.hidden = false;
-          return;
-        }
+        e.preventDefault();
         if (success) success.classList.remove('visible');
         if (errorBox) errorBox.hidden = true;
         if (submitBtn) submitBtn.disabled = true;
-        pendingSubmission = true;
 
-        // If the iframe never loads (ad blocker on submit.jotform.com, network
-        // drop, CSP refuses the navigation, etc.) the user would be stuck on a
-        // disabled button. Time out, re-enable, and surface the error UI so
-        // they can retry or fall back to email.
-        if (submitTimeoutId !== null) clearTimeout(submitTimeoutId);
-        submitTimeoutId = setTimeout(() => {
-          if (!pendingSubmission) return;
-          console.error('Contact form: Jotform iframe did not load within', SUBMIT_TIMEOUT_MS, 'ms');
-          if (errorBox) errorBox.hidden = false;
-          finishSubmission();
-        }, SUBMIT_TIMEOUT_MS);
-      });
+        // Serialize to a plain object so the proxy can read JSON. Multi-value
+        // fields would collapse to the last value here, but our form has none.
+        const formData = new FormData(form);
+        const payload: Record<string, string> = {};
+        for (const [k, v] of formData.entries()) {
+          if (typeof v === 'string') payload[k] = v;
+        }
 
-      receiver.addEventListener('load', () => {
-        if (!pendingSubmission) return; // ignore the initial blank load
-        if (success) success.classList.add('visible');
-        form.reset();
-        finishSubmission();
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS);
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', accept: 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal,
+          });
+          const result = (await response.json().catch(() => ({ ok: false }))) as { ok?: boolean; error?: string };
+          if (response.ok && result.ok) {
+            if (success) success.classList.add('visible');
+            form.reset();
+            // reset() clears the timezone select; re-apply so a second
+            // submission in the same session still gets the detected value.
+            applyDetectedTimezone();
+          } else {
+            console.error('Contact form: proxy reported failure', response.status, result.error);
+            showFormError(result.error);
+          }
+        } catch (err) {
+          console.error('Contact form: request failed', err);
+          showFormError(undefined);
+        } finally {
+          clearTimeout(timeoutId);
+          if (submitBtn) submitBtn.disabled = false;
+        }
       });
     }
   </script>

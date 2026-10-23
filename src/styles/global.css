@@ -42,18 +42,13 @@ body {
 	font-size: 20px;
 	line-height: 1.7;
 }
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
-}
-article {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
-}
+/* The starter's blog `main { width: 720px }` and `article { width: 720px }`
+   rules were leaking into our internal pages — landing.css's resets had
+   the same specificity (both bare element selectors) but loaded first, so
+   these rules won the cascade and pinned /terms-conditions, /privacy and
+   /about to 720px wide. The /blog/* layout has its own scoped `<style>`
+   that re-asserts the centered 720 measure where it actually wants it,
+   so removing the rules here is safe. */
 h1,
 h2,
 h3,
@@ -136,9 +131,7 @@ hr {
 	body {
 		font-size: 18px;
 	}
-	main {
-		padding: 1em;
-	}
+	/* `main { padding: 1em }` override also removed — same leak as above. */
 }
 
 .sr-only {

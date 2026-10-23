@@ -1,38 +1,13 @@
 {
   "meta": {
-    "title": "SSW · Enterprise AI-assisted software delivery for the Americas",
-    "description": "Ship enterprise-grade software faster with AI-assisted development, Scrum discipline, and a North America-based Scrum Master."
+    "title": "SSW · Enterprise software delivery for North America",
+    "description": "We build and ship enterprise software for North American teams using AI and 1-week Scrum Sprints, with a Scrum Master in your time zone."
   },
   "nav": {
-    "logo": "/assets/ssw-logo.png",
-    "region": "Americas",
-    "capabilitiesLabel": "Capabilities",
-    "capabilities": [
-      {
-        "icon": "fa-robot",
-        "title": "AI-assisted development",
-        "description": "AI throughout the SDLC",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-arrows-rotate",
-        "title": "Legacy modernization",
-        "description": "Cloud-native migrations",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-table-cells-large",
-        "title": "Custom applications",
-        "description": "Line-of-business tools",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-compass",
-        "title": "Technical consulting",
-        "description": "Senior architecture advice",
-        "href": "#services"
-      }
-    ],
+    "logo": "/assets/ssw-logo-darkmode.png",
+    "region": "AMERICAS",
+    "capabilitiesLabel": "Solutions",
+    "capabilities": [],
     "links": [
       {
         "label": "Approach",
@@ -45,193 +20,174 @@
       {
         "label": "FAQ",
         "href": "#faq"
-      },
-      {
-        "label": "Contact",
-        "href": "#contact"
       }
     ],
-    "ctaLabel": "Book a call",
+    "ctaLabel": "Talk to us",
     "ctaHref": "#contact"
   },
   "hero": {
-    "eyebrow": "Now serving the U.S. and Canada",
+    "eyebrow": "From Idea to Production, Faster",
     "title": "Enterprise software, shipped at **AI speed**.",
-    "lead": "SSW builds production-grade applications for organizations across North America. Faster delivery, guided by AI-assisted development, Scrum discipline, and senior engineering oversight.",
+    "lead": "SSW helps companies across the U.S. and Canada build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum Sprints, and senior engineering oversight.",
     "primaryCta": {
-      "label": "Book a call",
+      "label": "Talk to a senior consultant",
       "href": "#contact",
-      "icon": "fa-regular fa-calendar"
+      "icon": "fa-regular fa-message"
     },
     "secondaryCta": {
       "label": "See how we work",
       "href": "#how",
       "icon": "fa-solid fa-arrow-right"
     },
-    "checks": [
-      {
-        "text": "30+ years of enterprise software experience"
-      },
-      {
-        "text": "North America-based Scrum Master"
-      },
-      {
-        "text": "Two-week sprints with live demos"
-      }
-    ],
-    "image": "/assets/hero-visual.png",
-    "imageAlt": "Kanban board with AI-assisted code suggestions showing SSW's enterprise delivery workflow"
+    "checks": [],
+    "image": "",
+    "imageAlt": "Developer working on AI-assisted code, dark editor screen"
   },
   "stats": [
     {
+      "number": "7,000",
+      "suffix": "+",
+      "label": "Solutions delivered\nEnterprise-grade software"
+    },
+    {
+      "number": "1,800",
+      "suffix": "+",
+      "label": "Happy clients\nAcross all industries"
+    },
+    {
       "number": "30",
       "suffix": "+",
-      "label": "Years building software for enterprises"
-    },
-    {
-      "number": "3",
-      "suffix": "×",
-      "label": "Typical delivery acceleration with AI-assisted workflows"
-    },
-    {
-      "number": "200",
-      "suffix": "+",
-      "label": "Senior consultants and engineers across our delivery network"
-    },
-    {
-      "number": "99.4",
-      "suffix": "%",
-      "label": "Sprint commitments delivered on time"
+      "label": "Years experience\nTrusted since 1995"
     }
   ],
   "benefitsSection": {
     "kicker": "Benefits",
-    "title": "Move fast without breaking the things that matter.",
-    "lead": "AI is a productivity multiplier, not a replacement for engineering judgment. We combine proven [AI-assisted development practices](https://www.ssw.com.au/rules/rules-to-better-ai-development) with the governance, quality standards, and Scrum discipline that enterprise teams expect.",
+    "title": "What you get working with us.",
+    "lead": "AI accelerates delivery, while engineers ensure quality through code review, testing, and 1-week Scrum cadence. Learn more in our [Rules to Better AI-Assisted Development](https://www.ssw.com.au/rules/rules-to-better-ai-assisted-development).",
     "items": [
       {
         "icon": "fa-bolt",
         "title": "Faster delivery",
-        "description": "AI-assisted development helps compress weeks of work into days. We can spec, scaffold, and ship features in tighter loops without cutting corners."
+        "description": "AI handles the repetitive parts of coding, so features that used to take weeks land in days. Review and testing are never skipped just to meet a deadline."
       },
       {
         "icon": "fa-shield-halved",
         "title": "Enterprise-grade quality",
-        "description": "Every change is backed by code reviews, automated tests, security baselines, and architectural oversight from senior consultants."
+        "description": "Every change goes through code review and automated tests, with a senior consultant keeping an eye on the architecture and security."
       },
       {
         "icon": "fa-comments",
-        "title": "North American communication",
-        "description": "A dedicated North America-based Scrum Master runs your standups, sprint reviews, and stakeholder updates in your time zone."
+        "title": "Seamless communication",
+        "description": "Your Scrum Master is based in North America and runs standups, Sprint reviews, and stakeholder updates during your working hours."
       },
       {
         "icon": "fa-code-pull-request",
         "title": "Scrum-led delivery",
-        "description": "Two-week sprints, demoable increments, and transparent burndowns. You always know what is being built, what is next, and when it will be ready."
+        "description": "We work in 1-week Sprints and show you working software at the end of each one. You can see what's done, what's next, and roughly when it'll be ready."
       },
       {
         "icon": "fa-users",
         "title": "Flexible team structure",
-        "description": "Scale up or down with senior architects, hands-on engineers, and cost-effective delivery resources as the work demands."
+        "description": "Add senior architects or more engineers when the work picks up, and scale back when it quiets down. You're not locked into a fixed headcount."
       },
       {
         "icon": "fa-chart-line",
-        "title": "Cost-effective scaling",
-        "description": "Blended delivery models give you senior oversight where it matters most and efficient throughput where it makes sense."
+        "title": "More engineering per dollar",
+        "description": "Mix senior oversight with a more affordable delivery team, so you're not paying architect rates for every line of code."
       }
     ]
   },
   "servicesSection": {
-    "kicker": "Capabilities",
-    "title": "From a rapid prototype to a critical system of record.",
-    "lead": "We work across the full lifecycle, from a Friday afternoon idea to a multi-year enterprise platform, with the same discipline and senior technical leadership.",
+    "kicker": "Solutions",
+    "title": "From prototype to production.",
+    "lead": "Whether it is a rough idea or a long-term platform, the same senior people and process see it through.",
     "items": [
       {
         "icon": "fa-robot",
         "title": "AI-assisted software development",
-        "description": "Production-grade applications built with the [best AI-assisted development workflow](https://www.ssw.com.au/rules/ai-assisted-development-workflow), including specs, code generation, QA, and review. Senior engineers guide the tooling so what you ship is fast to deliver, clean to maintain, and ready to scale."
+        "description": "Build applications faster with [AI-assisted](https://www.ssw.com.au/rules/ai-assisted-development-workflow) specs, code, QA, and review, guided by senior engineers."
       },
       {
         "icon": "fa-arrows-rotate",
         "title": "Legacy app modernization",
-        "description": "Modernize aging .NET, WinForms, and on-prem systems into secure, scalable cloud architectures without disrupting the business."
+        "description": "Modernize aging .NET, WinForms, and on-prem systems piece by piece, without stopping the business."
       },
       {
         "icon": "fa-table-cells-large",
         "title": "Custom business applications",
-        "description": "Line-of-business tools that fit your operations, not the other way around. Built to integrate with your existing systems and workflows."
+        "description": "Internal tools shaped around your workflow and connected to the systems you already use."
       },
       {
         "icon": "fa-compass",
         "title": "Technical consulting and architecture",
-        "description": "Senior architects help you make high-leverage technical decisions before they become expensive to change."
+        "description": "Senior architects help you make the right technical calls early, while they are still easy to change."
       }
     ]
   },
   "howSection": {
     "kicker": "Approach",
-    "title": "A predictable path from first call to live software.",
-    "lead": "No discovery theater. No vague proposals. You will see a working increment in the first sprint.",
+    "title": "A predictable path from first conversation to live software.",
+    "lead": "No lengthy discovery engagements. No vague proposals. You will see a working increment in the first Sprint.",
     "steps": [
       {
         "icon": "fa-phone",
         "stepLabel": "Step 01",
         "title": "Discovery call",
-        "description": "A 30-minute conversation with a senior consultant. We discuss your goals, constraints, risks, and what success looks like."
+        "description": "A 30-minute call to understand your goals, constraints, and ideal outcome."
       },
       {
         "icon": "fa-pencil-ruler",
         "stepLabel": "Step 02",
         "title": "Solution design",
-        "description": "We scope the architecture, timeline, and team structure. You get a clear proposal, not a moving target."
+        "description": "We define the architecture, timeline, and team in a clear proposal you can plan around."
       },
       {
         "icon": "fa-microchip",
         "stepLabel": "Step 03",
         "title": "Rapid AI-assisted build",
-        "description": "Engineers ship features using AI-augmented workflows. Code is reviewed, tested, and deployed continuously. For early validation, see SSW's rule on using [AI tools in prototype development](https://www.ssw.com.au/rules/ai-for-prototype-development)."
+        "description": "Engineers build with AI in the loop, while every feature is reviewed, tested, and deployed as it goes. See our [AI prototyping rule](https://www.ssw.com.au/rules/ai-for-prototype-development)."
       },
       {
         "icon": "fa-rotate",
         "stepLabel": "Step 04",
-        "title": "Scrum-led iteration",
-        "description": "Two-week sprints. Live demos. Transparent backlog. We iterate with you until the software is in production."
+        "title": "Live and improving weekly",
+        "description": "After launch, we keep shipping features, fixes, and tweaks in 1-week Sprints."
       }
     ]
   },
   "whySection": {
     "kicker": "Why SSW",
-    "title": "A consulting partner built for the next decade of software.",
-    "lead": "SSW has spent more than three decades shipping enterprise software for demanding teams. Now we are bringing that engineering discipline to AI-native delivery for clients across the U.S. and Canada.",
+    "title": "Why teams pick SSW.",
+    "lead": "SSW has been building enterprise software for over 30 years. We're now putting that experience to work with AI for clients across the U.S. and Canada.",
     "rows": [
       {
         "icon": "fa-user-tie",
-        "title": "Experienced, right-sized teams",
-        "description": "Senior architects, hands-on engineers, and dedicated Scrum Masters who have shipped complex software for banking, healthcare, government, and Fortune 500 clients. Right-sized for your phase and your budget."
+        "title": "Senior teams, sized to fit",
+        "description": "Experienced architects, engineers, and Scrum Masters matched to your project, stage, and budget."
       },
       {
         "icon": "fa-arrows-spin",
-        "title": "Proven Scrum process",
-        "description": "Two-week sprints, working demos, and transparent commitments. Predictability is built into the process."
+        "title": "Proven [Scrum process](https://www.ssw.com.au/rules/rules-to-better-scrum)",
+        "description": "1-week Scrum Sprints with a working demo every week, so you always know where things stand."
       },
       {
         "icon": "fa-robot",
-        "title": "Practical AI adoption",
-        "description": "We use AI tooling that works in real production environments and skip the parts that do not. No hype, just measurable throughput. We also follow practical guidance such as avoiding [automation bias](https://www.ssw.com.au/rules/avoid-automation-bias), so AI outputs are reviewed, challenged, and owned by the team."
+        "title": "Practical AI, human reviewed",
+        "description": "We use AI where it helps, but every output is reviewed, validated, and owned by a person."
       },
       {
         "icon": "fa-shield-halved",
         "title": "Strong engineering standards",
-        "description": "Public coding rules, automated checks, mandatory code review, and a culture of continuous improvement. We also use AI where it helps quality, including [automated code reviews on GitHub](https://www.ssw.com.au/rules/automatic-code-reviews-github)."
+        "description": "[Public rules](https://www.ssw.com.au/rules), automated checks, and mandatory code review keep every change accountable."
       },
       {
         "icon": "fa-scale-balanced",
-        "title": "Balance of quality, speed, and cost",
-        "description": "Quality, speed, and cost need to work together. Most consultancies optimize for one. We help you move faster while keeping engineering standards high."
+        "title": "Quality, speed, and cost in balance",
+        "description": "We help you move fast without treating quality or budget as afterthoughts."
       }
     ],
     "testimonial": {
-      "quote": "SSW helped us streamline our development process by reducing complexity in our environment and increasing our development throughput. Their expertise, innovative approach, and access to SMEs across multiple disciplines enabled the project to exceed its goals. The work completed during the project, and the knowledge transferred to the BizCover team, set us on the right path to achieve our objectives.",
+      "quote": "**SSW helped us streamline our development process** by reducing complexity in our environment and increasing our development throughput. Their expertise, innovative approach, and access to SMEs across multiple disciplines enabled the project to exceed its goals. The work completed during the project, and the knowledge transferred to the BizCover team, set us on the right path to achieve our objectives.",
       "avatarInitials": "DT",
       "name": "Dino T",
       "role": "BizCover"
@@ -240,36 +196,45 @@
   "faqSection": {
     "kicker": "FAQs",
     "title": "Common questions about working with SSW.",
-    "lead": "Short, direct answers to the questions we hear most often during a first call.",
+    "lead": "Straight answers to what people usually ask us on a first call.",
     "helper": {
       "kicker": "Still have a question?",
       "title": "Talk to a senior consultant.",
-      "description": "Most calls take 30 minutes. You will leave with a clear next step, whether you work with us or not.",
-      "ctaLabel": "Book a call",
+      "description": "In about 30 minutes, you'll walk away with a clear next step, whether or not we end up working together.",
+      "ctaLabel": "Talk to us",
       "ctaHref": "#contact",
-      "ctaIcon": "fa-regular fa-calendar"
+      "ctaIcon": "fa-regular fa-message"
     },
     "items": [
       {
-        "question": "How should I choose an AI-assisted software development partner?",
+        "question": "Who is SSW for?",
         "paragraphs": [
           {
-            "text": "Choose a partner that has shipped production software, not just demos. Look for strong engineering practices, transparent delivery, and senior people who stay engaged through the entire build."
-          },
-          {
-            "text": "AI tooling matters less than the discipline behind it. SSW combines AI-assisted workflows with more than three decades of enterprise consulting experience, so you get speed and accountability together."
+            "text": "SSW is for CTOs and technology leaders who need to modernize, build, or scale critical software without waiting months to hire a full team."
           }
         ],
         "openByDefault": true
       },
       {
+        "question": "How should I choose an AI-assisted software development partner?",
+        "paragraphs": [
+          {
+            "text": "Pick a partner that has actually shipped software, not just demos. Look for solid engineering habits, open communication, and senior people who stick around for the whole build."
+          },
+          {
+            "text": "The tools matter less than how a team uses them. We pair AI with 30+ years of consulting experience, so you get the speed without losing the accountability."
+          }
+        ],
+        "openByDefault": false
+      },
+      {
         "question": "What are the benefits of working with SSW versus building in-house?",
         "paragraphs": [
           {
-            "text": "Hiring senior engineers takes months. We start within two weeks with a complete team of engineers, Scrum Master, and architect. No ramp time, no recruiting overhead, no risk of a bad hire on a critical project."
+            "text": "Hiring senior engineers takes months. We can start in about two weeks with a full team — engineers, a Scrum Master, and an architect — so there's no recruiting drag and no bad-hire risk on something that matters."
           },
           {
-            "text": "You keep the code, the IP, and the practices. We hand off cleanly when you are ready to run it yourselves."
+            "text": "You own the code, the IP, and the way it was built. When you're ready to take it in-house, we hand it over cleanly."
           }
         ],
         "openByDefault": false
@@ -278,10 +243,10 @@
         "question": "How does SSW combine AI speed with enterprise quality?",
         "paragraphs": [
           {
-            "text": "Through process. AI accelerates coding, not judgment. Every change runs through the same pipeline: spec, code review, automated test, staged deploy. Senior engineers stay on the loop end to end."
+            "text": "With process. AI speeds up the typing, not the thinking. Every change goes through the same steps — spec, code review, automated test, staged deploy — with senior engineers involved the whole way."
           },
           {
-            "text": "The result is software that ships fast and stays shipped."
+            "text": "So it ships quickly and keeps working after it does."
           }
         ],
         "openByDefault": false
@@ -290,17 +255,17 @@
   },
   "contactSection": {
     "kicker": "Contact",
-    "title": "Book a call.",
+    "title": "Get in touch.",
     "lead": "Tell us a bit about your project. A senior consultant will get back to you within one business day.",
     "form": {
       "title": "Tell us about your project",
       "description": "Required fields are marked with a red asterisk.",
-      "submitLabel": "Book a call",
-      "submitIcon": "fa-regular fa-calendar",
+      "submitLabel": "Send message",
+      "submitIcon": "fa-regular fa-paper-plane",
       "privacy": "By submitting, you agree to our {link}. We never share your information.",
       "privacyLinkLabel": "privacy policy",
-      "privacyLinkHref": "#",
-      "successText": "Thanks. We will be in touch within one business day.",
+      "privacyLinkHref": "/privacy",
+      "successText": "Thank you! We will be in touch soon.",
       "jotformId": "261407656761058"
     },
     "asideItems": [
@@ -311,25 +276,25 @@
       },
       {
         "icon": "fa-envelope",
-        "title": "info@ssw.com",
+        "title": "hello@ssw.com",
         "description": "We reply to every inquiry within one business day."
       }
     ]
   },
   "ctaBanner": {
-    "title": "Ship the next version of your software, faster.",
-    "description": "Talk to a senior consultant about your enterprise AI-assisted delivery plan. We will tell you what is realistic, what is risky, and what to do next.",
-    "ctaLabel": "Book a call",
+    "title": "Let's build the next version of your software.",
+    "description": "Tell a senior consultant what you're trying to build, and we'll give you a straight read on what's doable and where the risks are.",
+    "ctaLabel": "Talk to a senior consultant",
     "ctaHref": "#contact",
-    "ctaIcon": "fa-regular fa-calendar"
+    "ctaIcon": "fa-regular fa-message"
   },
   "footer": {
-    "logo": "/assets/ssw-logo.png",
-    "tagline": "SSW builds enterprise software with AI-assisted development and Scrum discipline for clients across the Americas.",
+    "logo": "/assets/ssw-logo-darkmode.png",
+    "tagline": "SSW builds enterprise software for clients across the Americas, using AI and 1-week Scrum Sprints.",
     "columnTitle": "Company",
     "links": [
       {
-        "label": "Capabilities",
+        "label": "Solutions",
         "href": "#services"
       },
       {
@@ -351,7 +316,7 @@
     ],
     "copyright": "© 1990–2026 SSW. All rights reserved.",
     "termsLabel": "Terms & conditions",
-    "termsHref": "https://www.ssw.com.au/terms-and-conditions",
+    "termsHref": "/terms-conditions",
     "builtWithText": "Built with",
     "builtWithName": "TinaCMS",
     "builtWithHref": "https://tina.io",

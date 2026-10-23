@@ -8,6 +8,561 @@ body {
   background: var(--bg-base);
 }
 a { color: inherit; text-decoration: none; }
+
+/* Base-layout internal pages (privacy, blog, etc.) also load the starter's
+   global.css, which sets a light gradient body background, dark text, and the
+   Atkinson font. On dark pages that overrides our theme, so re-assert the dark
+   field + Inter here with higher specificity (html.dark body) than global.css's
+   bare `body` rule, independent of stylesheet load order. */
+html.dark body {
+  background: var(--bg-base);
+  color: var(--text-neutral);
+  font-family: var(--font-sans);
+}
+
+/* ───────────────────────── Internal page shell
+   Wraps the body of internal pages (privacy, about, blog posts etc.)
+   that render through PageBody / BlogBody under Base.astro. Inherits
+   the landing nav above and footer below; this rule provides the
+   vertical breathing room and types the markdown body in Inter to
+   match the rest of the site.
+   ──────────────────────────────────────────────────────────────────── */
+/* Beat global.css's `main { width: 720px }` and `article { width: 720px }`
+   element rules from the starter's blog-post layout. These constraints
+   were being applied to the OUTER <main> rendered by Tina's TinaIsland
+   wrapper (which has no class for us to target) and to the .page-body
+   <article>, which capped the page at 720px even after we widened
+   .page-shell. Anchored at the element level so any future <main> /
+   <article> on the site stays full-width unless explicitly constrained
+   by a class rule. */
+main, article {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page-shell {
+  padding: clamp(56px, 7vw, 88px) 0 clamp(72px, 9vw, 120px);
+  background: var(--bg-base);
+}
+.page-body { /* width/max-width handled by the bare-element reset above */ }
+/* Internal pages cap at 960px — wide enough that paragraphs at 75ch and
+   the 5-column rate tables both fit comfortably without horizontal
+   scroll, narrow enough that long-form legal copy doesn't sprawl across
+   the full viewport on wide desktops. */
+.page-shell .container { max-width: 960px; }
+
+/* Breadcrumb above the article on internal pages. Mono-uppercase to match
+   the .section-kicker / .strip-meta vocabulary used across the landing,
+   so the page chrome reads as the same design system. Current-page span
+   lifts to neutral-strong; "Home" link hovers to brand red. */
+.breadcrumb {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-neutral-weak);
+  margin-bottom: clamp(24px, 3vw, 40px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.breadcrumb a {
+  color: var(--text-neutral-weak);
+  text-decoration: none;
+  transition: color var(--duration-normal) var(--ease-out);
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible { color: var(--red-500); }
+.breadcrumb .sep { opacity: 0.5; }
+.breadcrumb [aria-current="page"] { color: var(--text-neutral-strong); }
+
+.page-body {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-neutral);
+  word-wrap: break-word;
+}
+/* Standard block rhythm between top-level children — 1.5em sits in the
+   middle of the 1.4-1.6em range Medium, Substack, and Wikipedia use for
+   long-form body copy, and gives noticeably more space between paragraphs
+   and lists than the previous 1.1em did. Headings still win because
+   .page-body h2/h3 have their own explicit margin-top via specificity. */
+.page-body > * + * { margin-top: 1.5em; }
+.page-body h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 4.4vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--text-neutral-strong);
+  margin: 0 0 0.3em;
+}
+.page-body h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 2.6vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-neutral-strong);
+  margin-top: 2em;
+  margin-bottom: 0.4em;
+}
+.page-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 2vw, 20px);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--text-neutral-strong);
+  margin-top: 1.6em;
+  margin-bottom: 0.3em;
+}
+.page-body p { margin: 0; }
+.page-body a {
+  color: var(--text-neutral);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-skip-ink: auto;
+  border-radius: var(--edge);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    text-decoration-color var(--duration-normal) var(--ease-out),
+    text-decoration-thickness var(--duration-normal) var(--ease-out),
+    text-underline-offset var(--duration-normal) var(--ease-out);
+}
+.page-body a:hover,
+.page-body a:focus-visible {
+  color: var(--red-600);
+  text-decoration-color: var(--red-500);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.page-body strong { color: var(--text-neutral-strong); font-weight: 600; }
+.page-body em { font-style: italic; }
+.page-body ul, .page-body ol { padding-left: 1.4em; margin: 0; }
+.page-body li + li { margin-top: 0.5em; }
+/* Brand-red square bullets for unordered lists. Default disc/circle markers
+   were generic; the brand uses red squares throughout the landing kickers
+   and stat marks, so unify the legal/internal-page lists into the same
+   vocabulary. Custom ::before square instead of list-style-type: square
+   because list-style-type renders tiny (3-4px in most browsers) and
+   ::marker color support is still uneven across older browsers. Ordered
+   lists keep their native numbered markers — different semantic, not a
+   "bullet" the user asked to restyle. */
+.page-body ul { list-style: none; padding-left: 1.4em; }
+.page-body ul > li { position: relative; }
+.page-body ul > li::before {
+  content: "";
+  position: absolute;
+  /* Pull left into the padding-left gutter so the square aligns with the
+     baseline of the first text line (top: 0.6em ≈ x-height at 17/1.65). */
+  left: -1.05em;
+  top: 0.6em;
+  width: 7px;
+  height: 7px;
+  background: var(--red-500);
+}
+.page-body blockquote {
+  margin: 0;
+  padding: 0.4em 0 0.4em 1.1em;
+  border-left: 3px solid var(--red-200);
+  color: var(--text-neutral-weak);
+}
+.page-body code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  padding: 0.15em 0.4em;
+  border-radius: var(--edge);
+  background: var(--grey-100);
+}
+.page-body pre {
+  overflow-x: auto;
+  padding: 1em 1.2em;
+  border-radius: var(--edge);
+  background: var(--grey-900);
+  color: #fff;
+}
+.page-body pre code { background: transparent; padding: 0; color: inherit; font-size: 14px; }
+.page-body hr {
+  border: 0;
+  border-top: 1px solid var(--stroke-neutral-weak);
+  margin: 2em 0;
+}
+/* Internal-page tables (rate cards on /terms-conditions, etc.). Hairline
+   borders, mono header row, right-aligned numeric cells, and horizontal
+   scroll wrapper for narrow viewports. Authored as inline HTML in the
+   MDX because Tina's TinaMarkdown renderer drops markdown table nodes
+   silently — the renderer has no `table`/`tr`/`td` cases, but it does
+   pass `html` nodes through, so `<table>…</table>` survives. */
+.page-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+  /* Faint border around the block so the table reads as a self-contained
+     card rather than floating against the page background. */
+  border: 1px solid var(--stroke-neutral-weak);
+  border-radius: var(--edge);
+  /* Default to native table layout at desktop widths so all columns fit
+     inside the wider container without needing to scroll. */
+}
+/* On narrow viewports the 5-column rate tables won't fit; fall back to
+   horizontal scroll inside the table itself rather than overflowing the
+   container. Threshold matches the rest of the page-body responsive
+   breakpoints. */
+@media (max-width: 720px) {
+  .page-body table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}
+.page-body table thead {
+  /* Was var(--grey-100) — which only gets redefined in light mode, so on
+     this dark-mode-only page the thead was painting near-white text
+     (--text-neutral-strong = rgba(255,255,255,0.95)) over near-white bg.
+     Use --bg-raised for a subtle dark "card" feel that has contrast against
+     both the cell text and the page background in either theme. */
+  background: var(--bg-raised);
+}
+.page-body table th {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-neutral-strong);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  white-space: nowrap;
+}
+.page-body table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  color: var(--text-neutral);
+}
+.page-body table tbody tr:last-child td { border-bottom: 0; }
+/* Right-align numeric columns (every column after the first). The
+   :first-child stays left-aligned as the role name. */
+.page-body table th:not(:first-child),
+.page-body table td:not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page header — title + action buttons inline. Used at the top of MDX
+   pages that want a Print/Share/etc. button next to the H1 instead of
+   stacked above the body copy. Flex row, baseline-aligned so the button
+   sits along the heading's typographic baseline; wraps to two lines on
+   ≤540px viewports where the H1 needs the full row. */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(8px, 1.5vw, 16px);
+}
+/* The .page-body > * + * 1.5em block rhythm and the .page-body h1
+   margin-bottom: 0.3em both want to apply to the H1 inside the header.
+   Zero them out — the .page-header itself owns the spacing now. */
+.page-header > h1 { margin: 0; max-width: none; }
+.page-header > .page-actions { margin: 0; flex-shrink: 0; }
+
+/* Page-level action bar — Print button etc. Stand-alone form (outside a
+   .page-header) right-aligns above the article. Inside a .page-header it
+   shares a baseline-aligned row with the H1 (overrides above). */
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: clamp(8px, 1.5vw, 16px) 0 clamp(24px, 3vw, 40px);
+}
+@media (max-width: 540px) {
+  .page-actions { justify-content: flex-start; }
+}
+.page-actions .btn { white-space: nowrap; }
+
+/* Aside callout — a small, quiet note used for editorial/contextual asides
+   at the end of a long page (the AU-source attribution on /terms-conditions
+   today, but reusable for any MDX page that wants a "by the way" box).
+   Quieter than the .signoff-form: thinner border, muted text, no header. */
+.page-note {
+  margin-top: clamp(24px, 3vw, 40px);
+  padding: clamp(16px, 2vw, 24px) clamp(20px, 2.5vw, 28px);
+  background: var(--bg-raised);
+  border: 1px solid var(--stroke-neutral-weak);
+  border-left: 3px solid var(--red-500);
+  border-radius: var(--edge);
+  color: var(--text-neutral-weak);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.page-note a { color: var(--text-neutral); }
+.page-note a:hover, .page-note a:focus-visible { color: var(--red-500); }
+
+/* ───────────────────────── Printable sign-off form
+   A 2-column label/value grid that mirrors a paper form: label on the
+   left (right-aligned, bold), an empty bordered "line" on the right
+   that prints cleanly so a client can fill it in by hand. Used at the
+   bottom of /terms-conditions; styles are generic so any future MDX
+   page that drops a .signoff-form gets the same affordance.
+   ──────────────────────────────────────────────────────────────────── */
+.signoff-form {
+  margin-top: clamp(24px, 3vw, 40px);
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--bg-raised);
+  border: 1px solid var(--stroke-neutral-weak);
+  border-radius: var(--edge);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.page-body .signoff-form > * + * { margin-top: 0; /* override the page-body 1.5em block rhythm — the form has its own internal gap */ }
+.signoff-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .signoff-row { grid-template-columns: 1fr; gap: 6px; }
+}
+.signoff-form dt {
+  font-weight: 700;
+  color: var(--text-neutral-strong);
+  text-align: right;
+  padding-top: 10px;
+  line-height: 1.3;
+}
+@media (max-width: 640px) {
+  .signoff-form dt { text-align: left; padding-top: 0; }
+}
+.signoff-form dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.signoff-line {
+  display: block;
+  width: 100%;
+  height: 42px;
+  background: var(--bg-base);
+  border: 1px solid var(--stroke-neutral);
+  border-radius: var(--edge);
+}
+.signoff-line-tall { height: 72px; }
+.signoff-hint {
+  font-size: 13px;
+  color: var(--text-neutral-weak);
+  font-style: italic;
+}
+
+/* Print rules — the T&C is a printable contract; clients should be able
+   to hit Cmd+P / Ctrl+P and get a clean paper version. Hide chrome
+   (nav, footer, breadcrumb), flip colours to ink-friendly black-on-white,
+   keep the sign-off form intact on one page where possible, and use
+   close to the full paper width. */
+@page {
+  /* Trim the default browser margin (~19mm) hard so the printable area
+     uses nearly the full sheet — small gutter just so text doesn't run
+     to the edge of the paper. Combined with the tightened in-document
+     spacing below, this brings the printed T&C down from 12+ pages to
+     a much more reasonable count. */
+  margin: 8mm;
+}
+@media print {
+  /* Page chrome off. */
+  .nav, footer, .breadcrumb, .page-actions { display: none !important; }
+
+  /* Pull every wrapper to white-on-black-text. The * selector at the end
+     catches anything we'd otherwise have to enumerate by hand — strong,
+     em, code, h-tags, td, etc. — so the printed page reads as solid
+     black ink instead of the dark-mode mid-greys. */
+  body, html.dark body, .page-shell, .page-body, .page-body * {
+    background: transparent !important;
+    color: #000 !important;
+  }
+  body, html.dark body { background: #fff !important; }
+
+  /* Drop our outer page padding and the container's gutter so the content
+     uses the @page margin instead of stacking gutters on top of it. */
+  .page-shell { padding: 0 !important; }
+  .page-shell .container { padding: 0 !important; max-width: none !important; }
+
+  /* Tighten in-document spacing for print. Screen values are tuned for
+     comfortable scrolling; on paper that translates to a lot of empty
+     vertical space and unnecessary page breaks. These overrides
+     compress the rhythm to a contract-document feel. */
+  .page-body { font-size: 10.5pt; line-height: 1.45; }
+  .page-body > * + * { margin-top: 0.6em !important; }
+  .page-body h1 { font-size: 20pt !important; margin: 0 0 0.25em !important; }
+  .page-body h2 { font-size: 13pt !important; margin: 1em 0 0.15em !important; }
+  .page-body h3 { font-size: 11pt !important; margin: 0.8em 0 0.1em !important; }
+
+  .page-body a { color: #000 !important; text-decoration: underline; }
+
+  /* Show URL after each external link so a printed copy is still useful
+     when read off paper. Limited to absolute http(s) and mailto: links
+     so internal anchors (#section), site-relative routes (/privacy) and
+     empty hrefs don't print noisy " (/) " markers. Long URLs wrap inside
+     the appended string rather than overflowing the column. */
+  .page-body a[href^="http"]::after,
+  .page-body a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+    color: #000 !important;
+  }
+
+  /* Force-print the red square list bullets. By default browsers strip
+     element backgrounds when printing (print-color-adjust: economy is
+     the default), so our ::before squares were invisible on paper —
+     bullets need print-color-adjust: exact to actually render. We also
+     swap red → black for ink-friendliness. */
+  .page-body ul > li::before {
+    background: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Tables get visible borders on paper. The thead background is forced
+     to print as a light-grey shade so the header row still reads as
+     distinct from the body cells. */
+  .page-body table,
+  .page-body table th,
+  .page-body table td {
+    border-color: #000 !important;
+    color: #000 !important;
+  }
+  .page-body table thead {
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* The sign-off block is the printable contract surface — keep it on
+     one page where possible, draw the input "lines" as black borders,
+     and tighten the row spacing so it fits inside a single page even
+     after the contract text takes more pages than expected. */
+  .signoff-form {
+    page-break-inside: avoid;
+    border-color: #000 !important;
+    background: transparent !important;
+    margin-top: 12px !important;
+    padding: 14px !important;
+    gap: 8px !important;
+  }
+  .signoff-row { gap: 12px !important; }
+  .signoff-line {
+    background: transparent !important;
+    border-color: #000 !important;
+    height: 28px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .signoff-line-tall { height: 48px !important; }
+  .signoff-form dt { color: #000 !important; padding-top: 6px !important; }
+
+  /* Tighten table cell padding so rate cards take fewer rows of
+     vertical space on paper. */
+  .page-body table th,
+  .page-body table td { padding: 4px 8px !important; font-size: 10pt !important; }
+
+  /* Section blocks (sign-off form, page-note, last paragraph) shouldn't
+     get orphaned at the bottom of a page with just a heading above them. */
+  .page-body h2, .page-body h3 { page-break-after: avoid; }
+  .page-note { page-break-inside: avoid; }
+}
+
+/* ───────────────────────── Scroll-reveal motion system
+   One shared motion vocabulary across the page: a 16px fade-up over
+   500ms with the existing --ease-out curve. Apply `class="reveal"` to
+   any element you want to animate in; an IntersectionObserver in
+   index.astro toggles `is-visible` when it enters the viewport, the
+   transition takes care of the rest. Use the --reveal-delay custom
+   property to stagger siblings inside a grid (handled in JSX with
+   `style={`--reveal-delay: ${i * 60}ms`}`).
+
+   The whole system is gated on `html.js` so without JavaScript every
+   .reveal stays at its natural state — no FOUC, no broken page.
+   Respects prefers-reduced-motion: reduce.
+   ──────────────────────────────────────────────────────────────────── */
+html.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+/* Inside the Tina admin preview iframe, bypass the reveal gate entirely.
+   The Tina bridge re-primes the DOM after our inline script runs, which
+   wipes any `is-visible` class we would have added at load time, leaving
+   editors staring at a mostly-blank preview. This rule is gated on the
+   data attribute set in index.astro's inline script and survives DOM
+   re-renders because <html> isn't the thing being re-rendered. */
+html[data-tina-preview] .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal,
+  html.js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ───────────────────────── Inline content links
+   Applied to <a> tags inside body copy (rule references inside descriptions,
+   privacy policy link, footer T&C). Default state shows a muted underline so
+   the link is discoverable without shouting; hover/focus only lifts color
+   and underline tint to the brand red — no thickness or offset jump. A
+   single soft transition keeps the colour swap from snapping.
+   ──────────────────────────────────────────────────────────────────────── */
+.content-link {
+  color: var(--text-neutral);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, currentColor 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-skip-ink: auto;
+  border-radius: var(--edge);
+  /* Single subtle colour transition. Underline thickness and offset stay
+     fixed across all states, so they don't need transitions of their own. */
+  transition:
+    color var(--duration-normal) var(--ease-out),
+    text-decoration-color var(--duration-normal) var(--ease-out);
+}
+.content-link:hover,
+.content-link:focus-visible {
+  color: var(--red-600);
+  text-decoration-color: var(--red-500);
+}
+.content-link:active {
+  color: var(--red-700);
+  text-decoration-color: var(--red-700);
+}
+@media (prefers-reduced-motion: reduce) {
+  .content-link { transition: none; }
+}
 img { max-width: 100%; display: block; }
 button { font: inherit; cursor: pointer; }
 ::selection { background: var(--red-100); color: var(--red-900); }
@@ -17,6 +572,16 @@ button { font: inherit; cursor: pointer; }
   --gutter: clamp(20px, 4vw, 48px);
   --section-pad: clamp(72px, 9vw, 128px);
   --hairline: 1px solid var(--stroke-neutral);
+  /* Editorial labels/numerals use Inter (matching the rest of the type system);
+     the engineering feel comes from spacing, hairlines and uppercase tracking
+     rather than a separate typeface. */
+  --font-mono-true: var(--font-sans);
+  /* Flatter, crisper geometry than the design-system defaults — the redesign
+     leans on hairlines and right angles instead of big radii + soft shadows. */
+  --edge: .375rem;
+  /* Shared "panel" surface — the dark-grey field + grey smoke used by the hero
+     frame and reused on feature panels so sections read as one system. */
+  --panel-field: #181818;
 }
 
 .container {
@@ -27,26 +592,28 @@ button { font: inherit; cursor: pointer; }
 }
 
 body, p { font-size: 16px; line-height: 1.6; }
+/* Editorial kicker — no pill, no glowing dot. A short crimson rule leads an
+   uppercase mono label, the way a section is marked in print. */
 .eyebrow {
   display: inline-flex;
   align-self: flex-start;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-sans);
+  gap: 12px;
+  font-family: var(--font-mono-true);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-brand);
-  padding: 6px 12px;
-  border: 1px solid var(--red-200);
-  background: var(--bg-brand-soft);
-  border-radius: var(--radius-full);
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: var(--edge);
 }
 .eyebrow .dot {
-  width: 6px; height: 6px; border-radius: 50%;
+  width: 28px; height: 2px; border-radius: 0;
   background: var(--red-500);
-  box-shadow: 0 0 0 4px rgba(204,65,65,0.18);
+  box-shadow: none;
 }
 .display {
   font-family: var(--font-display);
@@ -81,13 +648,21 @@ h3 { margin: 0; }
   text-wrap: pretty;
 }
 .section-kicker {
-  font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono-true);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--red-500);
   margin-bottom: 16px;
+}
+.section-kicker::before {
+  content: "";
+  width: 28px; height: 2px;
+  background: var(--red-500);
 }
 
 .btn {
@@ -96,11 +671,11 @@ h3 { margin: 0; }
   justify-content: center;
   gap: 10px;
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 16px;
   letter-spacing: -0.01em;
   padding: 12px 20px;
-  border-radius: var(--radius);
+  border-radius: 6.75px;
   border: 1px solid transparent;
   transition: background var(--duration-fast) var(--ease-out),
               color var(--duration-fast) var(--ease-out),
@@ -109,17 +684,22 @@ h3 { margin: 0; }
   white-space: nowrap;
 }
 .btn i { font-size: 14px; }
+/* Each :hover rule re-asserts `color` so that on internal pages — which
+   also load the starter's global.css — the bare `a:hover { color: var(--accent) }`
+   in that stylesheet doesn't outspecify our class-level button colour
+   (`a:hover` is (0,0,1,1); `.btn-primary` is (0,0,1,0), so `a:hover` wins
+   without an explicit hover colour at the class+pseudo level). */
 .btn-primary { background: var(--red-500); color: #fff; }
-.btn-primary:hover { background: var(--red-600); }
-.btn-primary:active { background: var(--red-700); }
+.btn-primary:hover { background: var(--red-600); color: #fff; }
+.btn-primary:active { background: var(--red-700); color: #fff; }
 .btn-secondary {
-  background: #fff;
+  background: var(--bg-raised);
   color: var(--text-neutral-strong);
   border-color: var(--stroke-neutral-strong);
 }
-.btn-secondary:hover { background: var(--grey-50); }
+.btn-secondary:hover { background: var(--bg-sunken); color: var(--text-neutral-strong); }
 .btn-ghost { color: var(--text-neutral-strong); padding: 10px 14px; }
-.btn-ghost:hover { background: var(--grey-100); }
+.btn-ghost:hover { background: var(--grey-100); color: var(--text-neutral-strong); }
 .btn-lg { padding: 14px 22px; font-size: 17px; }
 .btn-lg i { font-size: 16px; }
 
@@ -127,16 +707,12 @@ h3 { margin: 0; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(255,255,255,0.82);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--duration-normal) var(--ease-out),
-              background var(--duration-normal) var(--ease-out);
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--stroke-neutral);
+  transition: border-color var(--duration-normal) var(--ease-out);
 }
 .nav[data-scrolled="true"] {
-  border-bottom-color: var(--stroke-neutral-weak);
-  background: rgba(255,255,255,0.92);
+  border-bottom-color: var(--stroke-neutral-strong);
 }
 .nav-inner {
   display: flex;
@@ -187,15 +763,20 @@ h3 { margin: 0; }
 
 .nav-dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  /* Dropdown sits flush under the trigger (top: 100%) and absorbs the
+     former 4px visual gap as its own padding-top. Keeps the hover zone
+     continuous from trigger → menu, so moving the cursor straight down
+     doesn't cross a dead strip that would drop :hover and dismiss the
+     dropdown mid-reach. */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(-4px);
   width: 620px;
-  background: #fff;
+  background: var(--bg-raised);
   border: 1px solid var(--stroke-neutral);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-overlay);
-  padding: 12px;
+  border-radius: var(--edge);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 12px 12px;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--duration-normal) var(--ease-out),
@@ -219,15 +800,16 @@ h3 { margin: 0; }
   display: flex;
   gap: 12px;
   padding: 12px;
-  border-radius: var(--radius);
+  border-radius: var(--edge);
   align-items: flex-start;
   transition: background var(--duration-fast) var(--ease-out);
 }
-.nav-dropdown li a:hover { background: var(--grey-50); }
+.nav-dropdown li a:hover { background: var(--bg-sunken); }
 .nav-dropdown li a .ico {
   width: 32px; height: 32px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-brand-soft);
+  border-radius: var(--edge);
+  background: none;
+  border: 1px solid var(--stroke-neutral);
   color: var(--red-600);
   display: grid; place-items: center;
   flex-shrink: 0;
@@ -252,62 +834,242 @@ h3 { margin: 0; }
   .nav-logo img { height: 36px; }
 }
 
+/* ───────────────────────── Hero — "wired magazine" frame
+   A bracketed, rounded panel that reads like a design-tool artboard: a
+   technical metadata strip across the top and bottom (wide-tracked mono
+   labels + segmented bar marks), a large tracked display title in the
+   middle, and a soft smoky gradient bleeding in from the right. The whole
+   thing sits on a deep dark-grey hero field. SSW crimson is the live
+   accent (active bar segments, title emphasis); a light-grey ink
+   (--hero-ink) carries the technical chrome.
+
+   .hero-bg still renders a Tina-set hero.image inside the frame; with no
+   image the smoky CSS gradient stands in.
+   ──────────────────────────────────────────────────────────────────── */
 .hero {
+  --hero-field: var(--panel-field);   /* neutral dark-grey panel, darker than the page */
+  --hero-ink: #ededed;         /* light grey for technical labels */
+  /* Bumped from 0.45 → 0.62 for accessibility: 0.45 alpha composited over the
+     #181818 hero panel ended at ~#777 on the headline lead and the AMERICAS
+     strip-meta, which gave a 3.95:1 contrast ratio against the panel — below
+     the WCAG AA 4.5:1 bound for normal body text. 0.62 alpha lands the
+     effective text colour at ~#9c9c9c and the contrast at 6.47:1, comfortably
+     inside AA Normal. The brand-red title accent and the white hero-ink
+     headline still read as distinctly brighter than this muted lead. */
+  --hero-ink-dim: rgba(237,237,237,0.62);
+  --hero-line: rgba(237,237,237,0.14);
   position: relative;
-  padding: clamp(72px, 10vw, 128px) 0 clamp(64px, 8vw, 96px);
+  /* `isolation: isolate` creates a stacking context so the absolute .hero-video
+     + ::after vignette layer cleanly below the framed container without
+     escaping. `overflow: hidden` clips the video to the section bounds. */
+  isolation: isolate;
   overflow: hidden;
+  /* Roomier vertical padding so the ambient video shows above and below the
+     framed panel rather than the frame filling the section edge-to-edge.
+     Horizontal padding stays 0 — .container's gutter handles the side margins,
+     and that gutter is where the video peeks through on the left/right. */
+  padding: clamp(40px, 5vw, 72px) 0 clamp(48px, 6vw, 88px);
+  background: var(--bg-base);
+  color: var(--hero-ink);
 }
-.hero::before {
+/* Ensure the framed panel paints above the absolutely-positioned video +
+   vignette, even though .container itself is unpositioned by default. */
+.hero > .container { position: relative; z-index: 2; }
+/* Section-level vignette over the video — a soft top-and-bottom darkening so
+   the video reads as ambient background and doesn't compete with the framed
+   panel or the stats strip below. Above .hero-video (z:0), below .container
+   (z:2). */
+.hero::after {
   content: "";
   position: absolute;
-  inset: -200px -200px auto auto;
-  width: 900px; height: 900px;
-  background: radial-gradient(closest-side, rgba(204,65,65,0.07), transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-.hero-grid {
-  position: relative;
+  inset: 0;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
 }
-@media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } }
-.hero-copy { display: flex; flex-direction: column; gap: 28px; }
-.hero-copy p.lead { font-size: clamp(18px, 1.7vw, 21px); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
-.hero-meta { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 16px; }
-.hero-meta .item { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: var(--text-neutral); }
-.hero-meta .check-pill {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--red-50);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  font-size: 11px;
-  flex-shrink: 0;
-}
-
-.hero-visual {
+/* The bottom padding inside the frame is intentionally larger than the top,
+   so the CTA buttons sit comfortably above the bracket-corner border rather
+   than crowding it. PR #36 originally put this breathing room on .hero
+   (outside the frame); it belongs inside, below the CTAs, so the framed
+   panel itself reads as having generous bottom whitespace. */
+.hero-frame {
   position: relative;
-  aspect-ratio: 5 / 4;
-  min-height: 380px;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--hero-line);
+  border-radius: var(--edge);
+  /* Background intentionally transparent — the panel's tinted-dark colour is
+     painted by .hero-frame::before's linear-gradient, which uses 78% alpha so
+     the ambient coding video behind .hero (z:0) shows through the framed
+     panel as well as around it. Text still reads cleanly because the gradient
+     and the section-level ::after vignette together keep contrast high. */
+  background: transparent;
+  padding: clamp(16px, 2vw, 24px) clamp(20px, 3.5vw, 44px) clamp(64px, 8vw, 112px);
+  min-height: clamp(320px, 42vh, 440px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 48px);
 }
-.hero-image {
+/* Smoky organic gradient bleeding from the right, like the reference. The
+   linear-gradient base uses color-mix to bake an alpha into the dark panel
+   colour, so the hero-bg video is visible through the framed panel at
+   about 22% strength. The radial-gradient highlights stay fully opaque on
+   top (their colours are already rgba with low alpha) — they add the
+   smoky white sheen the original design called for, layered above the
+   alpha-blended base. */
+.hero-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(120% 90% at 78% 38%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.05) 34%, transparent 60%),
+    radial-gradient(80% 70% at 92% 80%, rgba(255,255,255,0.07) 0%, transparent 55%),
+    linear-gradient(115deg,
+      color-mix(in oklch, var(--hero-field) 78%, transparent) 30%,
+      color-mix(in oklch, #2b2b2b 78%, transparent) 100%);
+  pointer-events: none;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+/* Ambient background video. Lives at the .hero section level (not inside the
+   framed panel), so it's a full-bleed background visible in the gutter around
+   the frame. Source mp4 is pre-encoded to true grayscale at the pixel level —
+   the grayscale(1) filter() rule remains defensively in case the file is
+   later replaced with a colored source. Brightness drop + contrast bump wash
+   the footage so it reads as ambient rather than foreground. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  border-radius: var(--radius-xl);
+  object-fit: cover;
+  object-position: center;
+  /* Webkit needs the prefixed filter for older Safari on iOS; modern Safari
+     accepts unprefixed. Keep both so we don't lose grayscale on a stale
+     device. */
+  -webkit-filter: grayscale(1) contrast(1.05) brightness(0.55);
+  filter: grayscale(1) contrast(1.05) brightness(0.55);
+  opacity: 0.7;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg { animation: none; }
+  /* Don't autoplay-loop motion at the user. Hiding is cheaper than trying to
+     pause the element from CSS (which we can't reliably do across browsers)
+     — first frame is rendered as a poster via preload=metadata, but we hide
+     entirely to match the rest of the reveal system. */
+  .hero-video { display: none; }
 }
 
+/* Technical metadata strips (top + bottom) */
+.hero-strip {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hero-ink);
+}
+.hero-strip-top { justify-content: center; }
+.hero-strip-bottom {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 12px;
+  color: var(--hero-ink-dim);
+}
+.hero-strip .strip-group { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.hero-strip .strip-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero-strip .strip-meta { white-space: nowrap; color: var(--hero-ink-dim); }
+@media (max-width: 720px) {
+  .hero-strip .strip-group.optional { display: none; }
+}
+
+/* Center — big tracked display title */
+.hero-center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: 0;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--hero-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.hero-title em { font-style: normal; font-weight: 700; color: var(--red-400); }
+.hero-lead {
+  max-width: 60ch;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--hero-ink-dim);
+  margin: 0;
+}
+.hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 4px; }
+.hero-ctas .btn-secondary {
+  background: transparent;
+  color: var(--hero-ink);
+  border-color: var(--hero-line);
+}
+.hero-ctas .btn-secondary:hover { background: rgba(236,225,207,0.08); border-color: var(--hero-ink-dim); }
+/* On small screens stack the hero CTAs full-width so both buttons match,
+   instead of each sizing to its own label. */
+@media (max-width: 560px) {
+  .hero-ctas { flex-direction: column; align-items: stretch; width: 100%; }
+  .hero-ctas .btn { width: 100%; }
+}
+
+/* Bottom strip spec tokens (rendered from hero.checks) */
+.hero-strip .strip-token { display: inline-flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.hero-strip .tok-mark { color: var(--red-400); font-weight: 600; }
+
+/* Corner brackets framing the panel. Muted by default so they read as a
+   subtle technical detail rather than competing with the headline. */
+.hero-corner {
+  position: absolute;
+  z-index: 2;
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--hero-ink-dim);
+  pointer-events: none;
+}
+.hero-corner.tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+.hero-corner.tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+.hero-corner.bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; }
+.hero-corner.br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+
 .stats {
-  background: #fff;
+  background: var(--bg-base);
   border-top: 1px solid var(--stroke-neutral-weak);
   border-bottom: 1px solid var(--stroke-neutral-weak);
 }
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 760px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 .stat { padding: 32px 24px; border-right: 1px solid var(--stroke-neutral-weak); }
 .stat:last-child { border-right: none; }
@@ -316,68 +1078,127 @@ h3 { margin: 0; }
   .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--stroke-neutral-weak); }
 }
 .stat .num {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 3.6vw, 42px);
-  font-weight: 700;
-  letter-spacing: -0.025em;
+  font-family: var(--font-mono-true);
+  font-size: clamp(30px, 3.4vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: 1;
   color: var(--text-neutral-strong);
 }
-.stat .num em { font-style: normal; color: var(--red-500); }
-.stat .label { margin-top: 8px; font-size: 16px; color: var(--text-neutral-weak); line-height: 1.45; }
+/* Break the suffix out of the monospace font used by .stat .num so the
+   × / + / % glyph sits flush against the number rather than reserving a
+   full mono cell next to it. */
+.stat .num em {
+  font-style: normal;
+  color: var(--red-500);
+  font-family: var(--font-sans);
+  margin-left: -0.04em;
+}
+/* Optional qualifier rendered before the big number when the editor types
+   something like "up to 3" — keeps the display number bold while making the
+   qualifier read as a hedge, not part of the headline figure. */
+.stat .num-prefix {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-neutral-weak);
+  vertical-align: middle;
+  margin-right: 6px;
+  text-transform: lowercase;
+}
+.stat .label {
+  margin-top: 8px;
+  line-height: 1.45;
+  /* Flex column stacks the primary/secondary label lines when a stat has
+     a `\n` split. Falls back to a single-child flex when the label is
+     one line — no visual change vs the previous block layout. */
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat .label-primary {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-neutral-strong);
+}
+.stat .label-secondary {
+  font-size: 12px;
+  color: var(--text-neutral-weak);
+}
 
 section.block { padding: var(--section-pad) 0; }
-section.block.sunken { background: var(--grey-50); }
+section.block.sunken { background: var(--bg-sunken); }
 .block-head { max-width: 720px; margin-bottom: clamp(48px, 6vw, 72px); }
 
+/* Feature panel — same dark-grey field + grey smoke as the hero frame, so the
+   benefits read as one continuous "wired" surface rather than flat tiles. The
+   cards are transparent; thin translucent rules divide them and the gradient
+   shows through. */
 .benefits-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--stroke-neutral-weak);
-  border: 1px solid var(--stroke-neutral-weak);
-  border-radius: var(--radius-xl);
+  gap: 0;
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--stroke-neutral);
+  border-radius: var(--edge);
   overflow: hidden;
+  background:
+    radial-gradient(110% 130% at 88% -10%, rgba(255,255,255,0.10) 0%, transparent 55%),
+    radial-gradient(90% 120% at 0% 110%, rgba(255,255,255,0.05) 0%, transparent 50%),
+    var(--panel-field);
 }
 @media (max-width: 920px) { .benefits-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .benefits-grid { grid-template-columns: 1fr; } }
-.benefit { background: #fff; padding: 32px 28px; display: flex; flex-direction: column; gap: 12px; }
-.benefit .icon {
-  width: 40px; height: 40px;
-  border-radius: var(--radius-md);
-  background: var(--bg-brand-soft);
+.benefit {
+  background: transparent;
+  border-right: 1px solid var(--stroke-neutral-weak);
+  border-bottom: 1px solid var(--stroke-neutral-weak);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* ───────────────────────── Shared icon frame
+   One square hairline-bordered icon vocabulary used across the landing
+   page (Benefits, Capabilities, Approach, Why SSW rows, Contact aside).
+   Every previous per-section copy of these properties is gone; the
+   per-section rules below now only carry the *differences* (sibling
+   margins, flex-shrink), and the shared look lives here in one place.
+   Bumped to 48×48 / 20px glyph in PR #48 — subsumed here. */
+.icon {
+  width: 48px; height: 48px;
+  border-radius: var(--edge);
+  background: none;
+  border: 1px solid var(--stroke-neutral);
   color: var(--red-600);
   display: grid; place-items: center;
-  margin-bottom: 8px;
 }
-.benefit .icon i { font-size: 18px; }
+.icon i { font-size: 20px; }
+
+/* Per-context overrides — sibling margins / flex behaviour only. */
+.benefit .icon { margin-bottom: 8px; }
 .benefit h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
 .benefit p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
 
 .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 @media (max-width: 760px) { .services-grid { grid-template-columns: 1fr; } }
+/* Capabilities cards: presentational only — no link wraps the article, so we
+   intentionally drop the hover affordance (red border lift) the cards had
+   before. Hover hinting on a non-interactive element reads as "click me" and
+   the click does nothing, which is worse than a static card. */
 .service {
-  background: #fff;
+  background: var(--bg-raised);
   border: 1px solid var(--stroke-neutral);
-  border-radius: var(--radius-xl);
+  border-radius: var(--edge);
   padding: 28px;
   display: flex;
   gap: 20px;
   align-items: flex-start;
-  transition: border-color var(--duration-normal) var(--ease-out),
-              box-shadow var(--duration-normal) var(--ease-out),
-              transform var(--duration-normal) var(--ease-out);
 }
-.service:hover { border-color: var(--red-200); box-shadow: var(--shadow-raised); }
-.service .icon {
-  width: 44px; height: 44px;
-  flex-shrink: 0;
-  border-radius: var(--radius-md);
-  background: var(--bg-brand-soft);
-  color: var(--red-600);
-  display: grid; place-items: center;
-}
-.service .icon i { font-size: 18px; }
+.service .icon { flex-shrink: 0; }
 .service .body { display: flex; flex-direction: column; gap: 6px; }
 .service h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); }
 .service p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
@@ -385,42 +1206,42 @@ section.block.sunken { background: var(--grey-50); }
 .steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+  gap: 0;
   position: relative;
-}
-.steps::before {
-  content: "";
-  position: absolute;
-  top: 32px; left: 32px; right: 32px;
-  height: 1px;
-  border-top: 1px dashed var(--stroke-neutral);
-  z-index: 0;
+  border-top: 1px solid var(--stroke-neutral);
 }
 @media (max-width: 920px) {
-  .steps { grid-template-columns: repeat(2, 1fr); gap: 48px 32px; }
-  .steps::before { display: none; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
-.step { position: relative; z-index: 1; background: transparent; border: 0; padding: 0; }
-.step .icon {
+/* Each step is a numbered column in a ledger: a big mono index up top, a thin
+   crimson rule, then the copy. The Font Awesome icon is demoted to a small
+   inline mark next to the title rather than a glowing circle. */
+.step {
   position: relative;
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: var(--bg-brand-soft);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  margin-bottom: 24px;
-  box-shadow: 0 0 0 8px var(--bg-base);
+  z-index: 1;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--stroke-neutral-weak);
+  padding: 28px 28px 28px 0;
+  margin-right: 28px;
 }
-.step .icon i { font-size: 22px; }
+.step:last-child { border-right: 0; margin-right: 0; }
+@media (max-width: 920px) {
+  .step:nth-child(2n) { border-right: 0; margin-right: 0; }
+}
+@media (max-width: 540px) {
+  .step { border-right: 0; margin-right: 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
+}
+.step .icon { margin-bottom: 20px; }
 .step .step-num {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--font-mono-true);
+  font-size: 13px;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--red-500);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .step h3 {
   font-family: var(--font-display);
@@ -444,75 +1265,216 @@ section.block.sunken { background: var(--grey-50); }
   border-bottom: 1px solid var(--stroke-neutral-weak);
   align-items: flex-start;
 }
-.why-row .badge-ico {
-  width: 36px; height: 36px;
-  border-radius: var(--radius-md);
-  background: var(--bg-brand-soft);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  margin-top: 2px;
-}
-.why-row .badge-ico i { font-size: 15px; }
+/* Renamed from .badge-ico — same visual pattern, was inconsistent. */
+.why-row .icon { margin-top: 2px; }
 .why-row h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-neutral-strong); margin: 0 0 4px; }
 .why-row p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0; }
+/* YouTube embed living in the right column of .why-grid, balancing the row
+   list on the left. aspect-ratio keeps the 16:9 frame at any column width
+   without padding-bottom percentage hacks. Same rounded-corner + hairline
+   border treatment as the testimonial card for visual continuity inside
+   the section. */
+.why-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--stroke-neutral);
+  background: #0e0e0e;
+}
+.why-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Full-width row below the why-grid that holds the testimonial. Caps the
+   measure so the muted italic quote stays comfortable to read — without
+   this, the card would stretch to the container's 1240px and the line
+   length would get unreadable for a paragraph-length pull-quote. */
+.why-card-shell {
+  margin-top: clamp(56px, 7vw, 96px);
+  display: flex;
+  justify-content: center;
+}
+.why-card-shell > .why-card { width: 100%; max-width: 880px; }
+
+/* Testimonial carousel — stacks all .why-card slides into a single grid
+   cell so the wrapper auto-sizes to the tallest card and switching
+   between them never causes a layout jump. Only the .is-active slide
+   is visible (and tab-reachable); the others fade out + drop out of
+   the tab order. Sits at the bottom under .carousel-dots. */
+.why-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.why-carousel .why-card {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  max-width: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 500ms var(--ease-out);
+  pointer-events: none;
+}
+.why-carousel .why-card.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .why-carousel .why-card { transition: none; }
+}
+
+/* Dot navigation under the cards. Generous tap target via the button's
+   own padding while the visible dot stays small. Active state lifts to
+   brand red; inactive dots are translucent white so they read as
+   navigation without competing with the testimonial text. */
+.carousel-dots {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: clamp(20px, 2.5vw, 28px);
+}
+.carousel-dots .dot {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 8px; /* hit target — visible dot is the ::after */
+  cursor: pointer;
+  position: relative;
+}
+.carousel-dots .dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+}
+.carousel-dots .dot:hover::after,
+.carousel-dots .dot:focus-visible::after {
+  background: rgba(255, 255, 255, 0.5);
+}
+.carousel-dots .dot.is-active::after {
+  background: var(--red-500);
+  transform: scale(1.2);
+}
+/* Testimonial card. Near-black panel with rounded corners; a large
+   translucent closing-quote glyph anchors the top-right as a decorative
+   mark. Body text reads in a muted off-white while <strong> phrases
+   inside the quote (parsed from **markers**) lift to full white +
+   bold for the opener. A hairline separator divides the quote from
+   the attribution block (round avatar + name + brand-red role caps). */
 .why-card {
-  background: var(--grey-900);
+  position: relative;
+  background: #0e0e0e;
   color: #fff;
-  border-radius: var(--radius-2xl);
+  border: 1px solid var(--stroke-neutral);
+  border-radius: var(--edge);
   padding: 40px;
   display: flex; flex-direction: column;
   gap: 24px;
-  min-height: 440px;
-  justify-content: space-between;
+  /* min-height was 440px when this card lived in the right column of the
+     2-col why-grid and needed presence next to the row list. Now that it's
+     in a full-width row below the grid, the natural height of the quote +
+     attribution fills the card; min-height was forcing visible empty space
+     between blockquote and .attr via justify-content: space-between. */
+  justify-content: flex-start;
+  overflow: hidden;
 }
-.why-card .quote-mark { font-family: var(--font-display); font-size: 64px; line-height: 0.5; color: var(--red-500); height: 32px; }
+/* Decorative closing-quote glyph in the top-right corner. Big serif weight,
+   heavily faded so it reads as a graphic accent rather than punctuation. */
+.why-card .quote-mark {
+  position: absolute;
+  top: 18px;
+  right: 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 1;
+  color: rgba(255,255,255,0.18);
+  pointer-events: none;
+  user-select: none;
+}
 .why-card blockquote {
   margin: 0;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.015em;
-  color: rgba(255,255,255,0.95);
+  /* Editorial pull-quote feel: italic Inter, slightly smaller than the
+     surrounding section copy, with looser leading so the longer paragraph
+     stays comfortable to read at the testimonial card's narrower measure. */
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  /* Muted body so the bolded opener (next rule) pops in white. */
+  color: rgba(255,255,255,0.62);
   text-wrap: pretty;
+}
+/* Opener phrase wrapped in <strong> from the **marker** parser — full
+   white at a heavier weight, so the opening idea pops out of the muted
+   surrounding paragraph. Stays italic via inheritance from blockquote. */
+.why-card blockquote strong {
+  color: #fff;
+  font-weight: 700;
 }
 .why-card .attr { display: flex; align-items: center; gap: 14px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
 .why-card .avatar {
   width: 44px; height: 44px;
+  /* Round avatar to match the design — was a 3px-radius square. */
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--red-400), var(--red-700));
+  background: var(--red-500);
   display: grid; place-items: center;
-  font-weight: 600;
-  font-size: 15px;
+  font-family: var(--font-mono-true);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.04em;
   color: #fff;
 }
 .why-card .name { font-weight: 600; color: #fff; font-size: 16px; }
-.why-card .role { font-size: 14px; color: rgba(255,255,255,0.55); }
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 0.9fr;
-  gap: clamp(40px, 5vw, 64px);
-  align-items: start;
+/* Company / role in brand-red uppercase mono tracking, matching the
+   section-kicker treatment used elsewhere on the page. Uses --red-400
+   (#e06161) rather than the brand --red-500 (#cc4141): at 12px small
+   uppercase, --red-500 on the #0e0e0e card hits 3.73:1 — below the
+   WCAG AA 4.5:1 bound for normal/small text. --red-400 takes it to
+   5.59:1 (AA Normal). Brand red elsewhere (kickers, buttons) stays
+   --red-500 because those sit on the lighter --bg-base #171717 with
+   different sizing. */
+.why-card .role {
+  font-family: var(--font-mono-true);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red-400);
+  margin-top: 2px;
 }
-@media (max-width: 920px) { .contact-grid { grid-template-columns: 1fr; } }
+
+/* Was a 2-col grid (form + aside) before the aside was removed. Now a
+   single-column wrapper that caps the form width so it stays readable on
+   wide viewports instead of stretching to the full landing container. */
+.contact-grid {
+  max-width: 720px;
+  margin: 0 auto;
+}
 
 .form-card {
-  background: #fff;
+  background: var(--bg-raised);
   border: 1px solid var(--stroke-neutral);
-  border-top: 4px solid var(--red-500);
-  border-radius: var(--radius-2xl);
+  border-top: 3px solid var(--red-500);
+  border-radius: var(--edge);
   padding: clamp(32px, 4vw, 48px);
-  box-shadow: var(--shadow-overlay);
+  box-shadow: none;
   position: relative;
-}
-.form-card::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: var(--radius-2xl);
-  background: linear-gradient(180deg, rgba(204,65,65,0.18), transparent 30%);
-  z-index: -1;
-  pointer-events: none;
 }
 .form-card .form-header { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--stroke-neutral-weak); }
 .form-card .form-header h3 {
@@ -526,23 +1488,106 @@ section.block.sunken { background: var(--grey-50); }
 .form-card .form-header p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
-.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+
+/* Adaptive-placeholder fields. Per ssw.com.au's rule
+   /rules/use-adaptive-placeholders-on-your-forms, the field label sits
+   inside the control at rest (acting as the placeholder) and animates
+   up + shrinks when the field gets focus or holds a value. Driven by:
+     - .field is the positioning context for the absolute label
+     - control elements sit FIRST in the DOM so the `~ label` sibling
+       selector below can target the label
+     - inputs / textareas use placeholder=" " so :placeholder-shown
+       fires reliably on empty state
+     - selects use a `value="" disabled selected hidden` first option
+       as the empty slot; required selects flip via :required:valid,
+       the optional Budget flips via :has(option[value=""]:checked) */
+.field {
+  position: relative;
+  margin-bottom: 16px;
+}
 .field label {
-  font-size: 13px;
+  position: absolute;
+  /* Rest state: label vertically centered on the input via top:50% +
+     translateY(-50%). 14px left aligns with the input's text padding so
+     the label really reads as the placeholder. No background — the label
+     never crosses the input's border, it just lifts up inside the input's
+     own padding area when floated (see floated rule below). */
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-neutral-weak);
+  pointer-events: none;
+  transition:
+    top var(--duration-normal) var(--ease-out),
+    font-size var(--duration-normal) var(--ease-out),
+    letter-spacing var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+/* Textarea label sits at a fixed top inset (multi-line controls can't
+   vertically center on the typed text line). */
+.field textarea ~ label { top: 20px; transform: none; }
+.field label .req { color: var(--red-500); margin-left: 2px; }
+
+/* Floated state — label slides up to the top of the input's padding
+   area and shrinks. Stays INSIDE the input bounds (no border overlap),
+   so no background-cutout trickery needed. Brand-red caps treatment
+   matches the .section-kicker vocabulary used elsewhere. */
+.field input:focus ~ label,
+.field input:not(:placeholder-shown) ~ label,
+.field textarea:focus ~ label,
+.field textarea:not(:placeholder-shown) ~ label,
+.field select:focus ~ label,
+.field select:required:valid ~ label,
+.field select:not([required]):not(:has(option[value=""]:checked)) ~ label,
+/* Webkit doesn't always flip :placeholder-shown on autofill — this
+   match forces the floated state when the yellow autofill kicks in. */
+.field input:-webkit-autofill ~ label {
+  top: 8px;
+  transform: none;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-neutral-weak);
+  /* Brand-red for the floated label so it's visually distinct from the
+     white input text underneath — uses --red-400 (#e06161) for AA-safe
+     contrast on the --bg-base #171717 input background (5.17:1 at 11px,
+     above the 4.5:1 small-text floor). --red-500 would have only hit
+     3.73:1, which fails AA Normal at this size. */
+  color: var(--red-400);
 }
-.field label .req { color: var(--red-500); margin-left: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .field label { transition: none; }
+}
+/* Small helper text that sits under an input. Used for the contact form's
+   phone field to clarify the expected North American format without
+   inflating the label. */
+.field-hint {
+  margin-top: -2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-neutral-weaker);
+  letter-spacing: 0;
+}
 .field input, .field select, .field textarea {
+  /* width: 100% so <select> stretches to its .field column instead of
+     sizing to the widest option. <input> and <textarea> get it too for
+     consistency. box-sizing: border-box is inherited from the global *
+     reset so padding stays inside the 100%.
+     padding-top is bumped to 22px (vs 8px bottom) so the floated label
+     has room to sit inside the input's top padding zone — no border
+     overlap, no background-mask trickery needed. */
+  width: 100%;
   font: inherit;
   font-size: 16px;
   font-weight: 500;
-  padding: 12px 14px;
+  padding: 22px 14px 8px;
   border: 1px solid var(--stroke-neutral);
-  border-radius: var(--radius);
-  background: #fff;
+  border-radius: var(--edge);
+  background: var(--bg-base);
   color: var(--text-neutral-strong);
   transition: border-color var(--duration-fast) var(--ease-out),
               box-shadow var(--duration-fast) var(--ease-out);
@@ -581,14 +1626,14 @@ section.block.sunken { background: var(--grey-50); }
   flex: 1;
   min-width: 240px;
 }
-.form-actions .privacy a { color: var(--text-neutral); text-decoration: underline; text-underline-offset: 2px; }
+/* .form-actions .privacy a styling lives on .content-link — see top of file. */
 
 .form-success {
   display: none;
   padding: 20px;
   background: var(--green-100);
   border: 1px solid var(--green-500);
-  border-radius: var(--radius-md);
+  border-radius: var(--edge);
   color: var(--green-700);
   font-size: 16px;
   margin-top: 16px;
@@ -603,7 +1648,7 @@ section.block.sunken { background: var(--grey-50); }
   padding: 20px;
   background: var(--red-50);
   border: 1px solid var(--red-200);
-  border-radius: var(--radius-md);
+  border-radius: var(--edge);
   color: var(--red-800);
   font-size: 16px;
   margin-top: 16px;
@@ -611,20 +1656,6 @@ section.block.sunken { background: var(--grey-50); }
 .form-error i { color: var(--red-500); flex-shrink: 0; }
 .form-error a { color: var(--red-700); text-decoration: underline; text-underline-offset: 2px; }
 
-.contact-aside { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
-.contact-aside .item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--stroke-neutral-weak); }
-.contact-aside .item:last-child { border-bottom: none; }
-.contact-aside .item .icon {
-  width: 36px; height: 36px;
-  border-radius: var(--radius-md);
-  background: var(--bg-brand-soft);
-  color: var(--red-600);
-  display: grid; place-items: center;
-  flex-shrink: 0;
-}
-.contact-aside .item .icon i { font-size: 14px; }
-.contact-aside h4 { font-size: 17px; font-weight: 600; color: var(--text-neutral-strong); margin: 0 0 4px; }
-.contact-aside p { font-size: 16px; color: var(--text-neutral-weak); margin: 0; line-height: 1.5; }
 
 .faq-grid {
   display: grid;
@@ -637,17 +1668,18 @@ section.block.sunken { background: var(--grey-50); }
 .faq-head .faq-helper {
   margin-top: 36px;
   padding: 28px;
-  background: #fff;
+  background: var(--bg-sunken);
   border: 1px solid var(--stroke-neutral);
-  border-top: 4px solid var(--red-500);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-raised);
+  border-top: 3px solid var(--red-500);
+  border-radius: var(--edge);
+  box-shadow: none;
   position: relative;
 }
 .faq-helper .helper-kicker {
+  font-family: var(--font-mono-true);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--red-500);
   margin-bottom: 8px;
@@ -663,6 +1695,19 @@ section.block.sunken { background: var(--grey-50); }
 }
 .faq-helper p { font-size: 16px; color: var(--text-neutral-weak); line-height: 1.55; margin: 0 0 20px; }
 .faq-helper .helper-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+/* On mobile, the standalone CTAs (FAQ helper, bottom banner, contact submit)
+   span the full width instead of sizing to their label — consistent with the
+   hero CTAs. */
+@media (max-width: 560px) {
+  .faq-helper .helper-actions { flex-direction: column; align-items: stretch; }
+  .faq-helper .helper-actions .btn,
+  .cta-banner .btn,
+  .form-actions .btn { width: 100%; }
+  /* The CTA banner has no padded panel around it (unlike the hero frame and
+     form card), so a full-container button reads wider than the others. Cap it
+     to the same content measure and centre it so all the mobile CTAs match. */
+  .cta-banner .btn { max-width: 20rem; margin-inline: auto; }
+}
 .faq-list { display: flex; flex-direction: column; border-top: 1px solid var(--stroke-neutral); }
 details.faq-item { border-bottom: 1px solid var(--stroke-neutral); }
 details.faq-item summary {
@@ -683,45 +1728,97 @@ details.faq-item summary {
 }
 details.faq-item summary::-webkit-details-marker { display: none; }
 details.faq-item summary:hover { color: var(--red-600); }
+/* FAQ accordion toggle button.
+   - Closed: transparent dark panel, thin translucent border, white plus icon.
+   - Open:   solid brand-red square, no extra border, white minus icon.
+   Both states get a hover lift. The glyph swap is handled by toggling the
+   two icons inside .toggle (.toggle-plus / .toggle-minus) instead of the old
+   rotate-the-plus-into-an-× trick — a real minus reads cleaner than a
+   tilted plus, and avoids a transform animation we don't actually want. */
 details.faq-item .toggle {
   flex-shrink: 0;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: var(--grey-50);
-  border: 1px solid var(--stroke-neutral);
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: grid; place-items: center;
-  color: var(--text-neutral);
-  transition: background var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out),
-              transform var(--duration-normal) var(--ease-out);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
 }
-details.faq-item .toggle i { font-size: 12px; }
+details.faq-item .toggle i { font-size: 14px; line-height: 1; }
+/* Show the right glyph for the current state. Both icons live in markup so
+   the swap is a pure display toggle — no transform, no flash. */
+details.faq-item .toggle .toggle-minus { display: none; }
+details[open].faq-item .toggle .toggle-plus { display: none; }
+details[open].faq-item .toggle .toggle-minus { display: inline-block; }
+
+/* Closed-state hover: subtle white wash + firmer border, no colour shift. */
+details.faq-item summary:hover .toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.32);
+}
 details[open].faq-item .toggle {
   background: var(--red-500);
   border-color: var(--red-500);
   color: #fff;
-  transform: rotate(45deg);
+}
+/* Open-state hover: darker red, matches .btn-primary:hover treatment. */
+details[open].faq-item summary:hover .toggle {
+  background: var(--red-600);
+  border-color: var(--red-600);
 }
 details.faq-item .answer { padding: 0 0 24px; max-width: 64ch; }
 details.faq-item .answer p { font-size: 16px; line-height: 1.6; color: var(--text-neutral-weak); margin: 0 0 12px; }
 details.faq-item .answer p:last-child { margin-bottom: 0; }
 
+/* Mid-page CTA — used inside the Capabilities section (and reusable in any
+   section that wants a "ready to talk?" prompt below its main grid). Quieter
+   than the page-end .cta-banner so the page doesn't have two competing red
+   moments. Centered, with a hairline rule above to separate it from the
+   cards, and the same .btn-primary the rest of the page uses for primary
+   actions. */
+.section-cta {
+  margin-top: clamp(48px, 6vw, 80px);
+  padding-top: clamp(32px, 4vw, 48px);
+  border-top: 1px solid var(--stroke-neutral-weak);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+.section-cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text-neutral-strong);
+  margin: 0;
+  text-wrap: balance;
+}
+.section-cta-lead {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-neutral-weak);
+  max-width: 56ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+.section-cta .btn { margin-top: 8px; }
+
 .cta-banner {
-  background: var(--grey-900);
+  background: var(--grey-800);
   color: #fff;
   padding: clamp(56px, 8vw, 96px) 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-}
-.cta-banner::before {
-  content: "";
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1100px; height: 1100px;
-  background: radial-gradient(closest-side, rgba(204,65,65,0.18), transparent 70%);
-  pointer-events: none;
+  border-top: 3px solid var(--red-500);
 }
 .cta-banner .container { position: relative; z-index: 1; }
 .cta-banner h2 {
@@ -736,7 +1833,7 @@ details.faq-item .answer p:last-child { margin-bottom: 0; }
 }
 .cta-banner p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 32px; }
 
-footer { background: #fff; padding: 64px 0 32px; border-top: 1px solid var(--stroke-neutral-weak); }
+footer { background: var(--bg-base); padding: 64px 0 32px; border-top: 1px solid var(--stroke-neutral-weak); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; margin-bottom: 48px; }
 @media (max-width: 880px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -765,15 +1862,21 @@ footer { background: #fff; padding: 64px 0 32px; border-top: 1px solid var(--str
   gap: 12px;
 }
 .footer-bottom .legal { font-size: 16px; color: var(--text-neutral-weaker); }
-.footer-bottom .legal a {
-  color: var(--text-neutral-weak);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
-  transition: color var(--duration-fast) var(--ease-out);
-}
-.footer-bottom .legal a:hover { color: var(--red-500); }
 .footer-bottom .legal .sep { margin: 0 10px; color: var(--stroke-neutral); }
+/* T&C link styling lives on .content-link — see top of file. */
 .footer-bottom .built { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; color: var(--text-neutral-weaker); }
 .footer-bottom .built img { height: 22px; width: auto; }
 .footer-bottom .built strong { color: var(--text-neutral); font-weight: 600; }
+/* Centre the footer's legal + built-with rows on mobile, where they stack, and
+   break the Terms/Privacy links onto their own line below the copyright. */
+@media (max-width: 560px) {
+  .footer-bottom { flex-direction: column; justify-content: center; text-align: center; }
+  .footer-bottom .legal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+  .footer-bottom .legal .lead-sep { display: none; }
+}

@@ -1,6 +1,5 @@
 name: 🐛 Bug Report
 description: Report a bug
-title: '🐛 {{ TITLE }}'
 labels: ['Type: Bug']
 body:
   - type: textarea

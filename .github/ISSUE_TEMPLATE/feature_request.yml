@@ -1,6 +1,5 @@
 name: ✨ Feature Request
 description: Suggest an idea for this project
-title: '✨ {{ TITLE }}'
 labels: ['Type: Feature']
 body:
   - type: textarea

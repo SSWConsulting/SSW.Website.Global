@@ -1,6 +1,28 @@
-<!-- describe the change, why it is needed, and what it accomplishes -->
-<!-- As per rule https://www.ssw.com.au/rules/over-the-shoulder-prs -->
-<!-- Getting the PR merged is part of the PBI - call someone to review your changes to get them merged ASAP -->
+> 1. What triggered this change? (PBI link, Email Subject, conversation + reason, etc)
+
+✏️ 
+
+> 2. What was changed?
+
+✏️ 
+
+> 3. I paired or mob programmed with: <!-- list names or remove if not relevant -->
+
+✏️ 
+<!-- E.g.  I paired or mob programmed with: @gordonbeeming and @sethdailyssw -->
+
+<!-- 
+Check out the relevant rules
+- https://www.ssw.com.au/rules/use-pull-request-templates-to-communicate-expectations/
+- https://www.ssw.com.au/rules/rules-to-better-pull-requests
+- https://www.ssw.com.au/rules/write-a-good-pull-request
+- https://www.ssw.com.au/rules/over-the-shoulder-prs 
+- https://www.ssw.com.au/rules/do-you-use-co-creation-patterns
+-->
+
+---
+
+### SSW.Website.Global specifics
 
 - Affected routes: <!-- e.g. `/`, `/admin/` -->
 

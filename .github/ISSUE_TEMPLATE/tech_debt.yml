@@ -1,6 +1,5 @@
 name: 💸 Tech Debt
 description: Report tech debt
-title: '💸 {{ TITLE }}'
 labels: ['Type: Refactor']
 body:
   - type: textarea

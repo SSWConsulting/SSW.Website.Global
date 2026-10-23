@@ -32,8 +32,8 @@ The only things that are OK to hardcode are decorative chrome (icons, dots, divi
 
 ## Stack
 
-- **Astro 5** — file-based routing under `src/pages/`, components in `src/components/`
-- **TinaCMS 3** (visual-editing canary) — `@tinacms/astro` integration, schema in `tina/`, content in `src/content/`
+- **Astro 6** — file-based routing under `src/pages/`, components in `src/components/`
+- **TinaCMS 3** — `@tinacms/astro` integration, schema in `tina/`, content in `src/content/`
 - **pnpm 10** (pinned via `packageManager`) — package manager; native build approvals in `pnpm.onlyBuiltDependencies` (`package.json`)
 - **Font Awesome 6** for icons, **Inter** variable font, design tokens in `public/assets/colors_and_type.css`
 - Tina's local backend uses `better-sqlite3` (native); `sharp` powers Astro images. Both pre-approved in `pnpm.onlyBuiltDependencies` (`package.json`).
@@ -60,6 +60,17 @@ public/
   assets/                   # Logos, fonts, design tokens CSS
   admin/                    # Tina admin UI (built artifact + bridge.js)
 ```
+
+## How to add a new page
+
+Any new page (privacy policy, about, individual blog post, marketing landing for a campaign, etc.) **must use the shared landing chrome** so the site reads as one product.
+
+- For MDX/Markdown content, drop it into `src/content/page/<slug>.mdx` (with `seoTitle` in frontmatter); the existing `[...slug].astro` catch-all routes it via `Base.astro`, which renders `<LandingNav>` + slot + `<LandingFooter>` around `PageBody`.
+- For pages that need bespoke Astro markup (e.g. a custom marketing page), create `src/pages/<slug>.astro` and wrap the content in `import Base from '../layouts/Base.astro'`. Same nav + footer for free.
+- Don't reach for the upstream starter's `Header.astro` / `Footer.astro` (the orange-llama lockup) — those are legacy. `Base.astro` no longer uses them.
+- Anchor-only hrefs in nav/footer content (`#how`, `#why`) are normalised to `/#how`, `/#why` by `LandingNav` / `LandingFooter`, so they jump back to the home page's sections from any internal page.
+
+The nav and footer content live on the `landing` collection (Tina admin → Landing page → home → Navigation / Footer). Internal pages render them statically — editing them does not live-preview on `/privacy`, only on `/`. After saving they appear everywhere.
 
 ## How to add a new editable section
 

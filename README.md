@@ -1,10 +1,10 @@
 # SSW.Website.Global
 
-Marketing site for **SSW Global** — SSW's offering for the United States market, built around vibe-coded software delivery.
+Marketing site for **SSW Global**, promoting AI-assisted software delivery services across the North American market (United States and Canada).
 
 ## What we do
 
-SSW Global ships enterprise software for North American clients, with delivery led by a **US-based Scrum Master** and engineering capacity drawn from one of two pools:
+SSW Global ships enterprise software for North American clients, with delivery led by a **US-based Scrum Master** and engineering capacity drawn from one of 2 pools:
 
 - **Australian consultants** — senior SSW engineers and architects with three decades of enterprise consulting practice
 - **China-based team** — a cost-effective alternative for projects where budget is the primary constraint
@@ -13,8 +13,8 @@ Both routes run on the same Scrum cadence, the same engineering standards, and t
 
 ## Stack
 
-- [Astro 5](https://astro.build) for the site, static output with the Vercel adapter
-- [TinaCMS](https://tina.io) (visual-editing canary) for content — every section is editable via `/admin/`
+- [Astro 6](https://astro.build) for the site, static output on Cloudflare Workers
+- [TinaCMS](https://tina.io) for content — every section is editable via `/admin/`
 - pnpm for package management; Font Awesome 6 + Inter for the design system
 
 ## Local development
