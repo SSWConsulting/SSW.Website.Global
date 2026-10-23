@@ -32,8 +32,8 @@ The only things that are OK to hardcode are decorative chrome (icons, dots, divi
 
 ## Stack
 
-- **Astro 5** — file-based routing under `src/pages/`, components in `src/components/`
-- **TinaCMS 3** (visual-editing canary) — `@tinacms/astro` integration, schema in `tina/`, content in `src/content/`
+- **Astro 6** — file-based routing under `src/pages/`, components in `src/components/`
+- **TinaCMS 3** — `@tinacms/astro` integration, schema in `tina/`, content in `src/content/`
 - **pnpm 10** (pinned via `packageManager`) — package manager; native build approvals in `pnpm.onlyBuiltDependencies` (`package.json`)
 - **Font Awesome 6** for icons, **Inter** variable font, design tokens in `public/assets/colors_and_type.css`
 - Tina's local backend uses `better-sqlite3` (native); `sharp` powers Astro images. Both pre-approved in `pnpm.onlyBuiltDependencies` (`package.json`).

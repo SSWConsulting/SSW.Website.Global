@@ -3,6 +3,7 @@ import { tinaField } from '@tinacms/astro/tina-field';
 import type { LandingQuery } from '../../../tina/__generated__/types';
 import LandingNav from '../landing/LandingNav.astro';
 import LandingFooter from '../landing/LandingFooter.astro';
+import { TIMEZONE_LABELS } from '../../lib/timezones';
 
 interface Props {
   data?: LandingQuery['landing'] | null;
@@ -597,6 +598,24 @@ const footer = data.footer;
                 </select>
                 <label for="f-country">Country <span class="req">*</span></label>
               </div>
+              {/* Timezone is auto-selected on page load by the module script in
+                  src/pages/index.astro from Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  mapped through IANA_TO_LABEL. Options come from the shared
+                  TIMEZONE_LABELS constant so the two sides can't drift — a
+                  rename would fail typecheck rather than silently no-op the
+                  auto-detect. Users can override, and the no-JS path still
+                  requires an explicit pick. Labels are the submitted value so
+                  the Jotform inbox reads "Eastern Time (ET)" rather than a raw
+                  IANA identifier. */}
+              <div class="field">
+                <select id="f-timezone" name="timezone" required>
+                  <option value="" disabled selected hidden></option>
+                  {TIMEZONE_LABELS.map((label) => <option>{label}</option>)}
+                </select>
+                <label for="f-timezone">Timezone <span class="req">*</span></label>
+              </div>
+            </div>
+            <div class="form-row">
               <div class="field">
                 <select id="f-project" name="project_type" required>
                   <option value="" disabled selected hidden></option>
@@ -605,18 +624,18 @@ const footer = data.footer;
                 </select>
                 <label for="f-project">Project type <span class="req">*</span></label>
               </div>
-            </div>
-            <div class="field">
-              <select id="f-budget" name="budget">
-                <option value="" selected hidden></option>
-                <option>Under $50K</option>
-                <option>$50K to $150K</option>
-                <option>$150K to $500K</option>
-                <option>$500K to $1M</option>
-                <option>$1M and above</option>
-                <option>Not sure yet</option>
-              </select>
-              <label for="f-budget">Estimated budget</label>
+              <div class="field">
+                <select id="f-budget" name="budget">
+                  <option value="" selected hidden></option>
+                  <option>Under $50K</option>
+                  <option>$50K to $150K</option>
+                  <option>$150K to $500K</option>
+                  <option>$500K to $1M</option>
+                  <option>$1M and above</option>
+                  <option>Not sure yet</option>
+                </select>
+                <label for="f-budget">Estimated budget</label>
+              </div>
             </div>
             <div class="field">
               <textarea
