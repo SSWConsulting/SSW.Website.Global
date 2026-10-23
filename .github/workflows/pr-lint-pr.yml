@@ -1,0 +1,64 @@
+name: PR - Lint PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ci-${{ github.event.number }}-${{ github.workflow }}-lint-pr
+  cancel-in-progress: true
+
+jobs:
+  pr-lint:
+    runs-on: ubuntu-latest
+    name: Check linked issues
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect non-content changes
+        id: check_file_changed
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # Diff full PR range, not just last commit, so multi-commit PRs
+          # don't get misclassified as content-only when the latest commit
+          # happens to only touch content.
+          diff=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
+          source_diff=$(echo "$diff" | grep -Ev '^src/content/|^public/|^\.github/ISSUE_TEMPLATE/|^package\.json$|^pnpm-lock\.yaml$' || true)
+          if [ -n "$source_diff" ]; then
+            echo "hasCodeChanges=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "hasCodeChanges=false" >> "$GITHUB_OUTPUT"
+          fi
+          {
+            echo "sourceDiff<<EOF"
+            echo "$source_diff"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Summarise diff
+        shell: bash
+        run: |
+          if [ -z "${{ steps.check_file_changed.outputs.sourceDiff }}" ]; then
+            echo "Content change only — skipping linked-issue check"
+          else
+            echo "Non-content files changed:"
+            echo "${{ steps.check_file_changed.outputs.sourceDiff }}"
+          fi
+
+      - uses: nearform-actions/github-action-check-linked-issues@v1.8.3
+        if: ${{ steps.check_file_changed.outputs.hasCodeChanges == 'true' }}
+        id: check-linked-issues
+        with:
+          exclude-branches: 'dependabot/**'
+
+      - name: Generate summary
+        if: ${{ steps.check_file_changed.outputs.hasCodeChanges == 'true' }}
+        shell: bash
+        run: |
+          echo "Found ${{ steps.check-linked-issues.outputs.linked_issues_count }} issues linked to PR" >> "$GITHUB_STEP_SUMMARY"

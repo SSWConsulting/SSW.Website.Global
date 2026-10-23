@@ -30,6 +30,17 @@ Open the site at [http://localhost:4321/](http://localhost:4321/) and the CMS at
 
 The homepage, nav, hero, capabilities, testimonial, FAQ, contact form copy, and footer all live in `src/content/landing/home.json` and are editable through the **Landing page** collection in Tina. Save in `/admin/` and the JSON file updates on disk; live preview reflects changes as you type.
 
+## CI / GitHub Actions secrets
+
+The `PR - Build` workflow mirrors the production Cloudflare Workers Builds command (`pnpm run build`), which talks to Tina Cloud for schema validation at prerender time. Two repository secrets are required:
+
+| Secret | Where to get it |
+|---|---|
+| `PUBLIC_TINA_CLIENT_ID` | [app.tina.io](https://app.tina.io) → Project → Overview |
+| `TINA_TOKEN` | [app.tina.io](https://app.tina.io) → Project → Tokens |
+
+Manage them at [Settings → Secrets and variables → Actions](https://github.com/SSWConsulting/SSW.Website.Global/settings/secrets/actions). Only users with **Admin** or **Maintain** permission on the repo can create, update, or rotate them — GitHub never exposes the stored values back to anyone, including admins. Values are encrypted at rest and auto-masked in workflow logs.
+
 ## Contributing
 
 See [AGENTS.md](./AGENTS.md). The short version: **never hardcode user-visible copy into `.astro` files** — model it as a Tina field first, then render from data.

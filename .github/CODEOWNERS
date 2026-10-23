@@ -1,0 +1,5 @@
+# Default owners for everything
+* @SSWConsulting/sswdevelopers
+
+# .github folder (CI, policies, deploy) is owned by the website maintainers team
+/.github @SSWConsulting/ssw-website-maintainers

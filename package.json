@@ -13,7 +13,8 @@
     "build:search": "tinacms search-index",
     "preview": "astro preview",
     "preview:cf": "wrangler dev",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.1.10",
@@ -24,12 +25,17 @@
     "astro": "^6.3.7"
   },
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@tinacms/cli": "^4.0.3",
     "@types/node": "^25.9.1",
     "cross-env": "^7.0.3",
+    "eslint": "^9.18.0",
+    "eslint-plugin-astro": "^1.3.1",
+    "globals": "^15.14.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "tinacms": "^3.15.0",
+    "typescript-eslint": "^8.20.0",
     "wrangler": "^4.95.0"
   },
   "pnpm": {

@@ -1,0 +1,18 @@
+name: 💸 Tech Debt
+description: Report tech debt
+labels: ['Type: Refactor']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the tech debt is and why it was created.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How would you fix it?
+    validations:
+      required: false

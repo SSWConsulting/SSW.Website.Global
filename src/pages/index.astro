@@ -30,7 +30,7 @@ const meta = data.meta;
       if (window.self !== window.top) {
         document.documentElement.setAttribute('data-tina-preview', '');
       }
-    } catch (_) {
+    } catch {
       /* Cross-origin SecurityError implies we ARE in an iframe. */
       document.documentElement.setAttribute('data-tina-preview', '');
     }
