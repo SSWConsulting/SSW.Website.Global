@@ -19,8 +19,22 @@ const meta = data.meta;
 <head>
   <GoogleAnalytics />
   {/* Mark JS as available before paint so `html.js .reveal` rules engage
-      and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely. */}
-  <script is:inline>document.documentElement.classList.add('js');</script>
+      and no FOUC occurs. No-JS users skip the scroll-reveal motion entirely.
+      Also detect the Tina admin preview iframe so landing.css can bypass
+      the reveal gate — the bridge re-primes the DOM after our module script
+      runs, wiping any JS-added `is-visible` class and leaving editors with
+      a blank preview. CSS gated on a <html> attribute survives re-renders. */}
+  <script is:inline>
+    document.documentElement.classList.add('js');
+    try {
+      if (window.self !== window.top) {
+        document.documentElement.setAttribute('data-tina-preview', '');
+      }
+    } catch (_) {
+      /* Cross-origin SecurityError implies we ARE in an iframe. */
+      document.documentElement.setAttribute('data-tina-preview', '');
+    }
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{meta?.title ?? 'SSW'}</title>
@@ -40,6 +54,8 @@ const meta = data.meta;
   </TinaIsland>
 
   <script>
+    import { IANA_TO_LABEL } from '../lib/timezones';
+
     const nav = document.getElementById('nav');
     const onScroll = () => { if (nav) (nav as HTMLElement).dataset.scrolled = window.scrollY > 12 ? 'true' : 'false'; };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -50,6 +66,10 @@ const meta = data.meta;
     // the observer unobserves to avoid re-firing on scroll-out/in. Users
     // who prefer reduced motion get everything visible immediately (the
     // CSS rule already handles the static state; we just skip the observer).
+    // The Tina admin preview iframe is handled in CSS via a <html>
+    // data attribute set in the inline <head> script — the Tina bridge
+    // re-primes the DOM after this module script runs, so a JS-added class
+    // here wouldn't survive.
     const revealNodes = document.querySelectorAll('.reveal');
     if (revealNodes.length > 0) {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -165,6 +185,27 @@ const meta = data.meta;
       window.history.replaceState({}, '', cleanUrl);
     }
 
+    // Timezone auto-select. On page load AND after each successful submit
+    // (form.reset() clears the field), map the browser's IANA timezone to the
+    // matching <option> in #f-timezone. Silent failure — if the browser
+    // returns an IANA zone we don't have a mapping for (e.g. a European user),
+    // the select stays empty and the user picks manually, so "Other" is only
+    // ever chosen deliberately. IANA_TO_LABEL and the option list are both
+    // built from TIMEZONE_LABELS in src/lib/timezones.ts, so a rename can't
+    // silently break the auto-detect.
+    const applyDetectedTimezone = () => {
+      const timezoneSelect = document.getElementById('f-timezone') as HTMLSelectElement | null;
+      if (!timezoneSelect || timezoneSelect.value) return;
+      try {
+        const iana = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const label = IANA_TO_LABEL[iana];
+        if (label) timezoneSelect.value = label;
+      } catch {
+        /* Intl unavailable — leave the select empty for manual entry. */
+      }
+    };
+    applyDetectedTimezone();
+
     if (form) {
       form.noValidate = true;
 
@@ -217,6 +258,9 @@ const meta = data.meta;
           if (response.ok && result.ok) {
             if (success) success.classList.add('visible');
             form.reset();
+            // reset() clears the timezone select; re-apply so a second
+            // submission in the same session still gets the detected value.
+            applyDetectedTimezone();
           } else {
             console.error('Contact form: proxy reported failure', response.status, result.error);
             showFormError(result.error);

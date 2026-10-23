@@ -6,33 +6,8 @@
   "nav": {
     "logo": "/assets/ssw-logo-darkmode.png",
     "region": "AMERICAS",
-    "capabilitiesLabel": "Capabilities",
-    "capabilities": [
-      {
-        "icon": "fa-robot",
-        "title": "AI-assisted development",
-        "description": "AI throughout the SDLC",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-arrows-rotate",
-        "title": "Legacy modernization",
-        "description": "Cloud-native migrations",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-table-cells-large",
-        "title": "Custom applications",
-        "description": "Line-of-business tools",
-        "href": "#services"
-      },
-      {
-        "icon": "fa-compass",
-        "title": "Technical consulting",
-        "description": "Senior architecture advice",
-        "href": "#services"
-      }
-    ],
+    "capabilitiesLabel": "Solutions",
+    "capabilities": [],
     "links": [
       {
         "label": "Approach",
@@ -45,10 +20,6 @@
       {
         "label": "FAQ",
         "href": "#faq"
-      },
-      {
-        "label": "Contact",
-        "href": "#contact"
       }
     ],
     "ctaLabel": "Talk to us",
@@ -57,7 +28,7 @@
   "hero": {
     "eyebrow": "From Idea to Production, Faster",
     "title": "Enterprise software, shipped at **AI speed**.",
-    "lead": "SSW helps North American teams build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum Sprints, and senior engineering oversight.",
+    "lead": "SSW helps companies across the U.S. and Canada build, modernize, and ship production-grade software faster using AI-assisted development, 1-week Scrum Sprints, and senior engineering oversight.",
     "primaryCta": {
       "label": "Talk to a senior consultant",
       "href": "#contact",
@@ -97,7 +68,7 @@
       {
         "icon": "fa-bolt",
         "title": "Faster delivery",
-        "description": "AI handles the repetitive parts of coding, so features that used to take weeks land in days. The review and testing still happen — they don't get skipped to hit a date."
+        "description": "AI handles the repetitive parts of coding, so features that used to take weeks land in days. Review and testing are never skipped just to meet a deadline."
       },
       {
         "icon": "fa-shield-halved",
@@ -121,14 +92,14 @@
       },
       {
         "icon": "fa-chart-line",
-        "title": "Cost-effective scaling",
+        "title": "More engineering per dollar",
         "description": "Mix senior oversight with a more affordable delivery team, so you're not paying architect rates for every line of code."
       }
     ]
   },
   "servicesSection": {
-    "kicker": "Capabilities",
-    "title": "From prototype to production",
+    "kicker": "Solutions",
+    "title": "From prototype to production.",
     "lead": "Whether it is a rough idea or a long-term platform, the same senior people and process see it through.",
     "items": [
       {
@@ -156,7 +127,7 @@
   "howSection": {
     "kicker": "Approach",
     "title": "A predictable path from first conversation to live software.",
-    "lead": "No discovery theater. No vague proposals. You will see a working increment in the first Sprint.",
+    "lead": "No lengthy discovery engagements. No vague proposals. You will see a working increment in the first Sprint.",
     "steps": [
       {
         "icon": "fa-phone",
@@ -207,7 +178,7 @@
       {
         "icon": "fa-shield-halved",
         "title": "Strong engineering standards",
-        "description": "Public rules, automated checks, and mandatory code review keep every change accountable."
+        "description": "[Public rules](https://www.ssw.com.au/rules), automated checks, and mandatory code review keep every change accountable."
       },
       {
         "icon": "fa-scale-balanced",
@@ -323,7 +294,7 @@
     "columnTitle": "Company",
     "links": [
       {
-        "label": "Capabilities",
+        "label": "Solutions",
         "href": "#services"
       },
       {

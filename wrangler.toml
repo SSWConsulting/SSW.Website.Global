@@ -2,7 +2,7 @@
 name = "ssw-website-global"
 compatibility_date = "2025-05-20"
 compatibility_flags = ["nodejs_compat"]
-main = "./dist/_worker.js/index.js"
+main = "@astrojs/cloudflare/entrypoints/server"
 
 [assets]
 directory = "./dist"
