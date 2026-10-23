@@ -24,7 +24,7 @@ const anchorHref = (href: string | null | undefined): string => {
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
-    <a href="/#top" class="nav-logo" aria-label="SSW home">
+    <a href="/" class="nav-logo" aria-label="SSW home">
       {nav?.logo && <img src={nav.logo} alt="SSW" data-tina-field={nav ? tinaField(nav, 'logo') : undefined} />}
       {nav?.region && <span class="region" data-tina-field={tinaField(nav, 'region')}>{nav.region}</span>}
     </a>
