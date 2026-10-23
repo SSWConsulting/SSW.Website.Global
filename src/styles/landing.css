@@ -763,7 +763,12 @@ h3 { margin: 0; }
 
 .nav-dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  /* Dropdown sits flush under the trigger (top: 100%) and absorbs the
+     former 4px visual gap as its own padding-top. Keeps the hover zone
+     continuous from trigger → menu, so moving the cursor straight down
+     doesn't cross a dead strip that would drop :hover and dismiss the
+     dropdown mid-reach. */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(-4px);
   width: 620px;
@@ -771,7 +776,7 @@ h3 { margin: 0; }
   border: 1px solid var(--stroke-neutral);
   border-radius: var(--edge);
   box-shadow: var(--shadow-sm);
-  padding: 12px;
+  padding: 16px 12px 12px;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--duration-normal) var(--ease-out),
